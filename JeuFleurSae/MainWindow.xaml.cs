@@ -33,6 +33,8 @@ namespace JeuFleurSae
         {
             InitializeComponent();
             InitTimer();
+            this.KeyDown += Window_KeyDown;
+            this.KeyUp += Window_KeyUp;
         }
 
         public void Jeu(object? sender, System.EventArgs e)
@@ -53,19 +55,7 @@ namespace JeuFleurSae
             if (nouveauJoueurGauche <= Zone.ActualWidth - Joueur.Width && nouveauJoueurGauche >= 0)
                 Canvas.SetLeft(Joueur, nouveauJoueurGauche);
             
-            if (joueurBottom >= solTop)
-            {
-                auSol = true;
-                joueurVitesseY = 0; 
-                Canvas.SetTop(Joueur, solTop - Joueur.Height);
-            }
-            else
-            {
-                auSol = false;
-                joueurVitesseY += GRAVITE;
-                Canvas.SetTop(Joueur, joueurTop + joueurVitesseY);
-            }
-
+            VerifierCollision();
         }
 
         private void InitTimer()
@@ -87,11 +77,7 @@ namespace JeuFleurSae
             {
                 droite = true;
             }
-            else if (e.Key == Key.Space && auSol)
-            {
-                joueurVitesseY = -FORCE_SAUT; 
-                auSol = false;
-            }
+            
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -103,6 +89,25 @@ namespace JeuFleurSae
             else if (e.Key == Key.Right)
             {
                 droite = false;
+            }
+        }
+
+        private void VerifierCollision()
+        {
+            double joueurLeft = Canvas.GetLeft(Joueur);
+            double joueurTop = Canvas.GetTop(Joueur);
+            double joueurRight = joueurLeft + Joueur.Width;
+            double joueurBottom = joueurTop + Joueur.Height;
+            double bossLeft = Canvas.GetLeft(Boss);
+            double bossTop = Canvas.GetTop(Boss);
+            double bossRight = bossLeft + Boss.Width;
+            double bossBottom = bossTop + Boss.Height;
+
+            if (joueurRight > bossLeft && joueurLeft < bossRight && joueurBottom > bossTop && joueurTop < bossBottom)
+            {
+                
+                Canvas.SetTop(Joueur, joueurTop);
+                Canvas.SetLeft(Joueur, bossLeft - Joueur.Width);
             }
         }
     }
