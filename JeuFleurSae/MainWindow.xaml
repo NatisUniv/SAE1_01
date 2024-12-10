@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:JeuFleurSae"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Canvas KeyDown="Canvas_KeyDown">
+        <Canvas.Background>
+            <ImageBrush ImageSource="/Fond niveaux feu.png"/>
+        </Canvas.Background>
+        <Rectangle x:Name="Sol" Height="130" Canvas.Top="332" Width="800" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Rectangle x:Name="Joueur" Height="40" Width="26" Canvas.Left="50" Canvas.Top="292"/>
 
-    </Grid>
+    </Canvas>
 </Window>

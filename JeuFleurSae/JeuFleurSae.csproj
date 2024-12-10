@@ -8,4 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Fond niveaux feu.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fond niveaux feu.png" />
+  </ItemGroup>
+
 </Project>
