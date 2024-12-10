@@ -59,6 +59,11 @@
                 <ImageBrush ImageSource="/Boss/Terre.png" />
             </Rectangle.Fill>
         </Rectangle>
+        <Rectangle x:Name="coeur" Height="52" Canvas.Left="10" Stroke="Black" Canvas.Top="63" Width="160">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/Coeur/coeur3.png"/>
+            </Rectangle.Fill>
+        </Rectangle>
 
     </Canvas>
 </Window>

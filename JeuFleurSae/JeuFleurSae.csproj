@@ -16,6 +16,7 @@
     <None Remove="Boss\Plante.png" />
     <None Remove="Boss\Terre.png" />
     <None Remove="Boss\Vent.png" />
+    <None Remove="Coeur\coeur3.png" />
     <None Remove="Fleur\fleur0.png" />
     <None Remove="Fleur\fleur1.png" />
     <None Remove="Fleur\fleur2.png" />
@@ -47,6 +48,9 @@
     <Resource Include="Boss\Plante.png" />
     <Resource Include="Boss\Terre.png" />
     <Resource Include="Boss\Vent.png" />
+    <Resource Include="Coeur\coeur3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Fleur\fleur0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
