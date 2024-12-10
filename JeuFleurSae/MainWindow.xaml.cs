@@ -26,15 +26,12 @@ namespace JeuFleurSae
         public static readonly int PAS_JOUEUR = 5;
         private static bool gauche;
         private static bool droite;
-        private bool isJumping = false;
-        private Point startPos;
-        private Point vertex;
-        private Point endPos;
-        private System.Windows.Vector velocity;
-        private double gravity = 0.3;
-        private double jumpHeight = -5; // Hauteur du saut (valeur négative pour aller vers le haut)
-        private double jumpSpeed = 0.9; // La vitesse de gravité (à ajuster pour plus ou moins de gravité)
-        private DispatcherTimer gameTimer;
+        private bool saute = false;
+        private Point debutSaut;
+        private System.Windows.Vector vitesse;
+        private double gravite = 0.3;
+        private double sautHauteur = -5; // Hauteur du saut (valeur négative pour aller vers le haut)
+
 
         public MainWindow()
         {
@@ -69,19 +66,19 @@ namespace JeuFleurSae
             }
 
             // Appliquer la gravité et mettre à jour la position verticale du joueur
-            if (isJumping)
+            if (saute)
             {
-                velocity.Y += gravity; // Applique la gravité au personnage
+                vitesse.Y += gravite; // Applique la gravité au personnage
 
                 // Mettre à jour la position en fonction de la vitesse
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) + velocity.X); // Déplacement horizontal
-                Canvas.SetTop(Joueur, Canvas.GetTop(Joueur) + velocity.Y); // Déplacement vertical
+                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) + vitesse.X); // Déplacement horizontal
+                Canvas.SetTop(Joueur, Canvas.GetTop(Joueur) + vitesse.Y); // Déplacement vertical
 
                 // Vérification de la collision avec le sol
                 if (Canvas.GetTop(Joueur) + Joueur.Height >= solTop)
                 {
-                    isJumping = false; // Arrête le saut
-                    velocity = new System.Windows.Vector(0, 0); // Arrête la vitesse verticale
+                    saute = false; // Arrête le saut
+                    vitesse = new System.Windows.Vector(0, 0); // Arrête la vitesse verticale
                     Canvas.SetTop(Joueur, solTop - Joueur.Height); // Positionne le joueur juste sur le sol
                 }
             }
@@ -110,11 +107,11 @@ namespace JeuFleurSae
             }
 
             // Si la touche espace est pressée, le personnage saute
-            if (e.Key == Key.Space && !isJumping)
+            if (e.Key == Key.Space && !saute)
             {
-                startPos = new Point(Canvas.GetLeft(Joueur), Canvas.GetTop(Joueur));
-                isJumping = true;
-                velocity = new System.Windows.Vector(0, jumpHeight); // Saut vers le haut
+                debutSaut = new Point(Canvas.GetLeft(Joueur), Canvas.GetTop(Joueur));
+                saute = true;
+                vitesse = new System.Windows.Vector(0, sautHauteur); // Saut vers le haut
             }
             
         }
@@ -131,9 +128,6 @@ namespace JeuFleurSae
                 droite = false;
             }
         }
-
-        // Déclenché au clic souris
-
 
         private void VerifierCollision()
         {
