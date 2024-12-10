@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -31,22 +32,21 @@ namespace JeuFleurSae
 
         public void Jeu(object? sender, System.EventArgs e)
         {
-
+            double nouveauJoueurGauche = Canvas.GetLeft(Joueur);
             double joueurTop = Canvas.GetTop(Joueur);
-            
             double joueurBottom = joueurTop + Joueur.Height;
             double solTop = Canvas.GetTop(Sol);
 
             if (gauche == true && !droite)
             {
-                double nouveauJoueurGauche = Canvas.GetLeft(Joueur) - PAS_JOUEUR;
-                Canvas.SetLeft(Joueur, nouveauJoueurGauche);
+                nouveauJoueurGauche = Canvas.GetLeft(Joueur) - PAS_JOUEUR;
             }
             else if (droite == true && !gauche)
             {
-                double nouveauJoueurGauche = Canvas.GetLeft(Joueur) + PAS_JOUEUR;
-                Canvas.SetLeft(Joueur, nouveauJoueurGauche);
+                nouveauJoueurGauche = Canvas.GetLeft(Joueur) + PAS_JOUEUR;
             }
+            if (nouveauJoueurGauche <= Zone.ActualWidth - Joueur.Width && nouveauJoueurGauche >= 0)
+                Canvas.SetLeft(Joueur, nouveauJoueurGauche);
 
         }
 
