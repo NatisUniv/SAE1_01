@@ -21,7 +21,8 @@ namespace JeuFleurSae
     {
         public static DispatcherTimer minuterie;
         public static readonly int PAS_JOUEUR = 5;
-
+        private static bool gauche;
+        private static bool droite;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,22 +33,19 @@ namespace JeuFleurSae
         {
 
             double joueurTop = Canvas.GetTop(Joueur);
+            
             double joueurBottom = joueurTop + Joueur.Height;
             double solTop = Canvas.GetTop(Sol);
 
-
-
-        }
-
-        private void Canvas_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Left)
+            if (gauche == true && !droite)
             {
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) - PAS_JOUEUR);
+                double nouveauJoueurGauche = Canvas.GetLeft(Joueur) - PAS_JOUEUR;
+                Canvas.SetLeft(Joueur, nouveauJoueurGauche);
             }
-            else if (e.Key == Key.Right)
+            else if (droite == true && !gauche)
             {
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) + PAS_JOUEUR);
+                double nouveauJoueurGauche = Canvas.GetLeft(Joueur) + PAS_JOUEUR;
+                Canvas.SetLeft(Joueur, nouveauJoueurGauche);
             }
 
         }
@@ -58,6 +56,31 @@ namespace JeuFleurSae
             minuterie.Interval = TimeSpan.FromMilliseconds(16);
             minuterie.Tick += Jeu;
             minuterie.Start();
+            
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left)
+            {
+                gauche = true;
+            }
+            else if (e.Key == Key.Right)
+            {
+                droite = true;
+            }
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left)
+            {
+                gauche = false;
+            }
+            else if (e.Key == Key.Right)
+            {
+                droite = false;
+            }
         }
     }
 }
