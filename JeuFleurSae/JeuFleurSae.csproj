@@ -98,7 +98,6 @@
     <Resource Include="Fond niveaux\Fond niveau Terre.png" />
     <Resource Include="Fond niveaux\Fond niveau vent.png" />
     <Resource Include="Fond niveaux\Fond niveaux feu.png" />
-    <Resource Include="Terre.png" />
   </ItemGroup>
 
 </Project>

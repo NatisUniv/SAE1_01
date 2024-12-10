@@ -40,6 +40,8 @@ namespace JeuFleurSae
         {
             InitializeComponent();
             InitTimer();
+            this.KeyDown += Window_KeyDown;
+            this.KeyUp += Window_KeyUp;
         }
 
         // Logique principale du jeu, appelée chaque frame
@@ -113,6 +115,7 @@ namespace JeuFleurSae
                 isJumping = true;
                 velocity = new System.Windows.Vector(0, jumpHeight); // Saut vers le haut
             }
+            
         }
 
         // Gestion des relâchements de touches
@@ -152,6 +155,25 @@ namespace JeuFleurSae
                 double forceMagnitude = distance * -0.5;
 
                 velocity = new System.Windows.Vector(startVector.X - vertexVector.X, startVector.Y - vertexVector.Y) * forceMagnitude / 1000; // Diviser pour diminuer la vitesse
+            }
+        }
+
+        private void VerifierCollision()
+        {
+            double joueurLeft = Canvas.GetLeft(Joueur);
+            double joueurTop = Canvas.GetTop(Joueur);
+            double joueurRight = joueurLeft + Joueur.Width;
+            double joueurBottom = joueurTop + Joueur.Height;
+            double bossLeft = Canvas.GetLeft(Boss);
+            double bossTop = Canvas.GetTop(Boss);
+            double bossRight = bossLeft + Boss.Width;
+            double bossBottom = bossTop + Boss.Height;
+
+            if (joueurRight > bossLeft && joueurLeft < bossRight && joueurBottom > bossTop && joueurTop < bossBottom)
+            {
+                
+                Canvas.SetTop(Joueur, joueurTop);
+                Canvas.SetLeft(Joueur, bossLeft - Joueur.Width);
             }
         }
     }
