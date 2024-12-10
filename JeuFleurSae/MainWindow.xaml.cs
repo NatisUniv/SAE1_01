@@ -12,11 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
 using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace JeuFleurSae
 {
@@ -24,8 +20,8 @@ namespace JeuFleurSae
     {
         public static DispatcherTimer minuterie;
         public static readonly int PAS_JOUEUR = 5;
-        public static readonly int MAX_VIE_JOUEUR = 3;
-        public static readonly int MAX_VIE_BOSS = 100;
+        public static readonly int VIE_JOUEUR_MAX = 3;
+        public static readonly int VIE_BOSS_MAX = 100;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DISPARITION_BOSS = -100;
         private static bool gauche;
@@ -34,9 +30,9 @@ namespace JeuFleurSae
         private Point debutSaut;
         private System.Windows.Vector vitesse;
         private double gravite = 0.3;
-        private double sautHauteur = -5;
-        int vieJoueur = MAX_VIE_JOUEUR;
-        int vieBoss = MAX_VIE_BOSS;
+        private double hauteurSaut = -5;
+        int vieJoueur = VIE_JOUEUR_MAX;
+        int vieBoss = VIE_BOSS_MAX;
         
 
         public MainWindow()
@@ -119,7 +115,7 @@ namespace JeuFleurSae
             {
                 debutSaut = new Point(Canvas.GetLeft(joueur), Canvas.GetTop(joueur));
                 saut = true;
-                vitesse = new System.Windows.Vector(0, sautHauteur); // Saut vers le haut
+                vitesse = new System.Windows.Vector(0, hauteurSaut); // Saut vers le haut
             }
             
         }
