@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace JeuFleurSae
 {
@@ -18,35 +19,44 @@ namespace JeuFleurSae
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private static DispatcherTimer minuterie;
+
         public MainWindow()
         {
             InitializeComponent();
-            Jeu();
+            InitTimer();
         }
 
-        public void Jeu (object sender, System.EventArgs e)
+        public void Jeu(object? sender, System.EventArgs e)
         {
-            
+
             double joueurTop = Canvas.GetTop(Joueur);
             double joueurBottom = joueurTop + Joueur.Height;
             double solTop = Canvas.GetTop(Sol);
 
-            if (joueurBottom >= solTop) {
 
-           
+
         }
-    }
 
         private void Canvas_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Left)
             {
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) - 5); 
+                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) - 5);
             }
             else if (e.Key == Key.Right)
             {
                 Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) + 5);
             }
+
+        }
+
+        private void InitTimer()
+        {
+            minuterie = new DispatcherTimer();
+            minuterie.Interval = TimeSpan.FromMilliseconds(16);
+            minuterie.Tick += Jeu;
+            minuterie.Start();
         }
     }
+}
