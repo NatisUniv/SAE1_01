@@ -32,7 +32,7 @@ namespace JeuFleurSae
         private Point endPos;
         private System.Windows.Vector velocity;
         private double gravity = 0.3;
-        private double jumpHeight = -10; // Hauteur du saut (valeur négative pour aller vers le haut)
+        private double jumpHeight = -5; // Hauteur du saut (valeur négative pour aller vers le haut)
         private double jumpSpeed = 0.9; // La vitesse de gravité (à ajuster pour plus ou moins de gravité)
         private DispatcherTimer gameTimer;
 
@@ -85,6 +85,7 @@ namespace JeuFleurSae
                     Canvas.SetTop(Joueur, solTop - Joueur.Height); // Positionne le joueur juste sur le sol
                 }
             }
+            VerifierCollision();
         }
 
         // Initialisation du Timer
@@ -99,11 +100,11 @@ namespace JeuFleurSae
         // Gestion des appuis de touches pour les déplacements horizontaux
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left)
+            if (e.Key == Key.Q)
             {
                 gauche = true; // Déplacer vers la gauche
             }
-            else if (e.Key == Key.Right)
+            else if (e.Key == Key.D)
             {
                 droite = true; // Déplacer vers la droite
             }
@@ -121,42 +122,18 @@ namespace JeuFleurSae
         // Gestion des relâchements de touches
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left)
+            if (e.Key == Key.Q)
             {
                 gauche = false;
             }
-            else if (e.Key == Key.Right)
+            else if (e.Key == Key.D)
             {
                 droite = false;
             }
         }
 
         // Déclenché au clic souris
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (!isJumping)
-            {
-                startPos = e.GetPosition(Zone);
-                isJumping = true;
 
-                // Définir la position du vertex (simuler un arc parabolique)
-                Point cursorPosition = e.GetPosition(Zone);
-                vertex = new Point((startPos.X + cursorPosition.X) / 2, Math.Min(startPos.Y, cursorPosition.Y) - 100);
-
-                // Calculer la position finale de la balle
-                endPos = new Point(startPos.X + (vertex.X - startPos.X) * 2, startPos.Y);
-
-                // Convertir les Points en Vectors
-                System.Windows.Vector startVector = new System.Windows.Vector(startPos.X, startPos.Y);
-                System.Windows.Vector vertexVector = new System.Windows.Vector(vertex.X, vertex.Y);
-
-                // Calculer la distance entre les deux points
-                double distance = Math.Min((startVector - vertexVector).Length, 200); // Utilisation de la méthode Length sur le vecteur résultant
-                double forceMagnitude = distance * -0.5;
-
-                velocity = new System.Windows.Vector(startVector.X - vertexVector.X, startVector.Y - vertexVector.Y) * forceMagnitude / 1000; // Diviser pour diminuer la vitesse
-            }
-        }
 
         private void VerifierCollision()
         {
@@ -169,7 +146,7 @@ namespace JeuFleurSae
             double bossRight = bossLeft + Boss.Width;
             double bossBottom = bossTop + Boss.Height;
 
-            if (joueurRight > bossLeft && joueurLeft < bossRight && joueurBottom > bossTop && joueurTop < bossBottom)
+            if (joueurRight > bossLeft+10 && joueurLeft < bossRight && joueurBottom > bossTop && joueurTop < bossBottom)
             {
                 
                 Canvas.SetTop(Joueur, joueurTop);
