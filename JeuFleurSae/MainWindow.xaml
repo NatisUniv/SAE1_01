@@ -11,23 +11,33 @@
     mc:Ignorable="d">
     <Canvas KeyDown="Canvas_KeyDown">
         <Canvas.Background>
-            <ImageBrush ImageSource="/Fond niveaux feu.png" />
+            <ImageBrush ImageSource="/Fond niveaux/Fond niveau Terre.png" />
         </Canvas.Background>
         <Rectangle
             x:Name="Sol"
-            Canvas.Top="332"
+            Canvas.Top="392"
             Width="800"
             Height="130"
             HorizontalAlignment="Center"
             VerticalAlignment="Top" />
         <Rectangle
             x:Name="Joueur"
-            Canvas.Left="50"
-            Canvas.Top="292"
+            Canvas.Left="22"
+            Canvas.Top="352"
             Width="26"
             Height="40">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/arret.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle
+            x:Name="Boss"
+            Canvas.Left="641"
+            Canvas.Top="292"
+            Width="100"
+            Height="100">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/Terre.png" />
             </Rectangle.Fill>
         </Rectangle>
 

@@ -19,7 +19,8 @@ namespace JeuFleurSae
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static DispatcherTimer minuterie;
+        public static DispatcherTimer minuterie;
+        public static readonly int PAS_JOUEUR = 5;
 
         public MainWindow()
         {
@@ -42,11 +43,11 @@ namespace JeuFleurSae
         {
             if (e.Key == Key.Left)
             {
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) - 5);
+                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) - PAS_JOUEUR);
             }
             else if (e.Key == Key.Right)
             {
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) + 5);
+                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) + PAS_JOUEUR);
             }
 
         }

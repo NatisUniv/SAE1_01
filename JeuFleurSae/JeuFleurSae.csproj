@@ -9,47 +9,65 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="arret.png" />
-    <None Remove="Fond niveaux feu.png" />
-    <None Remove="Sprite perso\1.png" />
-    <None Remove="Sprite perso\2.png" />
-    <None Remove="Sprite perso\3.png" />
-    <None Remove="Sprite perso\4.png" />
-    <None Remove="Sprite perso\arret.png" />
-    <None Remove="Sprite perso\atk1.png" />
-    <None Remove="Sprite perso\atk2.png" />
-    <None Remove="Sprite perso\atk3.png" />
+    <None Remove="Boss\Eau.png" />
+    <None Remove="Boss\Feu.png" />
+    <None Remove="Boss\Final.png" />
+    <None Remove="Boss\Plante.png" />
+    <None Remove="Boss\Terre.png" />
+    <None Remove="Boss\Vent.png" />
+    <None Remove="Fond niveaux\Fond niveau eau.png" />
+    <None Remove="Fond niveaux\Fond niveau Final.png" />
+    <None Remove="Fond niveaux\Fond niveau Plante.png" />
+    <None Remove="Fond niveaux\Fond niveau Terre.png" />
+    <None Remove="Fond niveaux\Fond niveau vent.png" />
+    <None Remove="Fond niveaux\Fond niveaux feu.png" />
+	  <None Remove="arret.png" />
+	  <None Remove="Fond niveaux feu.png" />
+	  <None Remove="Sprite perso\1.png" />
+	  <None Remove="Sprite perso\2.png" />
+	  <None Remove="Sprite perso\3.png" />
+	  <None Remove="Sprite perso\4.png" />
+	  <None Remove="Sprite perso\arret.png" />
+	  <None Remove="Sprite perso\atk1.png" />
+	  <None Remove="Sprite perso\atk2.png" />
+	  <None Remove="Sprite perso\atk3.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="arret.png" />
-    <Resource Include="Fond niveaux feu.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\3.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\4.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\arret.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\atk1.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\atk2.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Sprite perso\atk3.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    <Resource Include="Boss\Eau.png" />
+    <Resource Include="Boss\Feu.png" />
+    <Resource Include="Boss\Final.png" />
+    <Resource Include="Boss\Plante.png" />
+    <Resource Include="Boss\Terre.png" />
+    <Resource Include="Boss\Vent.png" />
+	  <Resource Include="arret.png" />
+	  <Resource Include="Fond niveaux feu.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\1.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\2.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\3.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\4.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\arret.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\atk1.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\atk2.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Sprite perso\atk3.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
     <Resource Include="Fond niveaux feu.png" />
     <Resource Include="Fond niveaux\Fond niveau eau.png" />
     <Resource Include="Fond niveaux\Fond niveau Final.png" />
@@ -57,6 +75,7 @@
     <Resource Include="Fond niveaux\Fond niveau Terre.png" />
     <Resource Include="Fond niveaux\Fond niveau vent.png" />
     <Resource Include="Fond niveaux\Fond niveaux feu.png" />
+    <Resource Include="Terre.png" />
   </ItemGroup>
 
 </Project>
