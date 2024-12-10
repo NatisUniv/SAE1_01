@@ -27,6 +27,7 @@ namespace JeuFleurSae
         public static readonly int MAX_VIE_JOUEUR = 3;
         public static readonly int MAX_VIE_BOSS = 100;
         public static readonly int DEGATS_EPEE = -5;
+        public static readonly int DISPARITION_BOSS = -100;
         private static bool gauche;
         private static bool droite;
         private bool saute = false;
@@ -36,7 +37,7 @@ namespace JeuFleurSae
         private double sautHauteur = -5;
         int vieJoueur = MAX_VIE_JOUEUR;
         int vieBoss = MAX_VIE_BOSS;
-
+        
 
         public MainWindow()
         {
@@ -171,7 +172,12 @@ namespace JeuFleurSae
                 vieBoss += DEGATS_EPEE;
                 this.LabVieBoss.Content = vieBoss;
                 if (vieBoss == 0)
+                {
+                    Canvas.SetTop(Boss, DISPARITION_BOSS);
+                    Canvas.SetTop(LabVieBoss, DISPARITION_BOSS);
                     MessageBox.Show("Bien Joué, vous avez tuer le Boss", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                    
             }
         }
     }

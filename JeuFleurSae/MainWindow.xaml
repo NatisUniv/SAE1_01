@@ -62,14 +62,14 @@
         </Rectangle>
         <Label
             x:Name="LabVieBoss"
-            Canvas.Left="672"
-            Canvas.Top="16"
-            Width="100"
+            Canvas.Left="659"
+            Canvas.Top="252"
+            Width="63"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top"
+            VerticalAlignment="Center"
             Content="100"
             Foreground="Black" FontSize="20" FontFamily="Gill Sans Ultra Bold" />
-        <Rectangle x:Name="coeur" Height="52" Canvas.Left="10" Stroke="Black" Canvas.Top="63" Width="160">
+        <Rectangle x:Name="coeur" Height="52" Canvas.Left="10" Canvas.Top="63" Width="160">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/Coeur/coeur3.png"/>
             </Rectangle.Fill>
