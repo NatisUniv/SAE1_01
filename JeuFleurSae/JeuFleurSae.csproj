@@ -8,8 +8,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Boss\Eau.png" />
+  <ItemGroup>    
+	<None Remove="Boss\Eau.png" />
     <None Remove="Boss\Feu.png" />
     <None Remove="Boss\Final.png" />
     <None Remove="Boss\Plante.png" />
@@ -21,7 +21,7 @@
     <None Remove="Fond niveaux\Fond niveau Terre.png" />
     <None Remove="Fond niveaux\Fond niveau vent.png" />
     <None Remove="Fond niveaux\Fond niveaux feu.png" />
-	  <None Remove="arret.png" />
+	  <None Remove="arret.png" />	  
 	  <None Remove="Fond niveaux feu.png" />
 	  <None Remove="Sprite perso\1.png" />
 	  <None Remove="Sprite perso\2.png" />
@@ -68,7 +68,8 @@
 	  <Resource Include="Sprite perso\atk3.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-    <Resource Include="Fond niveaux feu.png" />
+
+	  <Resource Include="Fond niveaux feu.png" />
     <Resource Include="Fond niveaux\Fond niveau eau.png" />
     <Resource Include="Fond niveaux\Fond niveau Final.png" />
     <Resource Include="Fond niveaux\Fond niveau Plante.png" />
