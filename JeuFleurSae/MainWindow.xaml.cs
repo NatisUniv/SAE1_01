@@ -18,31 +18,32 @@ namespace JeuFleurSae
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
         public MainWindow()
         {
             InitializeComponent();
             Jeu();
         }
 
-        public void Jeu (object sender, System.EventArgs e)
+        public void Jeu(object sender, System.EventArgs e)
         {
-            
+
             double joueurTop = Canvas.GetTop(Joueur);
             double joueurBottom = joueurTop + Joueur.Height;
             double solTop = Canvas.GetTop(Sol);
 
-            if (joueurBottom >= solTop) {
+            if (joueurBottom >= solTop)
+            {
 
-           
+
+            }
         }
-    }
 
         private void Canvas_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Left)
             {
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) - 5); 
+                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) - 5);
             }
             else if (e.Key == Key.Right)
             {
@@ -50,3 +51,4 @@ namespace JeuFleurSae
             }
         }
     }
+}

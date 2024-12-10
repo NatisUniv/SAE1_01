@@ -27,7 +27,17 @@
             Width="26"
             Height="40">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/arret.png" />
+                <ImageBrush ImageSource="/Sprite perso/arret.png" />
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle
+            Canvas.Left="10"
+            Canvas.Top="10"
+            Width="48"
+            Height="48"
+            Stroke="Black">
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="/Fleur/fleur0.png" />
             </Rectangle.Fill>
         </Rectangle>
 

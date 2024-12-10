@@ -9,7 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="arret.png" />
+    <None Remove="Fleur\fleur0.png" />
+    <None Remove="Fleur\fleur1.png" />
+    <None Remove="Fleur\fleur2.png" />
+    <None Remove="Fleur\fleur3.png" />
+    <None Remove="Fleur\fleur4.png" />
+    <None Remove="Fleur\fleur5.png" />
+    <None Remove="Fleur\fleur6.png" />
     <None Remove="Fond niveaux feu.png" />
     <None Remove="Sprite perso\1.png" />
     <None Remove="Sprite perso\2.png" />
@@ -22,7 +28,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="arret.png" />
+    <Resource Include="Fleur\fleur0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Fond niveaux feu.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
