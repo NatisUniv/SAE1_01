@@ -24,13 +24,18 @@ namespace JeuFleurSae
     {
         public static DispatcherTimer minuterie;
         public static readonly int PAS_JOUEUR = 5;
+        public static readonly int MAX_VIE_JOUEUR = 3;
+        public static readonly int MAX_VIE_BOSS = 100;
+        public static readonly int DEGATS_EPEE = -5;
         private static bool gauche;
         private static bool droite;
         private bool saute = false;
         private Point debutSaut;
         private System.Windows.Vector vitesse;
         private double gravite = 0.3;
-        private double sautHauteur = -5; // Hauteur du saut (valeur négative pour aller vers le haut)
+        private double sautHauteur = -5;
+        int vieJoueur = MAX_VIE_JOUEUR;
+        int vieBoss = MAX_VIE_BOSS;
 
 
         public MainWindow()
@@ -39,7 +44,9 @@ namespace JeuFleurSae
             InitTimer();
             this.KeyDown += Window_KeyDown;
             this.KeyUp += Window_KeyUp;
+
         }
+
 
         // Logique principale du jeu, appelée chaque frame
         public void Jeu(object? sender, EventArgs e)
@@ -48,7 +55,7 @@ namespace JeuFleurSae
             double joueurTop = Canvas.GetTop(Joueur);
             double joueurBottom = joueurTop + Joueur.Height;  // Position du bas du joueur
             double solTop = Canvas.GetTop(Sol);  // Position du sol
-
+            
             // Déplacement horizontal
             if (gauche && !droite)
             {
@@ -145,6 +152,26 @@ namespace JeuFleurSae
                 
                 Canvas.SetTop(Joueur, joueurTop);
                 Canvas.SetLeft(Joueur, bossLeft - Joueur.Width);
+            }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            double joueurLeft = Canvas.GetLeft(Joueur);
+            double joueurTop = Canvas.GetTop(Joueur);
+            double joueurRight = joueurLeft + Joueur.Width;
+            double joueurBottom = joueurTop + Joueur.Height;
+            double bossLeft = Canvas.GetLeft(Boss);
+            double bossTop = Canvas.GetTop(Boss);
+            double bossRight = bossLeft + Boss.Width;
+            double bossBottom = bossTop + Boss.Height;
+
+            if (joueurRight > bossLeft -10 && joueurLeft < bossRight && joueurBottom > bossTop)
+            {
+                vieBoss += DEGATS_EPEE;
+                this.LabVieBoss.Content = vieBoss;
+                if (vieBoss == 0)
+                    MessageBox.Show("Bien Joué, vous avez tuer le Boss", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
     }
