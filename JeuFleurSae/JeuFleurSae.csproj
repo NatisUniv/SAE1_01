@@ -8,6 +8,23 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Fleur\fleur0.png" />
+    <None Remove="Fleur\fleur1.png" />
+    <None Remove="Fleur\fleur2.png" />
+    <None Remove="Fleur\fleur3.png" />
+    <None Remove="Fleur\fleur4.png" />
+    <None Remove="Fleur\fleur5.png" />
+    <None Remove="Fleur\fleur6.png" />
+    <None Remove="Fond niveaux feu.png" />
+    <None Remove="Sprite perso\1.png" />
+    <None Remove="Sprite perso\2.png" />
+    <None Remove="Sprite perso\3.png" />
+    <None Remove="Sprite perso\4.png" />
+    <None Remove="Sprite perso\arret.png" />
+    <None Remove="Sprite perso\atk1.png" />
+    <None Remove="Sprite perso\atk2.png" />
+    <None Remove="Sprite perso\atk3.png" />
   <ItemGroup>    
 	<None Remove="Boss\Eau.png" />
     <None Remove="Boss\Feu.png" />
@@ -34,6 +51,54 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Fleur\fleur0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fleur\fleur6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fond niveaux feu.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\arret.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\atk1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\atk2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Sprite perso\atk3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Boss\Eau.png" />
     <Resource Include="Boss\Feu.png" />
     <Resource Include="Boss\Final.png" />
