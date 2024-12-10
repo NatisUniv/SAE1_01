@@ -22,8 +22,13 @@ namespace JeuFleurSae
     {
         public static DispatcherTimer minuterie;
         public static readonly int PAS_JOUEUR = 5;
-        private static bool gauche;
-        private static bool droite;
+        public const double GRAVITE = 1.0;
+        public const double FORCE_SAUT = 20.0;
+        public static bool gauche;
+        public static bool droite;
+        public bool auSol = true;
+        public double joueurVitesseY = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -47,6 +52,19 @@ namespace JeuFleurSae
             }
             if (nouveauJoueurGauche <= Zone.ActualWidth - Joueur.Width && nouveauJoueurGauche >= 0)
                 Canvas.SetLeft(Joueur, nouveauJoueurGauche);
+            
+            if (joueurBottom >= solTop)
+            {
+                auSol = true;
+                joueurVitesseY = 0; 
+                Canvas.SetTop(Joueur, solTop - Joueur.Height);
+            }
+            else
+            {
+                auSol = false;
+                joueurVitesseY += GRAVITE;
+                Canvas.SetTop(Joueur, joueurTop + joueurVitesseY);
+            }
 
         }
 
@@ -68,6 +86,11 @@ namespace JeuFleurSae
             else if (e.Key == Key.Right)
             {
                 droite = true;
+            }
+            else if (e.Key == Key.Space && auSol)
+            {
+                joueurVitesseY = -FORCE_SAUT; 
+                auSol = false;
             }
         }
 
