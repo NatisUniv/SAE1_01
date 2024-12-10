@@ -30,7 +30,7 @@ namespace JeuFleurSae
         public static readonly int DISPARITION_BOSS = -100;
         private static bool gauche;
         private static bool droite;
-        private bool saute = false;
+        private bool saut = false;
         private Point debutSaut;
         private System.Windows.Vector vitesse;
         private double gravite = 0.3;
@@ -74,7 +74,7 @@ namespace JeuFleurSae
             }
 
             // Appliquer la gravité et mettre à jour la position verticale du joueur
-            if (saute)
+            if (saut)
             {
                 vitesse.Y += gravite; // Applique la gravité au personnage
 
@@ -85,7 +85,7 @@ namespace JeuFleurSae
                 // Vérification de la collision avec le sol
                 if (Canvas.GetTop(joueur) + joueur.Height >= solHaut)
                 {
-                    saute = false; // Arrête le saut
+                    saut = false; // Arrête le saut
                     vitesse = new System.Windows.Vector(0, 0); // Arrête la vitesse verticale
                     Canvas.SetTop(joueur, solHaut - joueur.Height); // Positionne le joueur juste sur le sol
                 }
@@ -115,10 +115,10 @@ namespace JeuFleurSae
             }
 
             // Si la touche espace est pressée, le personnage saute
-            if (e.Key == Key.Space && !saute)
+            if (e.Key == Key.Space && !saut)
             {
                 debutSaut = new Point(Canvas.GetLeft(joueur), Canvas.GetTop(joueur));
-                saute = true;
+                saut = true;
                 vitesse = new System.Windows.Vector(0, sautHauteur); // Saut vers le haut
             }
             
