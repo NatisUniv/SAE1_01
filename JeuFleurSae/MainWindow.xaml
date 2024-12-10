@@ -8,7 +8,7 @@
     Title="MainWindow"
     Width="800"
     Height="450"
-    mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
+    mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" MouseDown="Window_MouseDown">
     <Canvas x:Name="Zone">
         <Canvas.Background>
             <ImageBrush ImageSource="/Fond niveaux/Fond niveau Terre.png" />
