@@ -13,20 +13,20 @@
     KeyDown="Window_KeyDown"
     KeyUp="Window_KeyUp"
     MouseDown="Window_MouseDown"
-    mc:Ignorable="d">
-    <Canvas x:Name="Zone">
+    mc:Ignorable="d" WindowStartupLocation="CenterScreen">
+    <Canvas x:Name="zone">
         <Canvas.Background>
-            <ImageBrush ImageSource="/Fond niveaux/Fond niveau Terre.png" />
+            <ImageBrush ImageSource="img/Fond_niveaux/Fond_niveau_terre.png" />
         </Canvas.Background>
         <Rectangle
-            x:Name="Sol"
+            x:Name="sol"
             Canvas.Top="392"
             Width="800"
             Height="130"
             HorizontalAlignment="Left"
             VerticalAlignment="Top" />
         <Rectangle
-            x:Name="Joueur"
+            x:Name="joueur"
             Canvas.Left="22"
             Canvas.Top="352"
             Width="26"
@@ -34,7 +34,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/Sprite perso/arret.png" />
+                <ImageBrush ImageSource="img/Sprite_perso/arret.png" />
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle
@@ -45,11 +45,11 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/Fleur/fleur0.png" />
+                <ImageBrush ImageSource="/img/Fleur/fleur0.png" />
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle
-            x:Name="Boss"
+            x:Name="boss"
             Canvas.Left="641"
             Canvas.Top="292"
             Width="100"
@@ -57,11 +57,11 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/Boss/Terre.png" />
+                <ImageBrush ImageSource="img/Boss/Terre.png" />
             </Rectangle.Fill>
         </Rectangle>
         <Label
-            x:Name="LabVieBoss"
+            x:Name="labVieBoss"
             Canvas.Left="659"
             Canvas.Top="252"
             Width="63"
@@ -71,7 +71,7 @@
             Foreground="Black" FontSize="20" FontFamily="Gill Sans Ultra Bold" />
         <Rectangle x:Name="coeur" Height="52" Canvas.Left="10" Canvas.Top="63" Width="160">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/Coeur/coeur3.png"/>
+                <ImageBrush ImageSource="/img/Coeur/coeur3.png"/>
             </Rectangle.Fill>
         </Rectangle>
 

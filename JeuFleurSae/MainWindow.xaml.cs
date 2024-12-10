@@ -52,25 +52,25 @@ namespace JeuFleurSae
         // Logique principale du jeu, appelée chaque frame
         public void Jeu(object? sender, EventArgs e)
         {
-            double nouveauJoueurGauche = Canvas.GetLeft(Joueur);
-            double joueurTop = Canvas.GetTop(Joueur);
-            double joueurBottom = joueurTop + Joueur.Height;  // Position du bas du joueur
-            double solTop = Canvas.GetTop(Sol);  // Position du sol
+            double nouveauXJoueur = Canvas.GetLeft(joueur);
+            double joueurHaut = Canvas.GetTop(joueur);
+            double joueurBas = joueurHaut + joueur.Height;  // Position du bas du joueur
+            double solHaut = Canvas.GetTop(sol);  // Position du sol
             
             // Déplacement horizontal
             if (gauche && !droite)
             {
-                nouveauJoueurGauche = Canvas.GetLeft(Joueur) - PAS_JOUEUR;
+                nouveauXJoueur = Canvas.GetLeft(joueur) - PAS_JOUEUR;
             }
             else if (droite && !gauche)
             {
-                nouveauJoueurGauche = Canvas.GetLeft(Joueur) + PAS_JOUEUR;
+                nouveauXJoueur = Canvas.GetLeft(joueur) + PAS_JOUEUR;
             }
 
             // Vérifiez si le personnage ne dépasse pas les bords de la zone
-            if (nouveauJoueurGauche <= Zone.ActualWidth - Joueur.Width && nouveauJoueurGauche >= 0)
+            if (nouveauXJoueur <= zone.ActualWidth - joueur.Width && nouveauXJoueur >= 0)
             {
-                Canvas.SetLeft(Joueur, nouveauJoueurGauche);
+                Canvas.SetLeft(joueur, nouveauXJoueur);
             }
 
             // Appliquer la gravité et mettre à jour la position verticale du joueur
@@ -79,15 +79,15 @@ namespace JeuFleurSae
                 vitesse.Y += gravite; // Applique la gravité au personnage
 
                 // Mettre à jour la position en fonction de la vitesse
-                Canvas.SetLeft(Joueur, Canvas.GetLeft(Joueur) + vitesse.X); // Déplacement horizontal
-                Canvas.SetTop(Joueur, Canvas.GetTop(Joueur) + vitesse.Y); // Déplacement vertical
+                Canvas.SetLeft(joueur, Canvas.GetLeft(joueur) + vitesse.X); // Déplacement horizontal
+                Canvas.SetTop(joueur, Canvas.GetTop(joueur) + vitesse.Y); // Déplacement vertical
 
                 // Vérification de la collision avec le sol
-                if (Canvas.GetTop(Joueur) + Joueur.Height >= solTop)
+                if (Canvas.GetTop(joueur) + joueur.Height >= solHaut)
                 {
                     saute = false; // Arrête le saut
                     vitesse = new System.Windows.Vector(0, 0); // Arrête la vitesse verticale
-                    Canvas.SetTop(Joueur, solTop - Joueur.Height); // Positionne le joueur juste sur le sol
+                    Canvas.SetTop(joueur, solHaut - joueur.Height); // Positionne le joueur juste sur le sol
                 }
             }
             VerifierCollision();
@@ -117,7 +117,7 @@ namespace JeuFleurSae
             // Si la touche espace est pressée, le personnage saute
             if (e.Key == Key.Space && !saute)
             {
-                debutSaut = new Point(Canvas.GetLeft(Joueur), Canvas.GetTop(Joueur));
+                debutSaut = new Point(Canvas.GetLeft(joueur), Canvas.GetTop(joueur));
                 saute = true;
                 vitesse = new System.Windows.Vector(0, sautHauteur); // Saut vers le haut
             }
@@ -139,43 +139,43 @@ namespace JeuFleurSae
 
         private void VerifierCollision()
         {
-            double joueurLeft = Canvas.GetLeft(Joueur);
-            double joueurTop = Canvas.GetTop(Joueur);
-            double joueurRight = joueurLeft + Joueur.Width;
-            double joueurBottom = joueurTop + Joueur.Height;
-            double bossLeft = Canvas.GetLeft(Boss);
-            double bossTop = Canvas.GetTop(Boss);
-            double bossRight = bossLeft + Boss.Width;
-            double bossBottom = bossTop + Boss.Height;
+            double joueurGauche = Canvas.GetLeft(joueur);
+            double joueurHaut = Canvas.GetTop(joueur);
+            double joueurDroit = joueurGauche + joueur.Width;
+            double joueurBas = joueurHaut + joueur.Height;
+            double bossGauche = Canvas.GetLeft(boss);
+            double bossHaut = Canvas.GetTop(boss);
+            double bossDroite = bossGauche + boss.Width;
+            double bossBas = bossHaut + boss.Height;
 
-            if (joueurRight > bossLeft+10 && joueurLeft < bossRight && joueurBottom > bossTop && joueurTop < bossBottom)
+            if (joueurDroit > bossGauche + 10 && joueurGauche < bossDroite && joueurBas > bossHaut && joueurHaut < bossBas)
             {
                 
-                Canvas.SetTop(Joueur, joueurTop);
-                Canvas.SetLeft(Joueur, bossLeft - Joueur.Width);
+                Canvas.SetTop(joueur, joueurHaut);
+                Canvas.SetLeft(joueur, bossGauche - joueur.Width);
             }
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            double joueurLeft = Canvas.GetLeft(Joueur);
-            double joueurTop = Canvas.GetTop(Joueur);
-            double joueurRight = joueurLeft + Joueur.Width;
-            double joueurBottom = joueurTop + Joueur.Height;
-            double bossLeft = Canvas.GetLeft(Boss);
-            double bossTop = Canvas.GetTop(Boss);
-            double bossRight = bossLeft + Boss.Width;
-            double bossBottom = bossTop + Boss.Height;
+            double joueurGauche = Canvas.GetLeft(joueur);
+            double joueurHaut = Canvas.GetTop(joueur);
+            double joueurDroit = joueurGauche + joueur.Width;
+            double joueurBas = joueurHaut + joueur.Height;
+            double bossGauche = Canvas.GetLeft(boss);
+            double bossHaut = Canvas.GetTop(boss);
+            double bossDroite = bossGauche + boss.Width;
+            double bossBas = bossHaut + boss.Height;
 
-            if (joueurRight > bossLeft -10 && joueurLeft < bossRight && joueurBottom > bossTop)
+            if (joueurDroit > bossGauche -10 && joueurGauche < bossDroite && joueurBas > bossHaut)
             {
                 vieBoss += DEGATS_EPEE;
-                this.LabVieBoss.Content = vieBoss;
+                this.labVieBoss.Content = vieBoss;
                 if (vieBoss == 0)
                 {
-                    Canvas.SetTop(Boss, DISPARITION_BOSS);
-                    Canvas.SetTop(LabVieBoss, DISPARITION_BOSS);
-                    MessageBox.Show("Bien Joué, vous avez tuer le Boss", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Canvas.SetTop(boss, DISPARITION_BOSS);
+                    Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
+                    MessageBox.Show("Bien Joué, vous avez tuer le boss", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                     
             }

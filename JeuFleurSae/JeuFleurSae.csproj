@@ -10,98 +10,88 @@
 
   <ItemGroup>
 	
-	<None Remove="Boss\Eau.png" />
-    <None Remove="Boss\Feu.png" />
-    <None Remove="Boss\Final.png" />
-    <None Remove="Boss\Plante.png" />
-    <None Remove="Boss\Terre.png" />
-    <None Remove="Boss\Vent.png" />
-    <None Remove="Coeur\coeur3.png" />
-    <None Remove="Fleur\fleur0.png" />
-    <None Remove="Fleur\fleur1.png" />
-    <None Remove="Fleur\fleur2.png" />
-    <None Remove="Fleur\fleur3.png" />
-    <None Remove="Fleur\fleur4.png" />
-    <None Remove="Fleur\fleur5.png" />
-    <None Remove="Fleur\fleur6.png" />
-    <None Remove="Fond niveaux\Fond niveau eau.png" />
-    <None Remove="Fond niveaux\Fond niveau Final.png" />
-    <None Remove="Fond niveaux\Fond niveau Plante.png" />
-    <None Remove="Fond niveaux\Fond niveau Terre.png" />
-    <None Remove="Fond niveaux\Fond niveau vent.png" />
-    <None Remove="Fond niveaux\Fond niveaux feu.png" />
+	<None Remove="img\Boss\Eau.png" />
+    <None Remove="img\Boss\Feu.png" />
+    <None Remove="img\Boss\Final.png" />
+    <None Remove="img\Boss\Plante.png" />
+    <None Remove="img\Boss\Terre.png" />
+    <None Remove="img\Boss\Vent.png" />
+    <None Remove="img\Coeur\coeur3.png" />
+    <None Remove="img\Fleur\fleur0.png" />
+    <None Remove="img\Fleur\fleur1.png" />
+    <None Remove="img\Fleur\fleur2.png" />
+    <None Remove="img\Fleur\fleur3.png" />
+    <None Remove="img\Fleur\fleur4.png" />
+    <None Remove="img\Fleur\fleur5.png" />
+    <None Remove="img\Fleur\fleur6.png" />
 	  <None Remove="arret.png" />
-	  <None Remove="Sprite perso\1.png" />
-	  <None Remove="Sprite perso\2.png" />
-	  <None Remove="Sprite perso\3.png" />
-	  <None Remove="Sprite perso\4.png" />
-	  <None Remove="Sprite perso\arret.png" />
-	  <None Remove="Sprite perso\atk1.png" />
-	  <None Remove="Sprite perso\atk2.png" />
-	  <None Remove="Sprite perso\atk3.png" />
+	  <None Remove="img\Sprite_perso\arret.png" />
+	  <None Remove="img\Sprite_perso\atk1.png" />
+	  <None Remove="img\Sprite_perso\atk2.png" />
+	  <None Remove="img\Sprite_perso\atk3.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Boss\Eau.png" />
-    <Resource Include="Boss\Feu.png" />
-    <Resource Include="Boss\Final.png" />
-    <Resource Include="Boss\Plante.png" />
-    <Resource Include="Boss\Terre.png" />
-    <Resource Include="Boss\Vent.png" />
-    <Resource Include="Coeur\coeur3.png">
+    <Resource Include="img\Boss\Eau.png" />
+    <Resource Include="img\Boss\Feu.png" />
+    <Resource Include="img\Boss\Final.png" />
+    <Resource Include="img\Boss\Plante.png" />
+    <Resource Include="img\Boss\Terre.png" />
+    <Resource Include="img\Boss\Vent.png" />
+    <Resource Include="img\Coeur\coeur3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fleur\fleur0.png">
+    <Resource Include="img\Fleur\fleur0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fleur\fleur1.png">
+    <Resource Include="img\Fleur\fleur1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fleur\fleur2.png">
+    <Resource Include="img\Fleur\fleur2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fleur\fleur3.png">
+    <Resource Include="img\Fleur\fleur3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fleur\fleur4.png">
+    <Resource Include="img\Fleur\fleur4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fleur\fleur5.png">
+    <Resource Include="img\Fleur\fleur5.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Fleur\fleur6.png">
+    <Resource Include="img\Fleur\fleur6.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-	  <Resource Include="Sprite perso\1.png">
+	  <Resource Include="img\Sprite_perso\mouv1.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Sprite perso\2.png">
+	  <Resource Include="img\Sprite_perso\mouv2.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Sprite perso\3.png">
+	  <Resource Include="img\Sprite_perso\mouv3.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Sprite perso\4.png">
+	  <Resource Include="img\Sprite_perso\mouv4.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Sprite perso\arret.png">
+	  <Resource Include="img\Sprite_perso\arret.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Sprite perso\atk1.png">
+	  <Resource Include="img\Sprite_perso\atk1.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Sprite perso\atk2.png">
+	  <Resource Include="img\Sprite_perso\atk2.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="Sprite perso\atk3.png">
+	  <Resource Include="img\Sprite_perso\atk3.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-    <Resource Include="Fond niveaux\Fond niveau eau.png" />
-    <Resource Include="Fond niveaux\Fond niveau Final.png" />
-    <Resource Include="Fond niveaux\Fond niveau Plante.png" />
-    <Resource Include="Fond niveaux\Fond niveau Terre.png" />
-    <Resource Include="Fond niveaux\Fond niveau vent.png" />
-    <Resource Include="Fond niveaux\Fond niveaux feu.png" />
+    <Resource Include="img\Fond_niveaux\Fond_niveau_eau.png" />
+    <Resource Include="img\Fond_niveaux\fond_niveau_final.png" />
+    <Resource Include="img\Fond_niveaux\fond_niveau_plante.png" />
+    <Resource Include="img\Fond_niveaux\fond_niveau_terre.png" />
+    <Resource Include="img\Fond_niveaux\fond_niveau_vent.png" />
+    <Resource Include="img\Fond_niveaux\fond_niveau_ feu.png" />
   </ItemGroup>
 
 </Project>
