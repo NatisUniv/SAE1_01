@@ -33,7 +33,7 @@ namespace JeuFleurSae
         private double hauteurSaut = -5;
         int vieJoueur = VIE_JOUEUR_MAX;
         int vieBoss = VIE_BOSS_MAX;
-        
+        int compteurBoss = 0;
 
         public MainWindow()
         {
@@ -143,6 +143,7 @@ namespace JeuFleurSae
             double bossHaut = Canvas.GetTop(boss);
             double bossDroite = bossGauche + boss.Width;
             double bossBas = bossHaut + boss.Height;
+            int compteurVie = 0;
 
             if (joueurDroit > bossGauche + 10 && joueurGauche < bossDroite && joueurBas > bossHaut && joueurHaut < bossBas)
             {
@@ -165,6 +166,7 @@ namespace JeuFleurSae
 
             if (joueurDroit > bossGauche -10 && joueurGauche < bossDroite && joueurBas > bossHaut)
             {
+                
                 vieBoss += DEGATS_EPEE;
                 this.labVieBoss.Content = vieBoss;
                 if (vieBoss == 0)
@@ -172,6 +174,15 @@ namespace JeuFleurSae
                     Canvas.SetTop(boss, DISPARITION_BOSS);
                     Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
                     MessageBox.Show("Bien Joué, vous avez tuer le boss", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (compteurBoss <= 5)
+                    {
+                        compteurBoss++;
+                        ImageBrush ib = new ImageBrush();
+                        BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (compteurBoss) + ".png"));
+                        ib.ImageSource = bmi;
+                        fleur.Fill = ib;
+                    }
+                    
                 }
                     
             }
