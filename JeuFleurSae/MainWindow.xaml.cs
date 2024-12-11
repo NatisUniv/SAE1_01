@@ -171,12 +171,31 @@ namespace JeuFleurSae
                 if (compteurVie > 0)
                 {
                     compteurVie--;
-                    ImageBrush ib = new ImageBrush();
-                    BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
-                    ib.ImageSource = bmi;
-                    rectCoeur.Fill = ib;
+                    ImageBrush ibVie = new ImageBrush();
+                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
+                    ibVie.ImageSource = bmiVie;
+                    rectCoeur.Fill = ibVie;
                 }
-
+                if(compteurVie == 0)
+                {
+                    ImageBrush ibBoss = new ImageBrush();
+                    BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss1.png"));
+                    ibBoss.ImageSource = bmiBoss;
+                    boss.Fill = ibBoss;
+                    vieBoss = 100;
+                    this.labVieBoss.Content = vieBoss;
+                    Canvas.SetLeft(joueur, 22);
+                    ImageBrush ibVie = new ImageBrush();
+                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
+                    ibVie.ImageSource = bmiVie;
+                    rectCoeur.Fill = ibVie;
+                    ImageBrush ibFleur = new ImageBrush();
+                    BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur0.png"));
+                    ibFleur.ImageSource = bmiFleur;
+                    fleur.Fill = ibFleur;
+                    compteurVie = 3;
+                    MessageBox.Show("Vous êtes mort retour au premier boss", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
 
@@ -198,31 +217,34 @@ namespace JeuFleurSae
                 this.labVieBoss.Content = vieBoss;
                 if (vieBoss == 0)
                 {
-                    MessageBox.Show("Bien Joué, vous avez tuer le boss", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                    
                     if (niveauBoss <= 5)
                     {
                         niveauBoss++;
 
-                        ImageBrush ib = new ImageBrush();
-                        BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
-                        ib.ImageSource = bmi;
-                        boss.Fill = ib;
+                        ImageBrush ibBoss = new ImageBrush();
+                        BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
+                        ibBoss.ImageSource = bmiBoss;
+                        boss.Fill = ibBoss;
                         vieBoss = 100;
                         this.labVieBoss.Content = vieBoss;
-
+                        Canvas.SetLeft(joueur, 22);
+                        MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                        
                     }
                     if (niveauBoss == 6 && vieBoss == 0)
                     {
                         Canvas.SetTop(boss, DISPARITION_BOSS);
                         Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
+                        MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     if (compteurBoss <= 5)
                     {
                         compteurBoss++;
-                        ImageBrush ib2 = new ImageBrush();
-                        BitmapImage bmi2 = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (compteurBoss) + ".png"));
-                        ib2.ImageSource = bmi2;
-                        fleur.Fill = ib2;
+                        ImageBrush ibFleur = new ImageBrush();
+                        BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (compteurBoss) + ".png"));
+                        ibFleur.ImageSource = bmiFleur;
+                        fleur.Fill = ibFleur;
                     }
 
                 }
