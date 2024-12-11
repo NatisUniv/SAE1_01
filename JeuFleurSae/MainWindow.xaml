@@ -59,7 +59,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="img/Boss/Terre.png" />
+                <ImageBrush ImageSource="img/Boss/boss1.png" />
             </Rectangle.Fill>
         </Rectangle>
         <Label

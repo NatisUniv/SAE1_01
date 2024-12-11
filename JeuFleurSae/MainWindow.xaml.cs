@@ -27,7 +27,6 @@ namespace JeuFleurSae
         private static bool gauche;
         private static bool droite;
         private bool saut = false;
-        private Point debutSaut;
         private System.Windows.Vector vitesse;
         private double gravite = 0.3;
         private double hauteurSaut = -5;
@@ -35,8 +34,8 @@ namespace JeuFleurSae
         int vieBoss = VIE_BOSS_MAX;
         int compteurBoss = 0;
         int compteurVie = 3;
-        private BitmapImage joueur_img;
         double SpriteInt = 0;
+        int niveauBoss = 1;
 
         public MainWindow()
         {
@@ -114,24 +113,22 @@ namespace JeuFleurSae
         {
             if (e.Key == Key.Q)
             {
-                gauche = true; // Déplacer vers la gauche
+                gauche = true;
             }
             else if (e.Key == Key.D)
             {
-                droite = true; // Déplacer vers la droite
+                droite = true;
             }
 
             // Si la touche espace est pressée, le personnage saute
             if (e.Key == Key.Space && !saut)
             {
-                debutSaut = new Point(Canvas.GetLeft(joueur), Canvas.GetTop(joueur));
                 saut = true;
                 vitesse = new System.Windows.Vector(0, hauteurSaut); // Saut vers le haut
             }
 
         }
 
-        // Gestion des relâchements de touches
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Q)
@@ -146,11 +143,11 @@ namespace JeuFleurSae
             else if (e.Key == Key.D)
             {
                 droite = false;
-                
-                    ImageBrush ib = new ImageBrush();
-                    BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
-                    ib.ImageSource = bmi;
-                    joueur.Fill = ib;
+
+                ImageBrush ib = new ImageBrush();
+                BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
+                ib.ImageSource = bmi;
+                joueur.Fill = ib;
             }
         }
 
@@ -201,16 +198,31 @@ namespace JeuFleurSae
                 this.labVieBoss.Content = vieBoss;
                 if (vieBoss == 0)
                 {
-                    Canvas.SetTop(boss, DISPARITION_BOSS);
-                    Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
                     MessageBox.Show("Bien Joué, vous avez tuer le boss", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                    if (niveauBoss <= 5)
+                    {
+                        niveauBoss++;
+
+                        ImageBrush ib = new ImageBrush();
+                        BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
+                        ib.ImageSource = bmi;
+                        boss.Fill = ib;
+                        vieBoss = 100;
+                        this.labVieBoss.Content = vieBoss;
+
+                    }
+                    if (niveauBoss == 6 && vieBoss == 0)
+                    {
+                        Canvas.SetTop(boss, DISPARITION_BOSS);
+                        Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
+                    }
                     if (compteurBoss <= 5)
                     {
                         compteurBoss++;
-                        ImageBrush ib = new ImageBrush();
-                        BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (compteurBoss) + ".png"));
-                        ib.ImageSource = bmi;
-                        fleur.Fill = ib;
+                        ImageBrush ib2 = new ImageBrush();
+                        BitmapImage bmi2 = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (compteurBoss) + ".png"));
+                        ib2.ImageSource = bmi2;
+                        fleur.Fill = ib2;
                     }
 
                 }
