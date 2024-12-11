@@ -34,6 +34,9 @@ namespace JeuFleurSae
         int vieJoueur = VIE_JOUEUR_MAX;
         int vieBoss = VIE_BOSS_MAX;
         int compteurBoss = 0;
+        int compteurVie = 3;
+        private BitmapImage joueur_img;
+        double SpriteInt = 0;
 
         public MainWindow()
         {
@@ -52,15 +55,23 @@ namespace JeuFleurSae
             double joueurHaut = Canvas.GetTop(joueur);
             double joueurBas = joueurHaut + joueur.Height;  // Position du bas du joueur
             double solHaut = Canvas.GetTop(sol);  // Position du sol
-            
+
             // Déplacement horizontal
             if (gauche && !droite)
             {
                 nouveauXJoueur = Canvas.GetLeft(joueur) - PAS_JOUEUR;
+                if (!saut)
+                {
+                    animationCourse();
+                }
             }
             else if (droite && !gauche)
             {
                 nouveauXJoueur = Canvas.GetLeft(joueur) + PAS_JOUEUR;
+                if (!saut)
+                {
+                    animationCourse();
+                }
             }
 
             // Vérifiez si le personnage ne dépasse pas les bords de la zone
@@ -117,7 +128,7 @@ namespace JeuFleurSae
                 saut = true;
                 vitesse = new System.Windows.Vector(0, hauteurSaut); // Saut vers le haut
             }
-            
+
         }
 
         // Gestion des relâchements de touches
@@ -126,10 +137,20 @@ namespace JeuFleurSae
             if (e.Key == Key.Q)
             {
                 gauche = false;
+                ImageBrush ib = new ImageBrush();
+                BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
+                ib.ImageSource = bmi;
+                joueur.Fill = ib;
+
             }
             else if (e.Key == Key.D)
             {
                 droite = false;
+                
+                    ImageBrush ib = new ImageBrush();
+                    BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
+                    ib.ImageSource = bmi;
+                    joueur.Fill = ib;
             }
         }
 
@@ -143,13 +164,22 @@ namespace JeuFleurSae
             double bossHaut = Canvas.GetTop(boss);
             double bossDroite = bossGauche + boss.Width;
             double bossBas = bossHaut + boss.Height;
-            int compteurVie = 0;
+
 
             if (joueurDroit > bossGauche + 10 && joueurGauche < bossDroite && joueurBas > bossHaut && joueurHaut < bossBas)
             {
-                
+
                 Canvas.SetTop(joueur, joueurHaut);
                 Canvas.SetLeft(joueur, bossGauche - joueur.Width);
+                if (compteurVie > 0)
+                {
+                    compteurVie--;
+                    ImageBrush ib = new ImageBrush();
+                    BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
+                    ib.ImageSource = bmi;
+                    rectCoeur.Fill = ib;
+                }
+
             }
         }
 
@@ -164,9 +194,9 @@ namespace JeuFleurSae
             double bossDroite = bossGauche + boss.Width;
             double bossBas = bossHaut + boss.Height;
 
-            if (joueurDroit > bossGauche -10 && joueurGauche < bossDroite && joueurBas > bossHaut)
+            if (joueurDroit > bossGauche - 10 && joueurGauche < bossDroite && joueurBas > bossHaut)
             {
-                
+
                 vieBoss += DEGATS_EPEE;
                 this.labVieBoss.Content = vieBoss;
                 if (vieBoss == 0)
@@ -182,10 +212,45 @@ namespace JeuFleurSae
                         ib.ImageSource = bmi;
                         fleur.Fill = ib;
                     }
-                    
+
                 }
-                    
+
             }
+        }
+        private void spriteCourse(double i)
+        {
+            ImageBrush ib = new ImageBrush();
+            BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
+            switch (i)
+            {
+                case 1:
+                    bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouv1.png"));
+                    break;
+                case 2:
+                    bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouv2.png"));
+                    break;
+                case 3:
+                    bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouv3.png"));
+                    break;
+                case 4:
+                    bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouv4.png"));
+                    break;
+
+            }
+            ib.ImageSource = bmi;
+            joueur.Fill = ib;
+        }
+        private void animationCourse()
+        {
+            SpriteInt += 0.5;
+            // if the sprite int goes above 8
+            if (SpriteInt > 4)
+            {
+                // reset the sprite int to 1
+                SpriteInt = 1;
+            }
+            // pass the sprite int values to the run sprite function
+            spriteCourse(SpriteInt);
         }
     }
 }
