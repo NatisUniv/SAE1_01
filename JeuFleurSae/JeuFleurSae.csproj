@@ -38,6 +38,10 @@
 	  <None Remove="img\Sprite_perso\atk1.png" />
 	  <None Remove="img\Sprite_perso\atk2.png" />
 	  <None Remove="img\Sprite_perso\atk3.png" />
+	  <None Remove="img\Sprite_perso\mort1.png" />
+	  <None Remove="img\Sprite_perso\mort2.png" />
+	  <None Remove="img\Sprite_perso\mort3.png" />
+	  <None Remove="img\Sprite_perso\mort4.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +85,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Fleur\fleur6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
 	  <Resource Include="img\Sprite_perso\mouv1.png">
