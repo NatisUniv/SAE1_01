@@ -224,10 +224,8 @@ namespace JeuFleurSae
                     zone.Background = ibFond;
                     vieBoss = VIE_BOSS_MAX;
                     this.labVieBoss.Content = vieBoss;
-
                     niveauBoss = 1;
                     labVieBoss.Foreground = Brushes.Red;
-
                     Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
                     Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
                     ImageBrush ibVie = new ImageBrush();
