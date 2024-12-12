@@ -46,6 +46,7 @@ namespace JeuFleurSae
         int NiveauFLeur = 0;
         int compteurVie = 3;
         double SpriteInt = 0;
+        double SpriteIntGauche = 0;
         double SpriteAtkInt = 0;
         int niveauBoss = 1;
 
@@ -76,7 +77,7 @@ namespace JeuFleurSae
                 nouveauXJoueur = Canvas.GetLeft(joueur) - PAS_JOUEUR;
                 if (!saut)
                 {
-                    animationCourse();
+                    animationCourseGauche();
                 }
             }
             else if (droite && !gauche)
@@ -219,6 +220,8 @@ namespace JeuFleurSae
                     zone.Background = ibFond;
                     vieBoss = VIE_BOSS_MAX;
                     this.labVieBoss.Content = vieBoss;
+                    niveauBoss = 1;
+                    labVieBoss.Foreground = Brushes.Red;
                     Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT);
                     ImageBrush ibVie = new ImageBrush();
                     BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
@@ -252,6 +255,14 @@ namespace JeuFleurSae
 
                 vieBoss += DEGATS_EPEE;
                 this.labVieBoss.Content = vieBoss;
+                if (vieBoss < 55)
+                {
+                    labVieBoss.Foreground = Brushes.Orange;
+                }
+                if (vieBoss < 30)
+                {
+                    labVieBoss.Foreground = Brushes.Yellow;
+                }
                 if (vieBoss == VIE_BOSS_MINI)
                 {
 
@@ -269,6 +280,7 @@ namespace JeuFleurSae
                         zone.Background = ibFond;
                         vieBoss = VIE_BOSS_MAX;
                         this.labVieBoss.Content = vieBoss;
+                        labVieBoss.Foreground = Brushes.Red;
                         Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT);
                         MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
 
@@ -449,6 +461,29 @@ private void DeplaceProjectile(Image imgProjectile, System.Windows.Shapes.Rectan
             ibMouv.ImageSource = bmiMouv;
             joueur.Fill = ibMouv;
         }
+        public void spriteCourseGauche(double i)
+        {
+            ImageBrush ibMouvGauche = new ImageBrush();
+            BitmapImage bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arretgauche.png"));
+            switch (i)
+            {
+                case 0:
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche1.png"));
+                    break;
+                case 1:
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche2.png"));
+                    break;
+                case 2:
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche3.png"));
+                    break;
+                case 3:
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche4.png"));
+                    break;
+
+            }
+            ibMouvGauche.ImageSource = bmiMouvGauche;
+            joueur.Fill = ibMouvGauche;
+        }
         public void animationCourse()
         {
 
@@ -457,11 +492,22 @@ private void DeplaceProjectile(Image imgProjectile, System.Windows.Shapes.Rectan
             if (SpriteInt > 4)
             {
                 // reset the sprite int to 1
-                SpriteInt = 1;
+                SpriteInt = 0;
             }
             // pass the sprite int values to the run sprite function
             spriteCourse(SpriteInt);
-
+        }
+        public void animationCourseGauche()
+        {
+            SpriteIntGauche += 0.5;
+            // if the sprite int goes above 8
+            if (SpriteIntGauche > 4)
+            {
+                // reset the sprite int to 1
+                SpriteIntGauche = 0;
+            }
+            // pass the sprite int values to the run sprite function
+            spriteCourseGauche(SpriteIntGauche);
         }
     }
 }

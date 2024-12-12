@@ -35,6 +35,7 @@
     <None Remove="img\Fleur\fleur6.png" />
 	  <None Remove="arret.png" />
 	  <None Remove="img\Sprite_perso\arret.png" />
+	  <None Remove="img\Sprite_perso\arretgauche.png" />
 	  <None Remove="img\Sprite_perso\atk1.png" />
 	  <None Remove="img\Sprite_perso\atk2.png" />
 	  <None Remove="img\Sprite_perso\atk3.png" />
@@ -42,6 +43,10 @@
 	  <None Remove="img\Sprite_perso\mort2.png" />
 	  <None Remove="img\Sprite_perso\mort3.png" />
 	  <None Remove="img\Sprite_perso\mort4.png" />
+	  <None Remove="img\Sprite_perso\mouvgauche1.png" />
+	  <None Remove="img\Sprite_perso\mouvgauche2.png" />
+	  <None Remove="img\Sprite_perso\mouvgauche3.png" />
+	  <None Remove="img\Sprite_perso\mouvgauche4.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
@@ -86,6 +91,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Fleur\fleur6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\arretgauche.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Sprite_perso\mort1.png">
@@ -140,6 +148,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Fond_niveaux\fond_niveau_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mouvgauche1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mouvgauche2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mouvgauche3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mouvgauche4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Sprite_Projectile\Projectile_Terre.png" />
