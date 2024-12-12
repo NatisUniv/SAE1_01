@@ -10,12 +10,21 @@
 
   <ItemGroup>
 	
-	<None Remove="img\Boss\Eau.png" />
-    <None Remove="img\Boss\Feu.png" />
-    <None Remove="img\Boss\Final.png" />
-    <None Remove="img\Boss\Plante.png" />
-    <None Remove="img\Boss\Terre.png" />
-    <None Remove="img\Boss\Vent.png" />
+	<None Remove="img\Boss\boss1.png" />
+	
+	<None Remove="img\Boss\boss2.png" />
+	
+	<None Remove="img\Boss\boss3.png" />
+	
+	<None Remove="img\Boss\boss4.png" />
+	
+	<None Remove="img\Boss\boss5.png" />
+	
+	<None Remove="img\Boss\boss6.png" />
+    <None Remove="img\Coeur\coeur0 - Copier.png" />
+    <None Remove="img\Coeur\coeur0.png" />
+    <None Remove="img\Coeur\coeur1.png" />
+    <None Remove="img\Coeur\coeur2.png" />
     <None Remove="img\Coeur\coeur3.png" />
     <None Remove="img\Fleur\fleur0.png" />
     <None Remove="img\Fleur\fleur1.png" />
@@ -29,16 +38,32 @@
 	  <None Remove="img\Sprite_perso\atk1.png" />
 	  <None Remove="img\Sprite_perso\atk2.png" />
 	  <None Remove="img\Sprite_perso\atk3.png" />
+	  <None Remove="img\Sprite_perso\mort1.png" />
+	  <None Remove="img\Sprite_perso\mort2.png" />
+	  <None Remove="img\Sprite_perso\mort3.png" />
+	  <None Remove="img\Sprite_perso\mort4.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="img\Boss\Eau.png" />
-    <Resource Include="img\Boss\Feu.png" />
-    <Resource Include="img\Boss\Final.png" />
-    <Resource Include="img\Boss\Plante.png" />
-    <Resource Include="img\Boss\Terre.png" />
-    <Resource Include="img\Boss\Vent.png" />
+    <Resource Include="img\Boss\boss2.png" />
+    <Resource Include="img\Boss\boss3.png" />
+    <Resource Include="img\Boss\boss6.png" />
+    <Resource Include="img\Boss\boss5.png" />
+    <Resource Include="img\Boss\boss1.png" />
+    <Resource Include="img\Boss\boss4.png" />
+    <Resource Include="img\Coeur\coeur0 - Copier.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Coeur\coeur0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Coeur\coeur1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Coeur\coeur2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="img\Coeur\coeur3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -61,6 +86,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="img\Fleur\fleur6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_perso\mort4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
 	  <Resource Include="img\Sprite_perso\mouv1.png">
