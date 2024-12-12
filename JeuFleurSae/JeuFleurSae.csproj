@@ -29,6 +29,7 @@
 	  <None Remove="img\Sprite_perso\atk1.png" />
 	  <None Remove="img\Sprite_perso\atk2.png" />
 	  <None Remove="img\Sprite_perso\atk3.png" />
+	  <None Remove="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -92,6 +93,7 @@
     <Resource Include="img\Fond_niveaux\fond_niveau_terre.png" />
     <Resource Include="img\Fond_niveaux\fond_niveau_vent.png" />
     <Resource Include="img\Fond_niveaux\fond_niveau_ feu.png" />
+    <Resource Include="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
 </Project>
