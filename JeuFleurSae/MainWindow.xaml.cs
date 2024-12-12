@@ -29,8 +29,10 @@ namespace JeuFleurSae
         public static readonly int DEGATS_PROJECTILE = -1;
         public static readonly int DISPARITION_BOSS = -100;
         public static readonly int VITESSE_PROJECTILE = 3;
+        public static readonly int MARGE_COLLISION = 10;
         private static int nbProjectiles = 5;
-        public static readonly int POSITION_JOUEUR_DEBUT = 22;
+        public static readonly int POSITION_JOUEUR_DEBUT_GAUCHE = 22;
+        public static readonly int POSITION_JOUEUR_DEBUT_HAUT = 352;
         public static readonly int NIVEAU_MAX_BOSS = 6;
         private static bool gauche;
         private static bool droite;
@@ -49,16 +51,18 @@ namespace JeuFleurSae
         double SpriteIntGauche = 0;
         double SpriteAtkInt = 0;
         int niveauBoss = 1;
+        bool toucher = false;
 
 
         public MainWindow()
         {
             InitializeComponent();
             InitTimer();
-            //InitProjectiles();
+            alea = new Random();
+            InitProjectiles();
             this.KeyDown += Window_KeyDown;
             this.KeyUp += Window_KeyUp;
-            alea = new Random();
+            
 
         }
 
@@ -70,7 +74,7 @@ namespace JeuFleurSae
             double joueurHaut = Canvas.GetTop(joueur);
             double joueurBas = joueurHaut + joueur.Height;  // Position du bas du joueur
             double solHaut = Canvas.GetTop(sol);  // Position du sol
-
+            alea = new Random();
             // Déplacement horizontal
             if (gauche && !droite)
             {
@@ -92,7 +96,7 @@ namespace JeuFleurSae
             if (clickAttaque == true)
             {
                 animationAttaque();
-                
+
             }
 
             // Vérifiez si le personnage ne dépasse pas les bords de la zone
@@ -118,15 +122,15 @@ namespace JeuFleurSae
                     Canvas.SetTop(joueur, solHaut - joueur.Height); // Positionne le joueur juste sur le sol
                 }
             }
-            /*for (int i = 0; i < lesProjectiles.Length; i++)
+            for (int i = 0; i < lesProjectiles.Length; i++)
             {
-                //DeplaceProjectile(lesProjectiles[i], boss);
+                DeplaceProjectile(lesProjectiles[i], boss);
             }
 
             for (int i = 0; i < lesProjectiles.Length; i++)
             {
                 DetecterCollisionJoueur(lesProjectiles[i]);
-            }*/
+            }
             VerifierCollision();
         }
 
@@ -194,7 +198,7 @@ namespace JeuFleurSae
             double bossBas = bossHaut + boss.Height;
 
 
-            if (joueurDroit > bossGauche + 10 && joueurGauche < bossDroite && joueurBas > bossHaut && joueurHaut < bossBas)
+            if (joueurDroit > bossGauche + MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut && joueurHaut < bossBas)
             {
 
                 Canvas.SetTop(joueur, joueurHaut);
@@ -220,9 +224,12 @@ namespace JeuFleurSae
                     zone.Background = ibFond;
                     vieBoss = VIE_BOSS_MAX;
                     this.labVieBoss.Content = vieBoss;
+
                     niveauBoss = 1;
                     labVieBoss.Foreground = Brushes.Red;
-                    Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT);
+
+                    Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+                    Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
                     ImageBrush ibVie = new ImageBrush();
                     BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
                     ibVie.ImageSource = bmiVie;
@@ -235,6 +242,7 @@ namespace JeuFleurSae
                     MessageBox.Show("Vous êtes mort retour au premier boss", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }
+
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -250,7 +258,7 @@ namespace JeuFleurSae
 
             clickAttaque = true;
 
-            if (joueurDroit > bossGauche - 10 && joueurGauche < bossDroite && joueurBas > bossHaut)
+            if (joueurDroit > bossGauche - MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut)
             {
 
                 vieBoss += DEGATS_EPEE;
@@ -281,7 +289,8 @@ namespace JeuFleurSae
                         vieBoss = VIE_BOSS_MAX;
                         this.labVieBoss.Content = vieBoss;
                         labVieBoss.Foreground = Brushes.Red;
-                        Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT);
+                        Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+                        Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
                         MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
 
                     }
@@ -341,103 +350,124 @@ namespace JeuFleurSae
             ibAtk.ImageSource = bmiAtk;
             joueur.Fill = ibAtk;
         }
-        /* private void InitProjectiles()
-        
-
-    BitmapImage imgProjectile = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_Terre.png"));
-    lesProjectiles = new Image[nbProjectiles];
-    double bossGauche = Canvas.GetLeft(boss);
-    double bossHaut = Canvas.GetTop(boss);
-    double bossBas = bossHaut + boss.Height;
-
-    for (int i = 0; i < lesProjectiles.Length; i++)
-    {
-        lesProjectiles[i] = new Image();
-        lesProjectiles[i].Width = 25;   
-        lesProjectiles[i].Height = 25;  
-        lesProjectiles[i].Source = imgProjectile;
-        zone.Children.Add(lesProjectiles[i]);
-        Canvas.SetLeft(lesProjectiles[i], bossGauche - lesProjectiles[i].Width);
-        int projectilePositionY = alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height));
-        Canvas.SetTop(lesProjectiles[i], projectilePositionY);
-    }
-}
-
-private void DetecterCollisionJoueur(Image imgProjectile)
-{
-    double projectileGauche = Canvas.GetLeft(imgProjectile);
-    double projectileHaut = Canvas.GetTop(imgProjectile);
-    double projectileDroit = projectileGauche + imgProjectile.Width;
-    double projectileBas = projectileHaut + imgProjectile.Height;
-
-    double joueurGauche = Canvas.GetLeft(joueur);
-    double joueurHaut = Canvas.GetTop(joueur);
-    double joueurDroit = joueurGauche + joueur.Width;
-    double joueurBas = joueurHaut + joueur.Height;
-
-    // Vérifier si le projectile touche le joueur
-    if (projectileDroit > joueurGauche && projectileGauche < joueurDroit &&
-        projectileBas > joueurHaut && projectileHaut < joueurBas)
-    {
-        // Le projectile touche le joueur
-        vieJoueur += DEGATS_PROJECTILE;  // Les projectiles infligent des dégâts au joueur
-
-        // Mettre à jour la vie du joueur en chanceant les images du coeur
-
-
-        // Si la vie du joueur atteint 0 ou moins, le jeu est terminé
-        if (vieJoueur <= 0)
+        private void InitProjectiles()
         {
-            MessageBox.Show("Game Over, vous avez perdu !", "Perte", MessageBoxButton.OK, MessageBoxImage.Error);
-            // Vous pouvez ajouter ici du code pour réinitialiser le jeu ou arrêter l'exécution.
+
+            BitmapImage imgProjectile = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_Terre.png"));
+            lesProjectiles = new Image[nbProjectiles];
+            double bossGauche = Canvas.GetLeft(boss);
+            double bossHaut = Canvas.GetTop(boss);
+            double bossBas = bossHaut + boss.Height;
+
+            for (int i = 0; i < lesProjectiles.Length; i++)
+            {
+                lesProjectiles[i] = new Image();
+                lesProjectiles[i].Width = 25;
+                lesProjectiles[i].Height = 25;
+                lesProjectiles[i].Source = imgProjectile;
+                zone.Children.Add(lesProjectiles[i]);
+                Canvas.SetLeft(lesProjectiles[i], bossGauche - lesProjectiles[i].Width);
+                int projectilePositionY = alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height));
+                Canvas.SetTop(lesProjectiles[i], projectilePositionY);
+            }
         }
 
-        // Réinitialiser la position du projectile après qu'il ait touché le joueur
-        Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);  // Repositionner à gauche du boss
-        Canvas.SetTop(imgProjectile, Canvas.GetTop(boss) + 20);  // Repositionner sous le boss
-    }
-}
+        private void DetecterCollisionJoueur(Image imgProjectile)
+        {
+            double projectileGauche = Canvas.GetLeft(imgProjectile);
+            double projectileHaut = Canvas.GetTop(imgProjectile);
+            double projectileDroit = projectileGauche + imgProjectile.Width;
+            double projectileBas = projectileHaut + imgProjectile.Height;
 
-private void DeplaceProjectile(Image imgProjectile, System.Windows.Shapes.Rectangle joueur)
-{
-    bool toucher = false;
-    double projectileGauche = Canvas.GetLeft(imgProjectile);
-    double projectileHaut = Canvas.GetTop(imgProjectile);
-    double projectileDroit = projectileGauche + imgProjectile.Width;
-    double projectileBas = projectileHaut + imgProjectile.Height;
+            double joueurGauche = Canvas.GetLeft(joueur);
+            double joueurHaut = Canvas.GetTop(joueur);
+            double joueurDroit = joueurGauche + joueur.Width;
+            double joueurBas = joueurHaut + joueur.Height;
 
-    double joueurGauche = Canvas.GetLeft(joueur);
-    double joueurHaut = Canvas.GetTop(joueur);
-    double joueurDroit = joueurGauche + joueur.Width;
-    double joueurBas = joueurHaut + joueur.Height;
+            // Vérifier si le projectile touche le joueur
+            if (projectileDroit > joueurGauche && projectileGauche < joueurDroit && projectileBas > joueurHaut && projectileHaut < joueurBas)
+            {
+                if (compteurVie > VIE_JOUEUR_MINI)
+                {
+                    compteurVie--;
+                    ImageBrush ibVie = new ImageBrush();
+                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
+                    ibVie.ImageSource = bmiVie;
+                    rectCoeur.Fill = ibVie;
+                }
+                if (compteurVie == VIE_JOUEUR_MINI)
+                {
 
-    // Déplacer le projectile vers la gauche
-    double newPosition = Canvas.GetLeft(imgProjectile) - VITESSE_PROJECTILE;  // Déplacement constant vers la gauche
-    Canvas.SetLeft(imgProjectile, newPosition);
+                    ImageBrush ibBoss = new ImageBrush();
+                    BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss1.png"));
+                    ibBoss.ImageSource = bmiBoss;
+                    boss.Fill = ibBoss;
+                    ImageBrush ibFond = new ImageBrush();
+                    BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
+                    ibFond.ImageSource = bmiFond;
+                    zone.Background = ibFond;
+                    vieBoss = VIE_BOSS_MAX;
+                    this.labVieBoss.Content = vieBoss;
+                    niveauBoss = 1;
+                    Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+                    Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+                    ImageBrush ibVie = new ImageBrush();
+                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
+                    ibVie.ImageSource = bmiVie;
+                    rectCoeur.Fill = ibVie;
+                    ImageBrush ibFleur = new ImageBrush();
+                    BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur0.png"));
+                    ibFleur.ImageSource = bmiFleur;
+                    fleur.Fill = ibFleur;
+                    compteurVie = VIE_JOUEUR_MAX;
+                    MessageBox.Show("Vous êtes mort retour au premier boss", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+                // Réinitialiser la position du projectile après qu'il ait touché le joueur
+                Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);  // Repositionner à gauche du boss
+                Canvas.SetTop(imgProjectile, Canvas.GetTop(boss) + 20);  // Repositionner sous le boss
+            }
+        }
 
-    System.Drawing.Rectangle rImgProjectile = new System.Drawing.Rectangle((int)Canvas.GetLeft(imgProjectile), (int)Canvas.GetTop(imgProjectile),
-        (int)imgProjectile.Width, (int)imgProjectile.Height);
+        private void DeplaceProjectile(Image imgProjectile, System.Windows.Shapes.Rectangle joueur)
+        {
+            
+            double projectileGauche = Canvas.GetLeft(imgProjectile);
+            double projectileHaut = Canvas.GetTop(imgProjectile);
+            double projectileDroit = projectileGauche + imgProjectile.Width;
+            double projectileBas = projectileHaut + imgProjectile.Height;
 
-    // Vérifier la collision avec le Père Noël
-    if (joueurDroit > projectileGauche + 10 && joueurGauche < projectileDroit && joueurBas > projectileHaut && joueurHaut < projectileBas)
-    {
+            double joueurGauche = Canvas.GetLeft(joueur);
+            double joueurHaut = Canvas.GetTop(joueur);
+            double joueurDroit = joueurGauche + joueur.Width;
+            double joueurBas = joueurHaut + joueur.Height;
 
-        toucher = true;
-    }
+            // Déplacer le projectile vers la gauche
+            double newPosition = Canvas.GetLeft(imgProjectile) - VITESSE_PROJECTILE;  // Déplacement constant vers la gauche
+            Canvas.SetLeft(imgProjectile, newPosition);
 
-    if (toucher)
-    {
-        MessageBox.Show("toucher", "Perte", MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Drawing.Rectangle rImgProjectile = new System.Drawing.Rectangle((int)Canvas.GetLeft(imgProjectile), (int)Canvas.GetTop(imgProjectile),
+                (int)imgProjectile.Width, (int)imgProjectile.Height);
 
-    }
+            // Vérifier la collision avec le Père Noël
+            if (joueurDroit > projectileGauche + 10 && joueurGauche < projectileDroit && joueurBas > projectileHaut && joueurHaut < projectileBas)
+            {
 
-    // Si le projectile sort de l'écran ou touche le Père Noël, le réinitialiser
-    if (newPosition < 0 || toucher)
-    {
-        Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);  // Repositionner à gauche du boss
-        Canvas.SetTop(imgProjectile, Canvas.GetTop(boss) + 20);  // Repositionner sous le boss
-    }
-}*/
+                toucher = true;
+            }
+
+            if (toucher)
+            {
+                MessageBox.Show("toucher", "Perte", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+
+            // Si le projectile sort de l'écran ou touche le Père Noël, le réinitialiser
+            if (newPosition < 0 || toucher)
+            {
+                Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);  // Repositionner à gauche du boss
+                Canvas.SetTop(imgProjectile, Canvas.GetTop(boss) + 20);  // Repositionner sous le boss
+            }
+        }
         public void spriteCourse(double i)
         {
             ImageBrush ibMouv = new ImageBrush();
