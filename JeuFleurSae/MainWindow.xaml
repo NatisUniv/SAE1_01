@@ -17,7 +17,7 @@
     mc:Ignorable="d">
     <Canvas x:Name="zone">
         <Canvas.Background>
-            <ImageBrush x:Name="imgcoeur" ImageSource="img/Fond_niveaux/Fond_niveau_terre.png" />
+            <ImageBrush x:Name="fondNiveau" ImageSource="img/Fond_niveaux/Fond_niveau_1.png" />
         </Canvas.Background>
         <Rectangle
             x:Name="sol"
@@ -72,7 +72,7 @@
             Content="100"
             FontFamily="Gill Sans Ultra Bold"
             FontSize="20"
-            Foreground="Black" />
+            Foreground="#FFDA1212" />
         <Rectangle
             x:Name="rectCoeur"
             Canvas.Left="10"

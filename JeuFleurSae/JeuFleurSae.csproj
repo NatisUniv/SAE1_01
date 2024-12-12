@@ -124,12 +124,24 @@
 	  <Resource Include="img\Sprite_perso\atk3.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-    <Resource Include="img\Fond_niveaux\Fond_niveau_eau.png" />
-    <Resource Include="img\Fond_niveaux\fond_niveau_final.png" />
-    <Resource Include="img\Fond_niveaux\fond_niveau_plante.png" />
-    <Resource Include="img\Fond_niveaux\fond_niveau_terre.png" />
-    <Resource Include="img\Fond_niveaux\fond_niveau_vent.png" />
-    <Resource Include="img\Fond_niveaux\fond_niveau_ feu.png" />
+    <Resource Include="img\Fond_niveaux\fond_niveau_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Fond_niveaux\fond_niveau_6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Fond_niveaux\fond_niveau_5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Fond_niveaux\fond_niveau_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Fond_niveaux\fond_niveau_4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Fond_niveaux\fond_niveau_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
