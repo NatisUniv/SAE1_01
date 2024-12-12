@@ -339,7 +339,7 @@ namespace JeuFleurSae
         private void InitProjectiles()
         {
 
-            BitmapImage imgProjectile = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_Terre.png"));
+            BitmapImage imgProjectile = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_1.png"));
             lesProjectiles = new Image[nbProjectiles];
             double bossGauche = Canvas.GetLeft(boss);
             double bossHaut = Canvas.GetTop(boss);
