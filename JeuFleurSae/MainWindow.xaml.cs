@@ -41,7 +41,7 @@ namespace JeuFleurSae
         private bool saut = false;
         private System.Windows.Vector vitesse;
         private double gravite = 0.3;
-        private double hauteurSaut = -7;
+        private double hauteurSaut = -8;
         int vieJoueur = VIE_JOUEUR_MAX;
         int vieBoss = VIE_BOSS_MAX;
         private static Image[] lesProjectiles;
