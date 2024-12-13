@@ -43,18 +43,10 @@
 	  <None Remove="img\Sprite_perso\mort2.png" />
 	  <None Remove="img\Sprite_perso\mort3.png" />
 	  <None Remove="img\Sprite_perso\mort4.png" />
-	  <None Remove="img\Sprite_perso\mouv1.png" />
-	  <None Remove="img\Sprite_perso\mouv4.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche1.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche2.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche3.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche4.png" />
-	  <None Remove="img\Sprite_perso\mouvgauche5.png" />
-	  <None Remove="img\Sprite_perso\mouvgauche6.png" />
-	  <None Remove="img\Sprite_Projectile\Projectile_1.png" />
-	  <None Remove="img\Sprite_Projectile\Projectile_2.png" />
-	  <None Remove="img\Sprite_Projectile\Projectile_3.png" />
-	  <None Remove="img\Sprite_Projectile\Projectile_4.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
@@ -116,18 +108,16 @@
     <Resource Include="img\Sprite_perso\mort4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="img\Sprite_perso\mouv1.png" />
-    <Resource Include="img\Sprite_perso\mouv4.png" />
-	  <Resource Include="img\Sprite_perso\mouv6.png">
+	  <Resource Include="img\Sprite_perso\mouv1.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="img\Sprite_perso\mouv5.png">
+	  <Resource Include="img\Sprite_perso\mouv2.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	  <Resource Include="img\Sprite_perso\mouv3.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
-	  <Resource Include="img\Sprite_perso\mouv2.png">
+	  <Resource Include="img\Sprite_perso\mouv4.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Resource>
 	  <Resource Include="img\Sprite_perso\arret.png">
@@ -172,7 +162,6 @@
     <Resource Include="img\Sprite_perso\mouvgauche4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
 </Project>
