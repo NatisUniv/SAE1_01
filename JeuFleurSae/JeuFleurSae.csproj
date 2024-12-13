@@ -181,8 +181,12 @@
     </Resource>
     <Resource Include="img\Sprite_Projectile\Projectile_2.png" />
     <Resource Include="img\Sprite_Projectile\Projectile_3.png" />
-    <Resource Include="img\Sprite_Projectile\Projectile_5.png" />
-    <Resource Include="img\Sprite_Projectile\Projectile_6.png" />
+    <Resource Include="img\Sprite_Projectile\Projectile_5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="img\Sprite_Projectile\Projectile_6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="img\Sprite_Projectile\Projectile_joueur.png" />
     <Resource Include="img\Sprite_Projectile\Projectile_4.png" />
     <Resource Include="MenuDebut.png" />
