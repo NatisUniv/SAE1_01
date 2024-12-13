@@ -266,6 +266,10 @@ namespace JeuFleurSae
                             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
                             ibFond.ImageSource = bmiFond;
                             zone.Background = ibFond;
+                            for (int i = 0; i < lesProjectiles.Length; i++)
+                            {
+                                lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                            }
                             vieBoss = VIE_BOSS_MAX;
                             this.labVieBoss.Content = vieBoss;
                             labVieBoss.Foreground = Brushes.Red;
@@ -527,6 +531,7 @@ namespace JeuFleurSae
             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
             ibFond.ImageSource = bmiFond;
             zone.Background = ibFond;
+            
             vieBoss = VIE_BOSS_MAX;
             this.labVieBoss.Content = vieBoss;
             niveauBoss = 1;
