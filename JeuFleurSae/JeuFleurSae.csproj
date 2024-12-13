@@ -47,7 +47,7 @@
 	  <None Remove="img\Sprite_perso\mouvgauche2.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche3.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche4.png" />
-	  <None Remove="img\Sprite_Projectile\Projectile_Terre.png" />
+	  <None Remove="img\Sprite_Projectile\Projectile_1.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -162,7 +162,6 @@
     <Resource Include="img\Sprite_perso\mouvgauche4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="img\Sprite_Projectile\Projectile_Terre.png" />
   </ItemGroup>
 
 </Project>
