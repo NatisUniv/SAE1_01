@@ -534,7 +534,7 @@ namespace JeuFleurSae
             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
             ibFond.ImageSource = bmiFond;
             zone.Background = ibFond;
-            
+            labVieBoss.Foreground = Brushes.Red;
             vieBoss = VIE_BOSS_MAX;
             this.labVieBoss.Content = vieBoss;
             niveauBoss = 1;
