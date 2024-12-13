@@ -266,7 +266,7 @@ namespace JeuFleurSae
                     {
                         labVieBoss.Foreground = Brushes.Yellow;
                     }
-                    if (vieBoss == VIE_BOSS_MINI)
+                    if (vieBoss <= VIE_BOSS_MINI)
                     {
 
                         if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
