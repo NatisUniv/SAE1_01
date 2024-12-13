@@ -281,9 +281,33 @@ namespace JeuFleurSae
                             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
                             ibFond.ImageSource = bmiFond;
                             zone.Background = ibFond;
-                            for (int i = 0; i < lesProjectiles.Length; i++)
+                            if (niveauBoss < NIVEAU_MAX_BOSS)
                             {
-                                lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                                for (int i = 0; i < lesProjectiles.Length; i++)
+                                {
+                                    lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                                    Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < lesProjectiles.Length; i++)
+                                {
+                                    zone.Children.Remove(lesProjectiles[i]);
+                                }
+                                nbProjectiles = 5;
+                                lesProjectiles = new Image[nbProjectiles];
+                                for (int i = 0; i < lesProjectiles.Length; i++)
+                                {
+                                    lesProjectiles[i] = new Image();
+                                    lesProjectiles[i].Width = 25;
+                                    lesProjectiles[i].Height = 25;
+                                    lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                                    zone.Children.Add(lesProjectiles[i]);
+                                    Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                                }
                             }
                             vieBoss = VIE_BOSS_MAX;
                             this.labVieBoss.Content = vieBoss;
@@ -549,6 +573,12 @@ namespace JeuFleurSae
             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
             ibFond.ImageSource = bmiFond;
             zone.Background = ibFond;
+            for (int i = 0; i < lesProjectiles.Length; i++)
+            {
+                zone.Children.Remove(lesProjectiles[i]);
+            }
+            InitProjectiles();
+            nbProjectiles = 3;
             labVieBoss.Foreground = Brushes.Red;
             vieBoss = VIE_BOSS_MAX;
             this.labVieBoss.Content = vieBoss;
@@ -559,6 +589,7 @@ namespace JeuFleurSae
             BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
             ibVie.ImageSource = bmiVie;
             rectCoeur.Fill = ibVie;
+            NiveauFLeur = 0;
             ImageBrush ibFleur = new ImageBrush();
             BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur0.png"));
             ibFleur.ImageSource = bmiFleur;
