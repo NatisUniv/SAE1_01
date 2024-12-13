@@ -21,7 +21,6 @@
 	<None Remove="img\Boss\boss5.png" />
 	
 	<None Remove="img\Boss\boss6.png" />
-    <None Remove="img\Coeur\coeur0 - Copier.png" />
     <None Remove="img\Coeur\coeur0.png" />
     <None Remove="img\Coeur\coeur1.png" />
     <None Remove="img\Coeur\coeur2.png" />
@@ -43,10 +42,14 @@
 	  <None Remove="img\Sprite_perso\mort2.png" />
 	  <None Remove="img\Sprite_perso\mort3.png" />
 	  <None Remove="img\Sprite_perso\mort4.png" />
+	  <None Remove="img\Sprite_perso\mouv5.png" />
+	  <None Remove="img\Sprite_perso\mouv6.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche1.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche2.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche3.png" />
 	  <None Remove="img\Sprite_perso\mouvgauche4.png" />
+	  <None Remove="img\Sprite_perso\mouvgauche5.png" />
+	  <None Remove="img\Sprite_perso\mouvgauche6.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_1.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_2.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_3.png" />
@@ -61,9 +64,6 @@
     <Resource Include="img\Boss\boss5.png" />
     <Resource Include="img\Boss\boss1.png" />
     <Resource Include="img\Boss\boss4.png" />
-    <Resource Include="img\Coeur\coeur0 - Copier.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="img\Coeur\coeur0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -154,6 +154,8 @@
     <Resource Include="img\Fond_niveaux\fond_niveau_3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="img\Sprite_perso\mouv5.png" />
+    <Resource Include="img\Sprite_perso\mouv6.png" />
     <Resource Include="img\Sprite_perso\mouvgauche1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -166,6 +168,8 @@
     <Resource Include="img\Sprite_perso\mouvgauche4.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="img\Sprite_perso\mouvgauche5.png" />
+    <Resource Include="img\Sprite_perso\mouvgauche6.png" />
     <Resource Include="img\Sprite_Projectile\Projectile_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
