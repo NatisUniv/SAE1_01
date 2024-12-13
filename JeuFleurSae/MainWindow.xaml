@@ -17,7 +17,7 @@
     mc:Ignorable="d">
     <Canvas x:Name="zone">
         <Canvas.Background>
-            <ImageBrush x:Name="fondNiveau" ImageSource="img/Fond_niveaux/Fond_niveau_1.png" />
+            <ImageBrush x:Name="fondNiveau" ImageSource="img/Menu/MenuDebut.jpg" />
         </Canvas.Background>
         <Rectangle
             x:Name="sol"
@@ -28,45 +28,45 @@
             VerticalAlignment="Top" />
         <Rectangle
             x:Name="joueur"
-            Canvas.Left="22"
+            Canvas.Left="-50"
             Canvas.Top="352"
             Width="26"
             Height="40"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top">
+            VerticalAlignment="Center">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="img/Sprite_perso/arret.png" />
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle
             x:Name="fleur"
-            Canvas.Left="11"
-            Canvas.Top="67"
+            Canvas.Left="-61"
+            Canvas.Top="63"
             Width="48"
             Height="48"
             HorizontalAlignment="Left"
-            VerticalAlignment="Center">
+            VerticalAlignment="Top">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/img/Fleur/fleur0.png" />
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle
             x:Name="boss"
-            Canvas.Left="641"
+            Canvas.Left="864"
             Canvas.Top="292"
             Width="100"
             Height="100"
             HorizontalAlignment="Left"
-            VerticalAlignment="Top">
+            VerticalAlignment="Center">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="img/Boss/boss1.png" />
             </Rectangle.Fill>
         </Rectangle>
         <Label
             x:Name="labVieBoss"
-            Canvas.Left="659"
+            Canvas.Left="882"
             Canvas.Top="252"
-            Width="63"
+            Width="64"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="100"
@@ -75,16 +75,19 @@
             Foreground="#FFDA1212" />
         <Rectangle
             x:Name="rectCoeur"
-            Canvas.Left="10"
-            Canvas.Top="10"
+            Canvas.Left="-184"
             Width="160"
             Height="52"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/img/Coeur/coeur3.png" />
             </Rectangle.Fill>
         </Rectangle>
 
+
+        <ContentControl x:Name="ControlContent">
+            <local:Menu x:Name="Control"/>
+        </ContentControl>
     </Canvas>
 </Window>

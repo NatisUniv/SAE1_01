@@ -63,16 +63,31 @@ namespace JeuFleurSae
         public MainWindow()
         {
             InitializeComponent();
-            InitTimer();
-            alea = new Random();
-            InitProjectiles();
-            this.KeyDown += Window_KeyDown;
-            this.KeyUp += Window_KeyUp;
-
-
         }
 
+        public void Lancement()
+        {
+            InitTimer();
+            alea = new Random();
+            this.KeyDown += Window_KeyDown;
+            this.KeyUp += Window_KeyUp;
+            ImageBrush ibFond = new ImageBrush();
+            BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
+            ibFond.ImageSource = bmiFond;
+            zone.Background = ibFond;
+            Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+            Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+            Canvas.SetTop(boss, 292);
+            Canvas.SetLeft(boss, 641);
+            Canvas.SetTop(rectCoeur, 10);
+            Canvas.SetLeft(rectCoeur, 10);
+            Canvas.SetTop(fleur, 67);
+            Canvas.SetLeft(fleur, 11);
+            Canvas.SetTop(labVieBoss, 252);
+            Canvas.SetLeft(labVieBoss, 659);
+            InitProjectiles();
 
+        }
         // Logique principale du jeu, appelée chaque frame
         public void Jeu(object? sender, EventArgs e)
         {
@@ -290,7 +305,7 @@ namespace JeuFleurSae
 
                 }
             }
-            
+
         }
 
         public void animationAttaque()
@@ -414,13 +429,6 @@ namespace JeuFleurSae
                 toucher = true;
             }
 
-            if (toucher)
-            {
-                MessageBox.Show("toucher", "Perte", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            }
-
-            // Si le projectile sort de l'écran ou touche le Père Noël, le réinitialiser
             if (newPosition < 0 || toucher)
             {
                 Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);  // Repositionner à gauche du boss
@@ -551,5 +559,6 @@ namespace JeuFleurSae
             ibVie.ImageSource = bmiVie;
             rectCoeur.Fill = ibVie;
         }
+
     }
 }
