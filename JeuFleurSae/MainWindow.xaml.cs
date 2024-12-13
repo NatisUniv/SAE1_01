@@ -178,7 +178,16 @@ namespace JeuFleurSae
                 saut = true;
                 vitesse = new System.Windows.Vector(0, hauteurSaut);
             }
-
+            if (e.Key == Key.P)
+            {
+                if (minuterie.IsEnabled)
+                {
+                    minuterie.Stop();
+                    this.Content = new MenuPause();
+                }
+                else
+                    minuterie.Start();
+            }
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
