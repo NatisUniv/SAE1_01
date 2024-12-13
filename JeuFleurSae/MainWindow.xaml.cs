@@ -52,6 +52,12 @@ namespace JeuFleurSae
         double SpriteAtkInt = 0;
         int niveauBoss = 1;
         bool toucher = false;
+        private TimeSpan delayAttaque = TimeSpan.FromSeconds(0.6); // Temps entre les attaques
+        private DateTime tempsDepuisAttaque = DateTime.MinValue;
+
+        private int compteurFrameMouvement = 0; // Compteur pour ralentir les animations de mouvement
+        private int compteurFrameAttaque = 0;  // Compteur pour ralentir les animations d'attaque
+        private readonly int delayFrame = 5;  // Nombre de frames à attendre avant de changer l'image
 
 
         public MainWindow()
@@ -62,7 +68,7 @@ namespace JeuFleurSae
             InitProjectiles();
             this.KeyDown += Window_KeyDown;
             this.KeyUp += Window_KeyUp;
-            
+
 
         }
 
@@ -133,17 +139,14 @@ namespace JeuFleurSae
             }
             VerifierCollision();
         }
-
-        // Initialisation du Timer
         private void InitTimer()
         {
             minuterie = new DispatcherTimer();
-            minuterie.Interval = TimeSpan.FromMilliseconds(16); // ~60 FPS
+            minuterie.Interval = TimeSpan.FromMilliseconds(16);
             minuterie.Tick += Jeu;
             minuterie.Start();
         }
 
-        // Gestion des appuis de touches pour les déplacements horizontaux
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Q)
@@ -155,11 +158,10 @@ namespace JeuFleurSae
                 droite = true;
             }
 
-            // Si la touche espace est pressée, le personnage saute
             if (e.Key == Key.Space && !saut)
             {
                 saut = true;
-                vitesse = new System.Windows.Vector(0, hauteurSaut); // Saut vers le haut
+                vitesse = new System.Windows.Vector(0, hauteurSaut);
             }
 
         }
@@ -205,39 +207,11 @@ namespace JeuFleurSae
                 Canvas.SetLeft(joueur, bossGauche - joueur.Width);
                 if (compteurVie > VIE_JOUEUR_MINI)
                 {
-                    compteurVie--;
-                    ImageBrush ibVie = new ImageBrush();
-                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
-                    ibVie.ImageSource = bmiVie;
-                    rectCoeur.Fill = ibVie;
+                    changementCoeur();
                 }
                 if (compteurVie == VIE_JOUEUR_MINI)
                 {
-
-                    ImageBrush ibBoss = new ImageBrush();
-                    BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss1.png"));
-                    ibBoss.ImageSource = bmiBoss;
-                    boss.Fill = ibBoss;
-                    ImageBrush ibFond = new ImageBrush();
-                    BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
-                    ibFond.ImageSource = bmiFond;
-                    zone.Background = ibFond;
-                    vieBoss = VIE_BOSS_MAX;
-                    this.labVieBoss.Content = vieBoss;
-                    niveauBoss = 1;
-                    labVieBoss.Foreground = Brushes.Red;
-                    Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
-                    Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
-                    ImageBrush ibVie = new ImageBrush();
-                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
-                    ibVie.ImageSource = bmiVie;
-                    rectCoeur.Fill = ibVie;
-                    ImageBrush ibFleur = new ImageBrush();
-                    BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur0.png"));
-                    ibFleur.ImageSource = bmiFleur;
-                    fleur.Fill = ibFleur;
-                    compteurVie = VIE_JOUEUR_MAX;
-                    MessageBox.Show("Vous êtes mort retour au premier boss", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    reset();
                 }
             }
 
@@ -245,84 +219,97 @@ namespace JeuFleurSae
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            double joueurGauche = Canvas.GetLeft(joueur);
-            double joueurHaut = Canvas.GetTop(joueur);
-            double joueurDroit = joueurGauche + joueur.Width;
-            double joueurBas = joueurHaut + joueur.Height;
-            double bossGauche = Canvas.GetLeft(boss);
-            double bossHaut = Canvas.GetTop(boss);
-            double bossDroite = bossGauche + boss.Width;
-            double bossBas = bossHaut + boss.Height;
+            DateTime currentTime = DateTime.Now;
 
-            clickAttaque = true;
-
-            if (joueurDroit > bossGauche - MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut)
+            // Vérifie si le délai entre les attaques est écoulé
+            if (currentTime - tempsDepuisAttaque >= delayAttaque)
             {
+                // Met à jour le temps de la dernière attaque
+                tempsDepuisAttaque = currentTime;
 
-                vieBoss += DEGATS_EPEE;
-                this.labVieBoss.Content = vieBoss;
-                if (vieBoss < 55)
-                {
-                    labVieBoss.Foreground = Brushes.Orange;
-                }
-                if (vieBoss < 30)
-                {
-                    labVieBoss.Foreground = Brushes.Yellow;
-                }
-                if (vieBoss == VIE_BOSS_MINI)
+                double joueurGauche = Canvas.GetLeft(joueur);
+                double joueurHaut = Canvas.GetTop(joueur);
+                double joueurDroit = joueurGauche + joueur.Width;
+                double joueurBas = joueurHaut + joueur.Height;
+                double bossGauche = Canvas.GetLeft(boss);
+                double bossHaut = Canvas.GetTop(boss);
+                double bossDroite = bossGauche + boss.Width;
+                double bossBas = bossHaut + boss.Height;
+
+                clickAttaque = true;
+
+                if (joueurDroit > bossGauche - MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut)
                 {
 
-                    if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
+                    vieBoss += DEGATS_EPEE;
+                    this.labVieBoss.Content = vieBoss;
+                    if (vieBoss < 55)
                     {
-                        niveauBoss++;
+                        labVieBoss.Foreground = Brushes.Orange;
+                    }
+                    if (vieBoss < 30)
+                    {
+                        labVieBoss.Foreground = Brushes.Yellow;
+                    }
+                    if (vieBoss == VIE_BOSS_MINI)
+                    {
 
-                        ImageBrush ibBoss = new ImageBrush();
-                        BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
-                        ibBoss.ImageSource = bmiBoss;
-                        boss.Fill = ibBoss;
-                        ImageBrush ibFond = new ImageBrush();
-                        BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
-                        ibFond.ImageSource = bmiFond;
-                        zone.Background = ibFond;
-                        vieBoss = VIE_BOSS_MAX;
-                        this.labVieBoss.Content = vieBoss;
-                        labVieBoss.Foreground = Brushes.Red;
-                        Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
-                        Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
-                        MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                        if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
+                        {
+                            niveauBoss++;
+
+                            ImageBrush ibBoss = new ImageBrush();
+                            BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
+                            ibBoss.ImageSource = bmiBoss;
+                            boss.Fill = ibBoss;
+                            ImageBrush ibFond = new ImageBrush();
+                            BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
+                            ibFond.ImageSource = bmiFond;
+                            zone.Background = ibFond;
+                            vieBoss = VIE_BOSS_MAX;
+                            this.labVieBoss.Content = vieBoss;
+                            labVieBoss.Foreground = Brushes.Red;
+                            Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+                            Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+                            MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        }
+                        if (niveauBoss == NIVEAU_MAX_BOSS && vieBoss == VIE_BOSS_MINI)
+                        {
+                            Canvas.SetTop(boss, DISPARITION_BOSS);
+                            Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
+                            MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                        NiveauFLeur++;
+                        ImageBrush ibFleur = new ImageBrush();
+                        BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
+                        ibFleur.ImageSource = bmiFleur;
+                        fleur.Fill = ibFleur;
 
                     }
-                    if (niveauBoss == NIVEAU_MAX_BOSS && vieBoss == VIE_BOSS_MINI)
-                    {
-                        Canvas.SetTop(boss, DISPARITION_BOSS);
-                        Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
-                        MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    NiveauFLeur++;
-                    ImageBrush ibFleur = new ImageBrush();
-                    BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
-                    ibFleur.ImageSource = bmiFleur;
-                    fleur.Fill = ibFleur;
 
                 }
-
             }
+            
         }
 
-        private void animationAttaque()
+        public void animationAttaque()
         {
-
-            SpriteAtkInt += 1;
-            // if the sprite int goes above 8
-            if (SpriteAtkInt > 4)
+            compteurFrameAttaque++;
+            if (compteurFrameAttaque >= delayFrame)
             {
-                // reset the sprite int to 1
-                SpriteAtkInt = 1;
-            }
-            // pass the sprite int values to the run sprite function
-            spriteAttaque(SpriteAtkInt);
+                compteurFrameAttaque = 0; // Réinitialiser le compteur
+                SpriteAtkInt += 1;
 
+                if (SpriteAtkInt > 4)
+                {
+                    SpriteAtkInt = 1; // Réinitialiser l'index du sprite
+                }
+
+                spriteAttaque(SpriteAtkInt);
+            }
         }
+
 
         private void spriteAttaque(double i)
         {
@@ -387,38 +374,12 @@ namespace JeuFleurSae
             {
                 if (compteurVie > VIE_JOUEUR_MINI)
                 {
-                    compteurVie--;
-                    ImageBrush ibVie = new ImageBrush();
-                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
-                    ibVie.ImageSource = bmiVie;
-                    rectCoeur.Fill = ibVie;
+                    changementCoeur();
                 }
                 if (compteurVie == VIE_JOUEUR_MINI)
                 {
+                    reset();
 
-                    ImageBrush ibBoss = new ImageBrush();
-                    BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss1.png"));
-                    ibBoss.ImageSource = bmiBoss;
-                    boss.Fill = ibBoss;
-                    ImageBrush ibFond = new ImageBrush();
-                    BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
-                    ibFond.ImageSource = bmiFond;
-                    zone.Background = ibFond;
-                    vieBoss = VIE_BOSS_MAX;
-                    this.labVieBoss.Content = vieBoss;
-                    niveauBoss = 1;
-                    Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
-                    Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
-                    ImageBrush ibVie = new ImageBrush();
-                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
-                    ibVie.ImageSource = bmiVie;
-                    rectCoeur.Fill = ibVie;
-                    ImageBrush ibFleur = new ImageBrush();
-                    BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur0.png"));
-                    ibFleur.ImageSource = bmiFleur;
-                    fleur.Fill = ibFleur;
-                    compteurVie = VIE_JOUEUR_MAX;
-                    MessageBox.Show("Vous êtes mort retour au premier boss", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
                 // Réinitialiser la position du projectile après qu'il ait touché le joueur
                 Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);  // Repositionner à gauche du boss
@@ -428,7 +389,7 @@ namespace JeuFleurSae
 
         private void DeplaceProjectile(Image imgProjectile, System.Windows.Shapes.Rectangle joueur)
         {
-            
+
             double projectileGauche = Canvas.GetLeft(imgProjectile);
             double projectileHaut = Canvas.GetTop(imgProjectile);
             double projectileDroit = projectileGauche + imgProjectile.Width;
@@ -484,7 +445,12 @@ namespace JeuFleurSae
                 case 4:
                     bmiMouv = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouv4.png"));
                     break;
-
+                case 5:
+                    bmiMouv = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouv5.png"));
+                    break;
+                case 6:
+                    bmiMouv = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouv6.png"));
+                    break;
             }
             ibMouv.ImageSource = bmiMouv;
             joueur.Fill = ibMouv;
@@ -495,47 +461,95 @@ namespace JeuFleurSae
             BitmapImage bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arretgauche.png"));
             switch (i)
             {
-                case 0:
-                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche1.png"));
-                    break;
                 case 1:
-                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche2.png"));
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvgauche1.png"));
                     break;
                 case 2:
-                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche3.png"));
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvgauche2.png"));
                     break;
                 case 3:
-                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvGauche4.png"));
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvgauche3.png"));
                     break;
-
+                case 4:
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvgauche4.png"));
+                    break;
+                case 5:
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvgauche5.png"));
+                    break;
+                case 6:
+                    bmiMouvGauche = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/mouvgauche6.png"));
+                    break;
             }
             ibMouvGauche.ImageSource = bmiMouvGauche;
             joueur.Fill = ibMouvGauche;
         }
         public void animationCourse()
         {
-
-            SpriteInt += 0.5;
-            // if the sprite int goes above 8
-            if (SpriteInt > 4)
+            compteurFrameMouvement++;
+            if (compteurFrameMouvement >= delayFrame)
             {
-                // reset the sprite int to 1
-                SpriteInt = 0;
+                compteurFrameMouvement = 0; // Réinitialiser le compteur
+                SpriteInt += 0.5;
+
+                if (SpriteInt >= 7)
+                {
+                    SpriteInt = 0; // Réinitialiser l'index du sprite
+                }
+
+                spriteCourse(SpriteInt);
             }
-            // pass the sprite int values to the run sprite function
-            spriteCourse(SpriteInt);
         }
+
         public void animationCourseGauche()
         {
-            SpriteIntGauche += 0.5;
-            // if the sprite int goes above 8
-            if (SpriteIntGauche > 4)
+            compteurFrameMouvement++;
+            if (compteurFrameMouvement >= delayFrame)
             {
-                // reset the sprite int to 1
-                SpriteIntGauche = 0;
+                compteurFrameMouvement = 0; // Réinitialiser le compteur
+                SpriteIntGauche += 0.5;
+
+                if (SpriteIntGauche > 7)
+                {
+                    SpriteIntGauche = 0; // Réinitialiser l'index du sprite
+                }
+
+                spriteCourseGauche(SpriteIntGauche);
             }
-            // pass the sprite int values to the run sprite function
-            spriteCourseGauche(SpriteIntGauche);
+        }
+
+        public void reset()
+        {
+            ImageBrush ibBoss = new ImageBrush();
+            BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss1.png"));
+            ibBoss.ImageSource = bmiBoss;
+            boss.Fill = ibBoss;
+            ImageBrush ibFond = new ImageBrush();
+            BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
+            ibFond.ImageSource = bmiFond;
+            zone.Background = ibFond;
+            vieBoss = VIE_BOSS_MAX;
+            this.labVieBoss.Content = vieBoss;
+            niveauBoss = 1;
+            Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+            Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+            ImageBrush ibVie = new ImageBrush();
+            BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
+            ibVie.ImageSource = bmiVie;
+            rectCoeur.Fill = ibVie;
+            ImageBrush ibFleur = new ImageBrush();
+            BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur0.png"));
+            ibFleur.ImageSource = bmiFleur;
+            fleur.Fill = ibFleur;
+            compteurVie = VIE_JOUEUR_MAX;
+            MessageBox.Show("Vous êtes mort retour au premier boss", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        }
+        public void changementCoeur()
+        {
+            compteurVie--;
+            ImageBrush ibVie = new ImageBrush();
+            BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
+            ibVie.ImageSource = bmiVie;
+            rectCoeur.Fill = ibVie;
         }
     }
 }
