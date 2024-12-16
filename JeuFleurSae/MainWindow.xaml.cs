@@ -28,7 +28,7 @@ namespace JeuFleurSae
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
         public static readonly int DISPARITION_BOSS = -100;
-        public static readonly int VITESSE_PROJECTILE = 3;
+        public static readonly int VITESSE_PROJECTILE_BASE = 3;
         public static readonly int MARGE_COLLISION = 10;
         private static int nbProjectiles = 3;
         public static readonly int POSITION_JOUEUR_DEBUT_GAUCHE = 22;
@@ -511,9 +511,9 @@ namespace JeuFleurSae
             double joueurHaut = Canvas.GetTop(joueur);
             double joueurDroit = joueurGauche + joueur.Width;
             double joueurBas = joueurHaut + joueur.Height;
-
+            
             // Déplacer le projectile vers la gauche
-            double newPosition = Canvas.GetLeft(imgProjectile) - VITESSE_PROJECTILE;  // Déplacement constant vers la gauche
+            double newPosition = Canvas.GetLeft(imgProjectile) - (VITESSE_PROJECTILE_BASE + niveauBoss);  // Déplacement constant vers la gauche
             Canvas.SetLeft(imgProjectile, newPosition);
 
             System.Drawing.Rectangle rImgProjectile = new System.Drawing.Rectangle((int)Canvas.GetLeft(imgProjectile), (int)Canvas.GetTop(imgProjectile),
