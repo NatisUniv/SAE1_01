@@ -86,9 +86,46 @@
         </Rectangle>
 
 
-        <ContentControl x:Name="ControlContent">
-            <local:Menu x:Name="Control"/>
+        <ContentControl
+            x:Name="ControlContent"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top">
+            <local:Menu x:Name="Control" />
         </ContentControl>
-        <Label x:Name="labPause" Content="Pause" Width="800" Height="434"  Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="48" Background="Black" OpacityMask="#7F000000" Canvas.Left="800" Canvas.Top="0"/>
+        <Label
+            x:Name="labPause"
+            Canvas.Left="800"
+            Canvas.Top="0"
+            Width="800"
+            Height="434"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Background="Black"
+            Content="Pause"
+            FontSize="48"
+            Foreground="White"
+            OpacityMask="#7F000000" />
+        <Menu
+            Canvas.Left="312"
+            Canvas.Top="329"
+            Width="164"
+            Height="30"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            BorderBrush="Black">
+            <Menu.Background>
+                <ImageBrush />
+            </Menu.Background>
+            <MenuItem
+                Width="160"
+                Height="32"
+                Padding="0,0,6,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
+                <MenuItem Click="MenuAudio_Click" Header="_Son…" />
+                <MenuItem Header="_Niveau…" />
+                <MenuItem Header="-Touches…" />
+            </MenuItem>
+        </Menu>
     </Canvas>
 </Window>

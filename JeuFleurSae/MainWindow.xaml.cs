@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using System;
 using static System.Formats.Asn1.AsnWriter;
+using System.Media;
 
 namespace JeuFleurSae
 {
@@ -58,6 +59,9 @@ namespace JeuFleurSae
         private int compteurFrameMouvement = 0; // Compteur pour ralentir les animations de mouvement
         private int compteurFrameAttaque = 0;  // Compteur pour ralentir les animations d'attaque
         private readonly int delayFrame = 5;  // Nombre de frames à attendre avant de changer l'image
+        private static SoundPlayer sonGagne;
+        private static MediaPlayer musique;
+        public static double NiveauSon { get; set; }
 
 
         public MainWindow()
@@ -84,7 +88,8 @@ namespace JeuFleurSae
             Canvas.SetTop(labVieBoss, 252);
             Canvas.SetLeft(labVieBoss, 659);
             InitProjectiles();
-
+            InitSon();
+            InitMusique();
         }
         // Logique principale du jeu, appelée chaque frame
         public void Jeu(object? sender, EventArgs e)
@@ -148,9 +153,9 @@ namespace JeuFleurSae
 
             for (int i = 0; i < lesProjectiles.Length; i++)
             {
-                DetecterCollisionJoueur(lesProjectiles[i]);
+                DetecterCollisionJoueurProjectile(lesProjectiles[i]);
             }
-            VerifierCollision();
+            DetecterCollisionJoueurBoss();
             if (compteurVie == VIE_JOUEUR_MINI)
             {
                 reset();
@@ -220,7 +225,7 @@ namespace JeuFleurSae
             }
         }
 
-        private void VerifierCollision()
+        private void DetecterCollisionJoueurBoss()
         {
             double joueurGauche = Canvas.GetLeft(joueur);
             double joueurHaut = Canvas.GetTop(joueur);
@@ -232,9 +237,9 @@ namespace JeuFleurSae
             double bossBas = bossHaut + boss.Height;
 
 
-            if (joueurDroit > bossGauche + MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut && joueurHaut < bossBas)
+            if (joueurDroit > bossGauche + MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut && joueurHaut < bossBas)    //Detect si le joueur touche le boss
             {
-
+                Console.WriteLine("Toucher par le boss");
                 Canvas.SetTop(joueur, joueurHaut);
                 Canvas.SetLeft(joueur, bossGauche - joueur.Width);
                 if (compteurVie > VIE_JOUEUR_MINI)
@@ -327,6 +332,7 @@ namespace JeuFleurSae
                             labVieBoss.Foreground = Brushes.Red;
                             Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
                             Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+                            sonGagne.Play();
                             MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
 
                         }
@@ -413,7 +419,7 @@ namespace JeuFleurSae
             }
         }
 
-        private void DetecterCollisionJoueur(Image imgProjectile)
+        private void DetecterCollisionJoueurProjectile(Image imgProjectile)
         {
             double projectileGauche = Canvas.GetLeft(imgProjectile);
             double projectileHaut = Canvas.GetTop(imgProjectile);
@@ -426,9 +432,10 @@ namespace JeuFleurSae
             double joueurDroit = joueurGauche + joueur.Width;
             double joueurBas = joueurHaut + joueur.Height;
 
-            
+
             if (projectileDroit > joueurGauche && projectileGauche < joueurDroit && projectileBas > joueurHaut && projectileHaut < joueurBas)   // Vérifier si le projectile touche le joueur
             {
+                Console.WriteLine("Toucher par le projectile");
                 if (compteurVie > VIE_JOUEUR_MINI)
                 {
                     changementCoeur();
@@ -466,7 +473,6 @@ namespace JeuFleurSae
             // Vérifier la collision avec le joueur
             if (joueurDroit > projectileGauche + 10 && joueurGauche < projectileDroit && joueurBas > projectileHaut && joueurHaut < projectileBas)
             {
-
                 toucher = true;
             }
 
@@ -573,6 +579,7 @@ namespace JeuFleurSae
 
         public void reset()
         {
+            Console.WriteLine("Reset");
             ImageBrush ibBoss = new ImageBrush();
             BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss1.png"));
             ibBoss.ImageSource = bmiBoss;
@@ -613,6 +620,31 @@ namespace JeuFleurSae
             ibVie.ImageSource = bmiVie;
             rectCoeur.Fill = ibVie;
         }
+        private void InitSon()
+        {
+            sonGagne = new SoundPlayer(Application.GetResourceStream(
+                new Uri("pack://application:,,,/sons/brass-fanfare-with-timpani-and-winchimes-reverberated-146260.wav")).Stream);
+        }
+        private void InitMusique()
+        {
+            musique = new MediaPlayer();
+            musique.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "sons/musiqueFond.mp3"));
+            musique.MediaEnded += RelanceMusique;
+            musique.Volume = NiveauSon;
+            musique.Play();
+        }
+        private void RelanceMusique(object? sender, EventArgs e)
+        {
+            musique.Position = TimeSpan.Zero;
+            musique.Play();
+        }
 
+        private void MenuAudio_Click(object sender, RoutedEventArgs e)
+        {
+            Parametres dialog = new Parametres();
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+                MainWindow.NiveauSon = dialog.slideSon.Value;
+        }
     }
 }

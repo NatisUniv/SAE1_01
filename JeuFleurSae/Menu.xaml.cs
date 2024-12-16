@@ -30,10 +30,5 @@ namespace JeuFleurSae
             ((MainWindow)((Canvas)((ContentControl)this.Parent).Parent).Parent).Lancement();
             ((MainWindow)((Canvas)((ContentControl)this.Parent).Parent).Parent).ControlContent.Content = null;
         }
-
-        private void boutParametre_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
