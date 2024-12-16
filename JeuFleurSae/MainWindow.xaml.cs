@@ -34,6 +34,7 @@ namespace JeuFleurSae
         public static readonly int POSITION_JOUEUR_DEBUT_GAUCHE = 22;
         public static readonly int POSITION_JOUEUR_DEBUT_HAUT = 352;
         public static readonly int NIVEAU_MAX_BOSS = 6;
+        public static readonly int CONSTANTE_POUR_DEBUG = 75;
         private static bool gauche;
         private static bool droite;
         private static bool clickAttaque = false;
@@ -207,7 +208,7 @@ namespace JeuFleurSae
                 double bossDroite = bossGauche + boss.Width;
                 double bossBas = bossHaut + boss.Height;
 
-                niveauBoss = (int)e.Key - 75;
+                niveauBoss = (int)e.Key - CONSTANTE_POUR_DEBUG;
                 NiveauFLeur = niveauBoss;
                 if (niveauBoss <= NIVEAU_MAX_BOSS -1)
                 {
