@@ -20,6 +20,8 @@ namespace JeuFleurSae
     public partial class MainWindow : Window
     {
         public static DispatcherTimer minuterie;
+        private bool enCooldownAttaqueRenforce = false;
+        private DispatcherTimer timerCooldownAttaque;
         public static readonly int PAS_JOUEUR = 5;
         public static readonly int VIE_JOUEUR_MAX = 3;
         public static readonly int VIE_JOUEUR_MINI = 0;
@@ -40,6 +42,7 @@ namespace JeuFleurSae
         private static bool clickAttaque = false;
         private static Random alea;
         private bool saut = false;
+        bool attaqueRenforce = false;
         private System.Windows.Vector vitesse;
         private double gravite = 0.3;
         private double hauteurSaut = -8;
@@ -69,6 +72,7 @@ namespace JeuFleurSae
         public void Lancement()
         {
             InitTimer();
+            InitCooldownTimer();
             alea = new Random();
             ImageBrush ibFond = new ImageBrush();
             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
@@ -165,7 +169,19 @@ namespace JeuFleurSae
             minuterie.Tick += Jeu;
             minuterie.Start();
         }
+        private void InitCooldownTimer()
+        {
+            timerCooldownAttaque = new DispatcherTimer();
+            timerCooldownAttaque.Interval = TimeSpan.FromSeconds(5);
+            timerCooldownAttaque.Tick += FinCooldownAttaque;
+        }
+        private void FinCooldownAttaque(object sender, EventArgs e)
+        {
+            enCooldownAttaqueRenforce = false;
+            timerCooldownAttaque.Stop();
+            Console.WriteLine("Attaque renforcée disponible !");
 
+        }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.Key);
@@ -196,6 +212,10 @@ namespace JeuFleurSae
                     minuterie.Start();
                     Canvas.SetLeft(labPause, 800);
                 }
+            }
+            if (e.Key == Key.A) 
+            {
+                Pouvoir(NiveauFLeur);
             }
             if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad6)
             {
@@ -254,6 +274,21 @@ namespace JeuFleurSae
             }
         }
 
+        public void Pouvoir(int nb)
+        { 
+            if (nb >= 1)
+            {
+                if (enCooldownAttaqueRenforce)
+                {
+                    Console.WriteLine("Attaque renforcée en cooldown. Veuillez patienter.");
+                    return;
+                }
+                attaqueRenforce = true;
+                enCooldownAttaqueRenforce = true;
+                Console.WriteLine("Attaque renforcée activée !");
+                timerCooldownAttaque.Start();
+            }
+        }
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Q)
@@ -325,8 +360,13 @@ namespace JeuFleurSae
                 if (joueurDroit > bossGauche - MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut)
                 {
 
-                    vieBoss += DEGATS_EPEE;
+                    int degats = DEGATS_EPEE;
+                    if (attaqueRenforce)
+                        degats += DEGATS_EPEE;
+                        attaqueRenforce = false;
+                    vieBoss += degats;
                     this.labVieBoss.Content = vieBoss;
+                    degats = DEGATS_EPEE;
                     if (vieBoss < 55)
                     {
                         labVieBoss.Foreground = Brushes.Orange;
