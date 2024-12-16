@@ -188,6 +188,66 @@ namespace JeuFleurSae
                 else
                     minuterie.Start();
             }
+            if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad6)
+            {
+                double joueurGauche = Canvas.GetLeft(joueur);
+                double joueurHaut = Canvas.GetTop(joueur);
+                double joueurDroit = joueurGauche + joueur.Width;
+                double joueurBas = joueurHaut + joueur.Height;
+                double bossGauche = Canvas.GetLeft(boss);
+                double bossHaut = Canvas.GetTop(boss);
+                double bossDroite = bossGauche + boss.Width;
+                double bossBas = bossHaut + boss.Height;
+
+                niveauBoss = (int)e.Key - 75;
+                NiveauFLeur = niveauBoss;
+                if (niveauBoss <= NIVEAU_MAX_BOSS -1)
+                {
+                    niveauBoss++;
+                    ImageBrush ibBoss = new ImageBrush();
+                    BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
+                    ibBoss.ImageSource = bmiBoss;
+                    boss.Fill = ibBoss;
+                    ImageBrush ibFond = new ImageBrush();
+                    BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
+                    ibFond.ImageSource = bmiFond;
+                    zone.Background = ibFond;
+                    if (niveauBoss < NIVEAU_MAX_BOSS)
+                    {
+                        for (int i = 0; i < lesProjectiles.Length; i++)
+                        {
+                            lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                            Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < lesProjectiles.Length; i++)
+                        {
+                            zone.Children.Remove(lesProjectiles[i]);
+                        }
+                        nbProjectiles = 5;
+                        lesProjectiles = new Image[nbProjectiles];
+                        for (int i = 0; i < lesProjectiles.Length; i++)
+                        {
+                            lesProjectiles[i] = new Image();
+                            lesProjectiles[i].Width = 25;
+                            lesProjectiles[i].Height = 25;
+                            lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                            zone.Children.Add(lesProjectiles[i]);
+                            Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                        }
+                    }
+                }
+
+                ImageBrush ibFleur = new ImageBrush();
+                BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
+                ibFleur.ImageSource = bmiFleur;
+                fleur.Fill = ibFleur;
+
+            }
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -281,7 +341,6 @@ namespace JeuFleurSae
                         if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
                         {
                             niveauBoss++;
-
                             ImageBrush ibBoss = new ImageBrush();
                             BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
                             ibBoss.ImageSource = bmiBoss;
@@ -344,6 +403,7 @@ namespace JeuFleurSae
             }
 
         }
+
 
         public void animationAttaque()
         {
@@ -474,7 +534,7 @@ namespace JeuFleurSae
             // Si le projectile sort de l'écran ou touche le joueur, le réinitialiser
             if (newPosition < 0 || toucher)
             {
-                
+
                 for (int i = 0; i < lesProjectiles.Length; i++)
                 {
                     Canvas.SetTop(imgProjectile, alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));  // Repositionner sous le boss
