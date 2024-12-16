@@ -23,7 +23,7 @@ namespace JeuFleurSae
         public static readonly int PAS_JOUEUR = 5;
         public static readonly int VIE_JOUEUR_MAX = 3;
         public static readonly int VIE_JOUEUR_MINI = 0;
-        public static readonly int VIE_BOSS_MAX = 100;
+        public static readonly int VIE_BOSS_MAX = 5;
         public static readonly int VIE_BOSS_MINI = 0;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
@@ -69,8 +69,6 @@ namespace JeuFleurSae
         {
             InitTimer();
             alea = new Random();
-            this.KeyDown += Window_KeyDown;
-            this.KeyUp += Window_KeyUp;
             ImageBrush ibFond = new ImageBrush();
             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
             ibFond.ImageSource = bmiFond;
@@ -153,6 +151,11 @@ namespace JeuFleurSae
                 DetecterCollisionJoueur(lesProjectiles[i]);
             }
             VerifierCollision();
+            if (compteurVie == VIE_JOUEUR_MINI)
+            {
+                reset();
+
+            }
         }
         private void InitTimer()
         {
@@ -164,6 +167,8 @@ namespace JeuFleurSae
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            Console.WriteLine(e.Key);
+            double PauseHaut = Canvas.GetLeft(labPause);
             if (e.Key == Key.Q)
             {
                 gauche = true;
@@ -183,10 +188,13 @@ namespace JeuFleurSae
                 if (minuterie.IsEnabled)
                 {
                     minuterie.Stop();
-                    this.Content = new MenuPause();
+                    Canvas.SetLeft(labPause, 0);
                 }
                 else
+                {
                     minuterie.Start();
+                    Canvas.SetLeft(labPause, 800);
+                }
             }
         }
 
@@ -232,10 +240,6 @@ namespace JeuFleurSae
                 if (compteurVie > VIE_JOUEUR_MINI)
                 {
                     changementCoeur();
-                }
-                if (compteurVie == VIE_JOUEUR_MINI)
-                {
-                    reset();
                 }
             }
 
@@ -422,17 +426,12 @@ namespace JeuFleurSae
             double joueurDroit = joueurGauche + joueur.Width;
             double joueurBas = joueurHaut + joueur.Height;
 
-            // Vérifier si le projectile touche le joueur
-            if (projectileDroit > joueurGauche && projectileGauche < joueurDroit && projectileBas > joueurHaut && projectileHaut < joueurBas)
+            
+            if (projectileDroit > joueurGauche && projectileGauche < joueurDroit && projectileBas > joueurHaut && projectileHaut < joueurBas)   // Vérifier si le projectile touche le joueur
             {
                 if (compteurVie > VIE_JOUEUR_MINI)
                 {
                     changementCoeur();
-                }
-                if (compteurVie == VIE_JOUEUR_MINI)
-                {
-                    reset();
-
                 }
                 // Réinitialiser la position du projectile après qu'il ait touché le joueur
                 for (int i = 0; i < lesProjectiles.Length; i++)
@@ -474,7 +473,7 @@ namespace JeuFleurSae
             // Si le projectile sort de l'écran ou touche le joueur, le réinitialiser
             if (newPosition < 0 || toucher)
             {
-                
+
                 for (int i = 0; i < lesProjectiles.Length; i++)
                 {
                     Canvas.SetTop(imgProjectile, alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));  // Repositionner sous le boss
