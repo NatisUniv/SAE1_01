@@ -21,25 +21,29 @@ namespace JeuFleurSae
     public partial class MainWindow : Window
     {
         public static DispatcherTimer minuterie;
+        private bool enCooldownAttaqueRenforce = false;
+        private DispatcherTimer timerCooldownAttaque;
         public static readonly int PAS_JOUEUR = 5;
         public static readonly int VIE_JOUEUR_MAX = 3;
         public static readonly int VIE_JOUEUR_MINI = 0;
-        public static readonly int VIE_BOSS_MAX = 5;
+        public static readonly int VIE_BOSS_MAX = 100;
         public static readonly int VIE_BOSS_MINI = 0;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
         public static readonly int DISPARITION_BOSS = -100;
-        public static readonly int VITESSE_PROJECTILE = 3;
+        public static readonly int VITESSE_PROJECTILE_BASE = 3;
         public static readonly int MARGE_COLLISION = 10;
         private static int nbProjectiles = 3;
         public static readonly int POSITION_JOUEUR_DEBUT_GAUCHE = 22;
         public static readonly int POSITION_JOUEUR_DEBUT_HAUT = 352;
         public static readonly int NIVEAU_MAX_BOSS = 6;
+        public static readonly int CONSTANTE_POUR_DEBUG = 75;
         private static bool gauche;
         private static bool droite;
         private static bool clickAttaque = false;
         private static Random alea;
         private bool saut = false;
+        bool attaqueRenforce = false;
         private System.Windows.Vector vitesse;
         private double gravite = 0.3;
         private double hauteurSaut = -8;
@@ -72,6 +76,7 @@ namespace JeuFleurSae
         public void Lancement()
         {
             InitTimer();
+            InitCooldownTimer();
             alea = new Random();
             ImageBrush ibFond = new ImageBrush();
             BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_1.png"));
@@ -169,7 +174,19 @@ namespace JeuFleurSae
             minuterie.Tick += Jeu;
             minuterie.Start();
         }
+        private void InitCooldownTimer()
+        {
+            timerCooldownAttaque = new DispatcherTimer();
+            timerCooldownAttaque.Interval = TimeSpan.FromSeconds(5);
+            timerCooldownAttaque.Tick += FinCooldownAttaque;
+        }
+        private void FinCooldownAttaque(object sender, EventArgs e)
+        {
+            enCooldownAttaqueRenforce = false;
+            timerCooldownAttaque.Stop();
+            Console.WriteLine("Attaque renforcée disponible !");
 
+        }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.Key);
@@ -201,8 +218,82 @@ namespace JeuFleurSae
                     Canvas.SetLeft(labPause, 800);
                 }
             }
+            if (e.Key == Key.A) 
+            {
+                Pouvoir(NiveauFLeur);
+            }
+            if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad6)
+            {
+                double joueurGauche = Canvas.GetLeft(joueur);
+                double joueurHaut = Canvas.GetTop(joueur);
+                double joueurDroit = joueurGauche + joueur.Width;
+                double joueurBas = joueurHaut + joueur.Height;
+                double bossGauche = Canvas.GetLeft(boss);
+                double bossHaut = Canvas.GetTop(boss);
+                double bossDroite = bossGauche + boss.Width;
+                double bossBas = bossHaut + boss.Height;
+
+                niveauBoss = (int)e.Key - CONSTANTE_POUR_DEBUG;
+                NiveauFLeur = niveauBoss;
+                if (niveauBoss <= NIVEAU_MAX_BOSS -1)
+                {
+                    niveauBoss++;
+                    ImageBrush ibBoss = new ImageBrush();
+                    BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
+                    ibBoss.ImageSource = bmiBoss;
+                    boss.Fill = ibBoss;
+                    ImageBrush ibFond = new ImageBrush();
+                    BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
+                    ibFond.ImageSource = bmiFond;
+                    zone.Background = ibFond;
+                    for (int i = 0; i < lesProjectiles.Length; i++)
+                    {
+                        zone.Children.Remove(lesProjectiles[i]);
+                    }
+                    if (niveauBoss < NIVEAU_MAX_BOSS)
+                    {
+                        nbProjectiles = 3;
+                    }
+                    else
+                    {
+                        nbProjectiles = 5;
+                    }
+                    lesProjectiles = new Image[nbProjectiles];
+                    for (int i = 0; i < lesProjectiles.Length; i++)
+                    {
+                        lesProjectiles[i] = new Image();
+                        lesProjectiles[i].Width = 25;
+                        lesProjectiles[i].Height = 25;
+                        lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                        zone.Children.Add(lesProjectiles[i]);
+                        Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                        Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                    }
+                }
+
+                ImageBrush ibFleur = new ImageBrush();
+                BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
+                ibFleur.ImageSource = bmiFleur;
+                fleur.Fill = ibFleur;
+
+            }
         }
 
+        public void Pouvoir(int nb)
+        { 
+            if (nb >= 1)
+            {
+                if (enCooldownAttaqueRenforce)
+                {
+                    Console.WriteLine("Attaque renforcée en cooldown. Veuillez patienter.");
+                    return;
+                }
+                attaqueRenforce = true;
+                enCooldownAttaqueRenforce = true;
+                Console.WriteLine("Attaque renforcée activée !");
+                timerCooldownAttaque.Start();
+            }
+        }
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Q)
@@ -274,8 +365,13 @@ namespace JeuFleurSae
                 if (joueurDroit > bossGauche - MARGE_COLLISION && joueurGauche < bossDroite && joueurBas > bossHaut)
                 {
 
-                    vieBoss += DEGATS_EPEE;
+                    int degats = DEGATS_EPEE;
+                    if (attaqueRenforce)
+                        degats += DEGATS_EPEE;
+                        attaqueRenforce = false;
+                    vieBoss += degats;
                     this.labVieBoss.Content = vieBoss;
+                    degats = DEGATS_EPEE;
                     if (vieBoss < 55)
                     {
                         labVieBoss.Foreground = Brushes.Orange;
@@ -290,7 +386,6 @@ namespace JeuFleurSae
                         if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
                         {
                             niveauBoss++;
-
                             ImageBrush ibBoss = new ImageBrush();
                             BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
                             ibBoss.ImageSource = bmiBoss;
@@ -354,6 +449,7 @@ namespace JeuFleurSae
             }
 
         }
+
 
         public void animationAttaque()
         {
@@ -462,9 +558,9 @@ namespace JeuFleurSae
             double joueurHaut = Canvas.GetTop(joueur);
             double joueurDroit = joueurGauche + joueur.Width;
             double joueurBas = joueurHaut + joueur.Height;
-
+            
             // Déplacer le projectile vers la gauche
-            double newPosition = Canvas.GetLeft(imgProjectile) - VITESSE_PROJECTILE;  // Déplacement constant vers la gauche
+            double newPosition = Canvas.GetLeft(imgProjectile) - (VITESSE_PROJECTILE_BASE + niveauBoss);  // Déplacement constant vers la gauche
             Canvas.SetLeft(imgProjectile, newPosition);
 
             System.Drawing.Rectangle rImgProjectile = new System.Drawing.Rectangle((int)Canvas.GetLeft(imgProjectile), (int)Canvas.GetTop(imgProjectile),
@@ -579,6 +675,9 @@ namespace JeuFleurSae
 
         public void reset()
         {
+
+            gauche = false;
+            droite = false;
             Console.WriteLine("Reset");
             ImageBrush ibBoss = new ImageBrush();
             BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss1.png"));
