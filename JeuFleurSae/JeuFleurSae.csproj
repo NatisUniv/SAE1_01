@@ -60,12 +60,7 @@
 	  <None Remove="img\Sprite_Projectile\Projectile_joueur.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_Terre.png" />
 	  <None Remove="MenuDebut.png" />
-	  <None Remove="sons\brass-fanfare-with-timpani-and-winchimes-reverberated-146260.wav" />
-	  <None Remove="sons\cadeauGagné.wav" />
-	  <None Remove="sons\cadeauPerdu.wav" />
-	  <None Remove="sons\musique.wav" />
-	  <None Remove="sons\musiqueFond.mp3" />
-	  <None Remove="sons\sonEtoile.wav" />
+	  <None Remove="sons\victoire.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -196,12 +191,7 @@
     <Resource Include="img\Sprite_Projectile\Projectile_joueur.png" />
     <Resource Include="img\Sprite_Projectile\Projectile_4.png" />
     <Resource Include="MenuDebut.png" />
-    <Resource Include="sons\brass-fanfare-with-timpani-and-winchimes-reverberated-146260.wav" />
-    <Resource Include="sons\cadeauGagné.wav" />
-    <Resource Include="sons\cadeauPerdu.wav" />
-    <Resource Include="sons\musique.wav" />
-    <Resource Include="sons\musiqueFond.mp3" />
-    <Resource Include="sons\sonEtoile.wav" />
+    <Resource Include="sons\victoire.wav" />
   </ItemGroup>
 
   <ItemGroup>

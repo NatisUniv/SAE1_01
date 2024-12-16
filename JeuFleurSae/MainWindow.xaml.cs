@@ -722,14 +722,14 @@ namespace JeuFleurSae
         private void InitSon()
         {
             sonGagne = new SoundPlayer(Application.GetResourceStream(
-                new Uri("pack://application:,,,/sons/brass-fanfare-with-timpani-and-winchimes-reverberated-146260.wav")).Stream);
+                new Uri("pack://application:,,,/sons/victoire.wav")).Stream);
         }
         private void InitMusique()
         {
             musique = new MediaPlayer();
-            musique.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "sons/musiqueFond.mp3"));
+            musique.Open(new Uri("pack://application:,,,/sons/musiqueFond.mp3"));
             musique.MediaEnded += RelanceMusique;
-            musique.Volume = NiveauSon;
+            musique.Volume = 1;
             musique.Play();
         }
         private void RelanceMusique(object? sender, EventArgs e)
