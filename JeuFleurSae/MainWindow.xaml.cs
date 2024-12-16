@@ -26,7 +26,7 @@ namespace JeuFleurSae
         public static readonly int PAS_JOUEUR = 5;
         public static readonly int VIE_JOUEUR_MAX = 3;
         public static readonly int VIE_JOUEUR_MINI = 0;
-        public static readonly int VIE_BOSS_MAX = 100;
+        public static readonly int VIE_BOSS_MAX = 5;
         public static readonly int VIE_BOSS_MINI = 0;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
@@ -385,6 +385,8 @@ namespace JeuFleurSae
 
                         if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
                         {
+                            gauche = false;
+                            droite = false;
                             niveauBoss++;
                             ImageBrush ibBoss = new ImageBrush();
                             BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
@@ -421,6 +423,16 @@ namespace JeuFleurSae
                                     Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
                                     Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
                                 }
+                            }
+                            if (niveauBoss > 5)
+                            {
+                                Console.WriteLine("rentrer");
+                                rectCoeur.Width = 320;
+                                ImageBrush ibVie = new ImageBrush();
+                                BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur6.png"));
+                                ibVie.ImageSource = bmiVie;
+                                rectCoeur.Fill = ibVie;
+                                compteurVie = 6;
                             }
                             vieBoss = VIE_BOSS_MAX;
                             this.labVieBoss.Content = vieBoss;
@@ -713,11 +725,16 @@ namespace JeuFleurSae
         }
         public void changementCoeur()
         {
-            compteurVie--;
-            ImageBrush ibVie = new ImageBrush();
-            BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
-            ibVie.ImageSource = bmiVie;
-            rectCoeur.Fill = ibVie;
+                compteurVie--;
+                ImageBrush ibVie = new ImageBrush();
+                BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur" + compteurVie + ".png"));
+                ibVie.ImageSource = bmiVie;
+                rectCoeur.Fill = ibVie;
+            if (compteurVie < 4)
+            {
+                rectCoeur.Width = 160;
+            }
+
         }
         private void InitSon()
         {

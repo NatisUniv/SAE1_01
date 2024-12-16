@@ -60,7 +60,17 @@
 	  <None Remove="img\Sprite_Projectile\Projectile_joueur.png" />
 	  <None Remove="img\Sprite_Projectile\Projectile_Terre.png" />
 	  <None Remove="MenuDebut.png" />
+	  <None Remove="sons\fightscene-76761.mp3" />
 	  <None Remove="sons\victoire.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\Coeur\coeur4.png" />
+    <Resource Include="img\Coeur\coeur5.png" />
+    <Resource Include="img\Coeur\coeur6.png" />
+    <Resource Include="sons\fightscene-76761.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -192,12 +202,6 @@
     <Resource Include="img\Sprite_Projectile\Projectile_4.png" />
     <Resource Include="MenuDebut.png" />
     <Resource Include="sons\victoire.wav" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="sons\fightscene-76761.mp3">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
