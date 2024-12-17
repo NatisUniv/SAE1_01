@@ -52,6 +52,7 @@ namespace JeuFleurSae
         int vieBoss = VIE_BOSS_MAX;
         private static Image[] lesProjectiles;
         private static Image projectileJoueur;
+        private static Image bouclier;
         int NiveauFLeur = 0;
         int compteurVie = 3;
         double SpriteInt = 0;
@@ -246,7 +247,8 @@ namespace JeuFleurSae
                     // Premier saut
                     saut = true;
                     vitesse = new System.Windows.Vector(0, hauteurSaut);
-                    peutDoubleSauter = true; // Permet le double saut
+                    if( niveauBoss >= 5)
+                        peutDoubleSauter = true; // Permet le double saut
                 }
                 else if (peutDoubleSauter)
                 {
@@ -272,6 +274,10 @@ namespace JeuFleurSae
             if (e.Key == Key.A)
             {
                 Pouvoir(NiveauFLeur);
+            }
+            if (e.Key == Key.E)
+            {
+                Bouclier(bouclier);
             }
             if (e.Key >= Key.NumPad1 && e.Key <= Key.NumPad6)
             {
@@ -344,11 +350,6 @@ namespace JeuFleurSae
                 enCooldownAttaqueRenforce = true;
                 Console.WriteLine("Attaque renforcée activée !");
                 timerCooldownAttaque.Start();
-                
-            }
-            if (nb >= 3)
-            {
-                peutDoubleSauter = true;
             }
         }
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -837,5 +838,30 @@ namespace JeuFleurSae
             ibArret.ImageSource = bmiArret;
             joueur.Fill = ibArret;
         }
+        private void Bouclier(Image bouclier)
+        {
+            double joueurGauche = Canvas.GetLeft(joueur);
+            double joueurHaut = Canvas.GetTop(joueur);
+            double joueurDroit = joueurGauche + joueur.Width;
+            double joueurBas = joueurHaut + joueur.Height;
+            BitmapImage imgBouclier = new BitmapImage(new Uri("pack://application:,,,/img/Pouvoir/Pouvoir2.png"));
+            bouclier = new Image();
+            bouclier.Width = 29;
+            bouclier.Height = 75;
+            bouclier.Source = imgBouclier;
+            zone.Children.Add(bouclier);
+            Canvas.SetLeft(bouclier, joueurDroit + bouclier.Width);
+            Canvas.SetTop(bouclier, joueurHaut - 20);
+
+            double projectileJoueurGauche = Canvas.GetLeft(bouclier);
+            double projectileJoueurHaut = Canvas.GetTop(bouclier);
+            double projectileJoueurDroit = projectileJoueurGauche + bouclier.Width;
+            double projectileJoueurBas = projectileJoueurHaut + bouclier.Height;
+            double bossGauche = Canvas.GetLeft(boss);
+            double bossHaut = Canvas.GetTop(boss);
+            double bossDroite = bossGauche + boss.Width;
+            double bossBas = bossHaut + boss.Height;
+        }
+
     }
 }
