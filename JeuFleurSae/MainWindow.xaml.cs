@@ -70,7 +70,8 @@ namespace JeuFleurSae
         public static double NiveauSon { get; set; }
         public static String Difficulte { get; set; }
         public static double Touche { get; set; }
-
+        public int nbSaut = 0;
+        private bool peutDoubleSauter = false;
 
         public MainWindow()
         {
@@ -137,7 +138,6 @@ namespace JeuFleurSae
             {
                 Canvas.SetLeft(joueur, nouveauXJoueur);
             }
-
             // Appliquer la gravité et mettre à jour la position verticale du joueur
             if (saut)
             {
@@ -150,10 +150,12 @@ namespace JeuFleurSae
                 // Vérification de la collision avec le sol
                 if (Canvas.GetTop(joueur) + joueur.Height >= solHaut)
                 {
-                    saut = false; // Arrête le saut
                     vitesse = new System.Windows.Vector(0, 0); // Arrête la vitesse verticale
                     Canvas.SetTop(joueur, solHaut - joueur.Height); // Positionne le joueur juste sur le sol
+                    saut = false;
+                    peutDoubleSauter = false; // Réinitialise la capacité de double saut
                 }
+
             }
             for (int i = 0; i < lesProjectiles.Length; i++)
             {
@@ -229,16 +231,29 @@ namespace JeuFleurSae
             if (e.Key == Key.Q)
             {
                 gauche = true;
+                Arret();
             }
             else if (e.Key == Key.D)
             {
                 droite = true;
+                Arret();
             }
 
-            if (e.Key == Key.Space && !saut)
+            if (e.Key == Key.Space)
             {
-                saut = true;
-                vitesse = new System.Windows.Vector(0, hauteurSaut);
+                if (!saut)
+                {
+                    // Premier saut
+                    saut = true;
+                    vitesse = new System.Windows.Vector(0, hauteurSaut);
+                    peutDoubleSauter = true; // Permet le double saut
+                }
+                else if (peutDoubleSauter)
+                {
+                    // Double saut
+                    vitesse = new System.Windows.Vector(0, hauteurSaut);
+                    peutDoubleSauter = false; // Empêche les sauts supplémentaires
+                }
             }
             if (e.Key == Key.P)
             {
@@ -253,6 +268,7 @@ namespace JeuFleurSae
                     Canvas.SetLeft(labPause, 800);
                 }
             }
+
             if (e.Key == Key.A)
             {
                 Pouvoir(NiveauFLeur);
@@ -285,7 +301,6 @@ namespace JeuFleurSae
                     {
                         zone.Children.Remove(lesProjectiles[i]);
                     }
-                    if (niveauBoss < NIVEAU_MAX_BOSS) ;
                 }
                 else
                 {
@@ -323,6 +338,11 @@ namespace JeuFleurSae
                 enCooldownAttaqueRenforce = true;
                 Console.WriteLine("Attaque renforcée activée !");
                 timerCooldownAttaque.Start();
+                
+            }
+            if (nb >= 3)
+            {
+                peutDoubleSauter = true;
             }
         }
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -339,11 +359,6 @@ namespace JeuFleurSae
             else if (e.Key == Key.D)
             {
                 droite = false;
-
-                ImageBrush ib = new ImageBrush();
-                BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
-                ib.ImageSource = bmi;
-                joueur.Fill = ib;
             }
         }
 
@@ -468,16 +483,7 @@ namespace JeuFleurSae
                                         Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
                                     }
                                 }
-                                if (niveauBoss > 5)
-                                {
-                                    Console.WriteLine("rentrer");
-                                    rectCoeur.Width = 320;
-                                    ImageBrush ibVie = new ImageBrush();
-                                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur6.png"));
-                                    ibVie.ImageSource = bmiVie;
-                                    rectCoeur.Fill = ibVie;
-                                    compteurVie = 6;
-                                }
+                                
                                 vieBoss = VIE_BOSS_MAX;
                                 this.labVieBoss.Content = vieBoss;
                                 labVieBoss.Foreground = Brushes.Red;
@@ -487,6 +493,16 @@ namespace JeuFleurSae
                                 MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
 
                             }
+                            if (niveauBoss > 5)
+                            {
+                                Console.WriteLine("rentrer");
+                                rectCoeur.Width = 320;
+                                ImageBrush ibVie = new ImageBrush();
+                                BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur6.png"));
+                                ibVie.ImageSource = bmiVie;
+                                rectCoeur.Fill = ibVie;
+                                compteurVie = 6;
+                            }
                             if (niveauBoss == NIVEAU_MAX_BOSS && vieBoss == VIE_BOSS_MINI)
                             {
                                 gauche = false;
@@ -495,6 +511,7 @@ namespace JeuFleurSae
                                 Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
                                 MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
+                            
                             NiveauFLeur++;
                             ImageBrush ibFleur = new ImageBrush();
                             BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
@@ -502,7 +519,7 @@ namespace JeuFleurSae
                             fleur.Fill = ibFleur;
 
                         }
-
+                        
                     }
                 }
             }
@@ -511,7 +528,7 @@ namespace JeuFleurSae
                 lanceProjectile = true;
             }
             e.Handled = true;
-            
+
 
         }
 
@@ -807,6 +824,12 @@ namespace JeuFleurSae
             musique.Position = TimeSpan.Zero;
             musique.Play();
         }
-
+        private void Arret()
+        {
+            ImageBrush ibArret = new ImageBrush();
+            BitmapImage bmiArret = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
+            ibArret.ImageSource = bmiArret;
+            joueur.Fill = ibArret;
+        }
     }
 }
