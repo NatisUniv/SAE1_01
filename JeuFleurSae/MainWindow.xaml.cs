@@ -67,6 +67,8 @@ namespace JeuFleurSae
         private static SoundPlayer sonGagne;
         private static MediaPlayer musique;
         public static double NiveauSon { get; set; }
+        public static String Difficulte { get; set; }
+        public static double Touche { get; set; }
 
 
         public MainWindow()
@@ -251,35 +253,31 @@ namespace JeuFleurSae
                     {
                         zone.Children.Remove(lesProjectiles[i]);
                     }
-                    if (niveauBoss < NIVEAU_MAX_BOSS)
-                    {
-                        nbProjectiles = 3;
-                    }
-                    else
-                    {
-                        nbProjectiles = 5;
-                    }
-                    lesProjectiles = new Image[nbProjectiles];
-                    for (int i = 0; i < lesProjectiles.Length; i++)
-                    {
-                        lesProjectiles[i] = new Image();
-                        lesProjectiles[i].Width = 25;
-                        lesProjectiles[i].Height = 25;
-                        lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
-                        zone.Children.Add(lesProjectiles[i]);
-                        Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                        Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
-                    }
+                    if (niveauBoss < NIVEAU_MAX_BOSS) ;
                 }
-
-                ImageBrush ibFleur = new ImageBrush();
-                BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
-                ibFleur.ImageSource = bmiFleur;
-                fleur.Fill = ibFleur;
-
+                else
+                {
+                    nbProjectiles = 5;
+                }
+                lesProjectiles = new Image[nbProjectiles];
+                for (int i = 0; i < lesProjectiles.Length; i++)
+                {
+                    lesProjectiles[i] = new Image();
+                    lesProjectiles[i].Width = 25;
+                    lesProjectiles[i].Height = 25;
+                    lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                    zone.Children.Add(lesProjectiles[i]);
+                    Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                }
             }
-        }
 
+            ImageBrush ibFleur = new ImageBrush();
+            BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
+            ibFleur.ImageSource = bmiFleur;
+            fleur.Fill = ibFleur;
+
+        }
         public void Pouvoir(int nb)
         {
             if (nb >= 1)
@@ -789,12 +787,5 @@ namespace JeuFleurSae
             musique.Play();
         }
 
-        private void MenuAudio_Click(object sender, RoutedEventArgs e)
-        {
-            Parametres dialog = new Parametres();
-            bool? result = dialog.ShowDialog();
-            if (result == true)
-                MainWindow.NiveauSon = dialog.slideSon.Value;
-        }
     }
 }

@@ -105,27 +105,5 @@
             FontSize="48"
             Foreground="White"
             OpacityMask="#7F000000" />
-        <Menu
-            Canvas.Left="312"
-            Canvas.Top="329"
-            Width="164"
-            Height="30"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            BorderBrush="Black">
-            <Menu.Background>
-                <ImageBrush />
-            </Menu.Background>
-            <MenuItem
-                Width="160"
-                Height="32"
-                Padding="0,0,6,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top">
-                <MenuItem Click="MenuAudio_Click" Header="_Son…" />
-                <MenuItem Header="_Niveau…" />
-                <MenuItem Header="-Touches…" />
-            </MenuItem>
-        </Menu>
     </Canvas>
 </Window>
