@@ -256,6 +256,12 @@ namespace JeuFleurSae
                 NiveauFLeur = niveauBoss;
                 if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
                 {
+                    Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+                    Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+                    Canvas.SetTop(boss, 292);
+                    Canvas.SetLeft(boss, 641);
+                    Canvas.SetTop(labVieBoss, 252);
+                    Canvas.SetLeft(labVieBoss, 659);
                     niveauBoss++;
                     ImageBrush ibBoss = new ImageBrush();
                     BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
@@ -458,12 +464,12 @@ namespace JeuFleurSae
                                 Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
                                 Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
                                 sonGagne.Play();
+                                minuterie.Stop();
                                 MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
-
+                                minuterie.Start();
                             }
                             if (niveauBoss > 5)
                             {
-                                Console.WriteLine("rentrer");
                                 rectCoeur.Width = 320;
                                 ImageBrush ibVie = new ImageBrush();
                                 BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur6.png"));
