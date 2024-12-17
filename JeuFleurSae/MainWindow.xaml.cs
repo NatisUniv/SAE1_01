@@ -40,6 +40,7 @@ namespace JeuFleurSae
         public static readonly int CONSTANTE_POUR_DEBUG = 75;
         private static bool gauche;
         private static bool droite;
+        private static bool lanceProjectile = false;
         private static bool clickAttaque = false;
         private static Random alea;
         private bool saut = false;
@@ -170,6 +171,37 @@ namespace JeuFleurSae
             {
                 reset();
 
+            }
+            if (lanceProjectile)
+            {
+                Console.WriteLine("Boule de feu");
+                double joueurGauche = Canvas.GetLeft(joueur);
+                double joueurDroit = joueurGauche + joueur.Width;
+                double bossGauche = Canvas.GetLeft(boss);
+                double bossHaut = Canvas.GetTop(boss);
+                double bossDroite = bossGauche + boss.Width;
+                double bossBas = bossHaut + boss.Height;
+
+
+                BitmapImage imgProjectileJoueur = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_joueur.png"));
+                projectileJoueur = new Image();
+                projectileJoueur.Width = 44;
+                projectileJoueur.Height = 25;
+                projectileJoueur.Source = imgProjectileJoueur;
+                zone.Children.Add(projectileJoueur);
+                Canvas.SetLeft(projectileJoueur, joueurDroit + projectileJoueur.Width);
+                Canvas.SetTop(projectileJoueur, joueurBas - (joueur.Height / 2));
+
+                double projectileJoueurGauche = Canvas.GetLeft(projectileJoueur);
+                double projectileJoueurHaut = Canvas.GetTop(projectileJoueur);
+                double projectileJoueurDroit = projectileJoueurGauche + imgProjectileJoueur.Width;
+                double projectileJoueurBas = projectileJoueurHaut + imgProjectileJoueur.Height;
+
+                bool projectileToucheBoss = projectileJoueurDroit > bossGauche && projectileJoueurGauche < bossDroite && projectileJoueurBas > bossHaut && projectileJoueurHaut < bossBas;
+                bool projectileToucheMur = projectileJoueurDroit > Canvas.GetRight(zone);
+
+                if (!projectileToucheBoss || !projectileToucheMur)
+                    Canvas.SetLeft(projectileJoueur, projectileJoueurGauche +2);
             }
         }
         private void InitTimer()
@@ -499,18 +531,7 @@ namespace JeuFleurSae
             }
             if (e.ChangedButton == MouseButton.Right && niveauBoss >= 4)
             {
-                double joueurGauche = Canvas.GetLeft(joueur);
-                double joueurHaut = Canvas.GetTop(joueur);
-                double joueurBas = joueurHaut + joueur.Height;
-                double joueurDroit = joueurGauche + joueur.Width;
-
-                BitmapImage imgProjectile = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_joueur.png"));
-                projectileJoueur = new Image();
-                projectileJoueur.Width = 190;
-                projectileJoueur.Height = 110;
-                projectileJoueur.Source = imgProjectile;
-                Canvas.SetLeft(projectileJoueur, joueurDroit + projectileJoueur.Width);
-                Canvas.SetTop(projectileJoueur, joueurHaut / 2);
+                lanceProjectile = true;
             }
             e.Handled = true;
 
