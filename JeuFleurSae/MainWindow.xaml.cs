@@ -413,11 +413,21 @@ namespace JeuFleurSae
                                 BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
                                 ibFond.ImageSource = bmiFond;
                                 zone.Background = ibFond;
+                                for (int i = 0; i < lesProjectiles.Length; i++)
+                                {
+                                    zone.Children.Remove(lesProjectiles[i]);
+                                }
                                 if (niveauBoss < NIVEAU_MAX_BOSS)
                                 {
+                                    nbProjectiles = 3;
+                                    lesProjectiles = new Image[nbProjectiles];
                                     for (int i = 0; i < lesProjectiles.Length; i++)
                                     {
+                                        lesProjectiles[i] = new Image();
+                                        lesProjectiles[i].Width = 25;
+                                        lesProjectiles[i].Height = 25;
                                         lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                                        zone.Children.Add(lesProjectiles[i]);
                                         Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
                                         Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
                                     }
@@ -463,6 +473,8 @@ namespace JeuFleurSae
                             }
                             if (niveauBoss == NIVEAU_MAX_BOSS && vieBoss == VIE_BOSS_MINI)
                             {
+                                gauche = false;
+                                droite = false;
                                 Canvas.SetTop(boss, DISPARITION_BOSS);
                                 Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
                                 MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
