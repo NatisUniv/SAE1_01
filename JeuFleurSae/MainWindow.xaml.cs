@@ -30,6 +30,7 @@ namespace JeuFleurSae
         public static readonly int VIE_BOSS_MINI = 0;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
+        public static readonly int DEGATS_BOULE_DE_FEU = -2;
         public static readonly int DISPARITION_BOSS = -100;
         public static readonly int VITESSE_PROJECTILE_BASE = 3;
         public static readonly int MARGE_COLLISION = 10;
@@ -42,6 +43,7 @@ namespace JeuFleurSae
         private static bool droite;
         private static bool lanceProjectile = false;
         private static bool clickAttaque = false;
+        private bool projectileEnCours = false;
         private static Random alea;
         private bool saut = false;
         bool attaqueRenforce = false;
@@ -173,8 +175,9 @@ namespace JeuFleurSae
                 reset();
 
             }
-            if (lanceProjectile)
+            if (projectileEnCours)
             {
+                
                 Console.WriteLine("Boule de feu");
                 double joueurGauche = Canvas.GetLeft(joueur);
                 double joueurDroit = joueurGauche + joueur.Width;
@@ -182,27 +185,32 @@ namespace JeuFleurSae
                 double bossHaut = Canvas.GetTop(boss);
                 double bossDroite = bossGauche + boss.Width;
                 double bossBas = bossHaut + boss.Height;
-
-
-                BitmapImage imgProjectileJoueur = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_joueur.png"));
-                projectileJoueur = new Image();
-                projectileJoueur.Width = 44;
-                projectileJoueur.Height = 25;
-                projectileJoueur.Source = imgProjectileJoueur;
-                zone.Children.Add(projectileJoueur);
-                Canvas.SetLeft(projectileJoueur, joueurDroit + projectileJoueur.Width);
-                Canvas.SetTop(projectileJoueur, joueurBas - (joueur.Height / 2));
-
+                BitmapImage imgProjectileJoueur = (BitmapImage)projectileJoueur.Source;
                 double projectileJoueurGauche = Canvas.GetLeft(projectileJoueur);
                 double projectileJoueurHaut = Canvas.GetTop(projectileJoueur);
                 double projectileJoueurDroit = projectileJoueurGauche + imgProjectileJoueur.Width;
                 double projectileJoueurBas = projectileJoueurHaut + imgProjectileJoueur.Height;
 
                 bool projectileToucheBoss = projectileJoueurDroit > bossGauche && projectileJoueurGauche < bossDroite && projectileJoueurBas > bossHaut && projectileJoueurHaut < bossBas;
-                bool projectileToucheMur = projectileJoueurDroit > Canvas.GetRight(zone);
+                bool projectileToucheMur = projectileJoueurDroit > zone.Width;
 
-                if (!projectileToucheBoss || !projectileToucheMur)
-                    Canvas.SetLeft(projectileJoueur, projectileJoueurGauche +2);
+                if (!projectileToucheBoss && !projectileToucheMur)
+                    Canvas.SetLeft(projectileJoueur, projectileJoueurGauche + 10);
+                else
+                {
+                    if (projectileToucheBoss)
+                    {
+                        vieBoss += DEGATS_BOULE_DE_FEU;
+                        this.labVieBoss.Content = vieBoss;
+                        projectileJoueur = null;
+                        projectileEnCours = false;
+                    }
+                    if (projectileToucheMur)
+                    {
+                        zone.Children.Remove(projectileJoueur);
+                        projectileEnCours = false;
+                    }
+                }
             }
         }
         private void InitTimer()
@@ -530,9 +538,22 @@ namespace JeuFleurSae
                     }
                 }
             }
-            if (e.ChangedButton == MouseButton.Right && niveauBoss >= 4)
+            if (e.ChangedButton == MouseButton.Right && niveauBoss >= 4 && !projectileEnCours)
             {
-                lanceProjectile = true;
+                
+                projectileEnCours = true;
+                double joueurGauche = Canvas.GetLeft(joueur);
+                double joueurDroit = joueurGauche + joueur.Width;
+                double joueurHaut = Canvas.GetTop(joueur);
+                double joueurBas = joueurHaut + joueur.Height;
+                BitmapImage imgProjectileJoueur = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_joueur.png"));
+                projectileJoueur = new Image();
+                projectileJoueur.Width = 44;
+                projectileJoueur.Height = 25;
+                projectileJoueur.Source = imgProjectileJoueur;
+                zone.Children.Add(projectileJoueur);
+                Canvas.SetLeft(projectileJoueur, joueurDroit);
+                Canvas.SetTop(projectileJoueur, joueurBas - (joueur.Height / 2));
             }
             e.Handled = true;
 
