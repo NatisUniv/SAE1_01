@@ -75,6 +75,10 @@ namespace JeuFleurSae
         public static double Touche { get; set; }
         public int nbSaut = 0;
         private bool peutDoubleSauter = false;
+        private DispatcherTimer timerBouclier;
+        private DispatcherTimer timerCooldownBouclier;
+        private bool enCooldownBouclier = false;
+        private Image bouclierActif = null;
 
         public MainWindow()
         {
@@ -103,6 +107,7 @@ namespace JeuFleurSae
             InitProjectiles();
             InitSon();
             InitMusique();
+            InitBouclierTimers();
         }
         // Logique principale du jeu, appelée chaque frame
         public void Jeu(object? sender, EventArgs e)
@@ -177,7 +182,7 @@ namespace JeuFleurSae
             }
             if (projectileEnCours)
             {
-                
+
                 Console.WriteLine("Boule de feu");
                 double joueurGauche = Canvas.GetLeft(joueur);
                 double joueurDroit = joueurGauche + joueur.Width;
@@ -188,11 +193,14 @@ namespace JeuFleurSae
                 BitmapImage imgProjectileJoueur = (BitmapImage)projectileJoueur.Source;
                 double projectileJoueurGauche = Canvas.GetLeft(projectileJoueur);
                 double projectileJoueurHaut = Canvas.GetTop(projectileJoueur);
-                double projectileJoueurDroit = projectileJoueurGauche + imgProjectileJoueur.Width;
-                double projectileJoueurBas = projectileJoueurHaut + imgProjectileJoueur.Height;
+                double projectileJoueurDroit = projectileJoueurGauche + projectileJoueur.Width;
+                double projectileJoueurBas = projectileJoueurHaut + projectileJoueur.Height;
 
                 bool projectileToucheBoss = projectileJoueurDroit > bossGauche && projectileJoueurGauche < bossDroite && projectileJoueurBas > bossHaut && projectileJoueurHaut < bossBas;
-                bool projectileToucheMur = projectileJoueurDroit > zone.Width;
+                bool projectileToucheMur = projectileJoueurDroit > zone.ActualWidth;
+                Console.WriteLine($"Projectile - Gauche: {projectileJoueurGauche}, Droite: {projectileJoueurDroit}");
+                Console.WriteLine($"Boss - Gauche: {bossGauche}, Droite: {bossDroite}");
+                Console.WriteLine($"Collision: {projectileToucheBoss}");
 
                 if (!projectileToucheBoss && !projectileToucheMur)
                     Canvas.SetLeft(projectileJoueur, projectileJoueurGauche + 10);
@@ -202,16 +210,29 @@ namespace JeuFleurSae
                     {
                         vieBoss += DEGATS_BOULE_DE_FEU;
                         this.labVieBoss.Content = vieBoss;
+                        zone.Children.Remove(projectileJoueur);
                         projectileJoueur = null;
                         projectileEnCours = false;
                         ChangementBoss();
                     }
                     if (projectileToucheMur)
                     {
+                        Console.WriteLine("Rentrer");
                         zone.Children.Remove(projectileJoueur);
                         projectileEnCours = false;
                     }
                 }
+            }
+            if (bouclierActif != null)
+            {
+                double joueurGauche = Canvas.GetLeft(joueur);
+                double joueurDroit = joueurGauche + joueur.Width;
+
+                Canvas.SetLeft(bouclierActif, joueurDroit + bouclierActif.Width);
+                Canvas.SetTop(bouclierActif, joueurHaut - 20);
+
+                // Détecter les collisions avec les projectiles
+                DetecterCollisionBouclierProjectiles();
             }
         }
         private void InitTimer()
@@ -256,7 +277,7 @@ namespace JeuFleurSae
                     // Premier saut
                     saut = true;
                     vitesse = new System.Windows.Vector(0, hauteurSaut);
-                    if( niveauBoss >= 5)
+                    if (niveauBoss >= 5)
                         peutDoubleSauter = true; // Permet le double saut
                 }
                 else if (peutDoubleSauter)
@@ -282,7 +303,7 @@ namespace JeuFleurSae
 
             if (e.Key == Key.A)
             {
-                Pouvoir(NiveauFLeur);
+                Pouvoir();
             }
             if (e.Key == Key.E)
             {
@@ -346,30 +367,33 @@ namespace JeuFleurSae
             fleur.Fill = ibFleur;
 
         }
-        public void Pouvoir(int nb)
+        public void Pouvoir()
         {
-            if (nb >= 1)
+            if (NiveauFLeur < 1)
             {
-                if (enCooldownAttaqueRenforce)
-                {
-                    Console.WriteLine("Attaque renforcée en cooldown. Veuillez patienter.");
-                    return;
-                }
-                attaqueRenforce = true;
-                enCooldownAttaqueRenforce = true;
-                Console.WriteLine("Attaque renforcée activée !");
-                timerCooldownAttaque.Start();
+                Console.WriteLine("L'attaque renforcée n'est pas encore disponible ! Pouvoir verrouillé");
+                return;
             }
+
+            if (enCooldownAttaqueRenforce)
+            {
+                Console.WriteLine("Attaque renforcée en cooldown. Veuillez patienter.");
+                return;
+            }
+            attaqueRenforce = true;
+            enCooldownAttaqueRenforce = true;
+            Console.WriteLine("Attaque renforcée activée !");
+            timerCooldownAttaque.Start();
         }
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Q)
             {
                 gauche = false;
-                ImageBrush ib = new ImageBrush();
-                BitmapImage bmi = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
-                ib.ImageSource = bmi;
-                joueur.Fill = ib;
+                ImageBrush ibArret = new ImageBrush();
+                BitmapImage bmiArret = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_perso/arret.png"));
+                ibArret.ImageSource = bmiArret;
+                joueur.Fill = ibArret;
 
             }
             else if (e.Key == Key.D)
@@ -438,13 +462,13 @@ namespace JeuFleurSae
                         this.labVieBoss.Content = vieBoss;
                         degats = DEGATS_EPEE;
                         ChangementBoss();
-                        
+
                     }
                 }
             }
             if (e.ChangedButton == MouseButton.Right && niveauBoss >= 4 && !projectileEnCours)
             {
-                
+
                 projectileEnCours = true;
                 double joueurGauche = Canvas.GetLeft(joueur);
                 double joueurDroit = joueurGauche + joueur.Width;
@@ -765,27 +789,113 @@ namespace JeuFleurSae
         }
         private void Bouclier(Image bouclier)
         {
+            if (NiveauFLeur < 2)
+            {
+                Console.WriteLine("Le bouclier n'est pas encore disponible ! Pouvoir verrouillé");
+                return;
+            }
+            // Vérifier si le bouclier est en cooldown
+            if (enCooldownBouclier)
+            {
+                Console.WriteLine("Bouclier en cooldown. Veuillez patienter.");
+                return;
+            }
+
+            // Vérifier si un bouclier est déjà actif
+            if (bouclierActif != null)
+            {
+                return;
+            }
+
             double joueurGauche = Canvas.GetLeft(joueur);
             double joueurHaut = Canvas.GetTop(joueur);
             double joueurDroit = joueurGauche + joueur.Width;
             double joueurBas = joueurHaut + joueur.Height;
-            BitmapImage imgBouclier = new BitmapImage(new Uri("pack://application:,,,/img/Pouvoir/Pouvoir2.png"));
-            bouclier = new Image();
-            bouclier.Width = 29;
-            bouclier.Height = 75;
-            bouclier.Source = imgBouclier;
-            zone.Children.Add(bouclier);
-            Canvas.SetLeft(bouclier, joueurDroit + bouclier.Width);
-            Canvas.SetTop(bouclier, joueurHaut - 20);
 
-            double projectileJoueurGauche = Canvas.GetLeft(bouclier);
-            double projectileJoueurHaut = Canvas.GetTop(bouclier);
-            double projectileJoueurDroit = projectileJoueurGauche + bouclier.Width;
-            double projectileJoueurBas = projectileJoueurHaut + bouclier.Height;
-            double bossGauche = Canvas.GetLeft(boss);
-            double bossHaut = Canvas.GetTop(boss);
-            double bossDroite = bossGauche + boss.Width;
-            double bossBas = bossHaut + boss.Height;
+            BitmapImage imgBouclier = new BitmapImage(new Uri("pack://application:,,,/img/Pouvoir/Pouvoir2.png"));
+
+            bouclierActif = new Image();
+            bouclierActif.Width = 29;
+            bouclierActif.Height = 75;
+            bouclierActif.Source = imgBouclier;
+
+            zone.Children.Add(bouclierActif);
+
+            // Démarrer le timer du bouclier
+            timerBouclier.Start();
+        }
+        private void InitBouclierTimers()
+        {
+            timerBouclier = new DispatcherTimer();
+            timerBouclier.Interval = TimeSpan.FromSeconds(3);
+            timerBouclier.Tick += FinBouclier;
+
+            timerCooldownBouclier = new DispatcherTimer();
+            timerCooldownBouclier.Interval = TimeSpan.FromSeconds(5);
+            timerCooldownBouclier.Tick += FinCooldownBouclier;
+        }
+        private void FinBouclier(object sender, EventArgs e)
+        {
+            // Supprimer le bouclier de la zone
+            if (bouclierActif != null)
+            {
+                zone.Children.Remove(bouclierActif);
+                bouclierActif = null;
+            }
+
+            // Arrêter le timer du bouclier
+            timerBouclier.Stop();
+
+            // Démarrer le cooldown
+            timerCooldownBouclier.Start();
+            enCooldownBouclier = true;
+        }
+        private void FinCooldownBouclier(object sender, EventArgs e)
+        {
+            // Fin du cooldown
+            enCooldownBouclier = false;
+            timerCooldownBouclier.Stop();
+            Console.WriteLine("Bouclier à nouveau disponible !");
+        }
+
+        private void DetecterCollisionBouclierProjectiles()
+        {
+            if (bouclierActif == null) return;
+
+            // Position et dimensions du bouclier
+            double bouclierGauche = Canvas.GetLeft(bouclierActif);
+            double bouclierHaut = Canvas.GetTop(bouclierActif);
+            double bouclierDroit = bouclierGauche + bouclierActif.Width;
+            double bouclierBas = bouclierHaut + bouclierActif.Height;
+
+            // Vérifier la collision avec chaque projectile
+            for (int i = 0; i < lesProjectiles.Length; i++)
+            {
+                // Position et dimensions du projectile
+                double projectileGauche = Canvas.GetLeft(lesProjectiles[i]);
+                double projectileHaut = Canvas.GetTop(lesProjectiles[i]);
+                double projectileDroit = projectileGauche + lesProjectiles[i].Width;
+                double projectileBas = projectileHaut + lesProjectiles[i].Height;
+
+                // Vérifier s'il y a collision
+                bool collision =
+                    projectileDroit > bouclierGauche &&
+                    projectileGauche < bouclierDroit &&
+                    projectileBas > bouclierHaut &&
+                    projectileHaut < bouclierBas;
+
+                if (collision)
+                {
+                    // Réinitialiser la position du projectile
+                    double bossHaut = Canvas.GetTop(boss);
+                    double bossBas = bossHaut + boss.Height;
+
+                    Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+
+                    Console.WriteLine("Projectile bloqué par le bouclier !");
+                }
+            }
         }
         private void ChangementBoss()
         {
