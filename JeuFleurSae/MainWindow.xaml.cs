@@ -204,6 +204,7 @@ namespace JeuFleurSae
                         this.labVieBoss.Content = vieBoss;
                         projectileJoueur = null;
                         projectileEnCours = false;
+                        ChangementBoss();
                     }
                     if (projectileToucheMur)
                     {
@@ -436,104 +437,7 @@ namespace JeuFleurSae
                         vieBoss += degats;
                         this.labVieBoss.Content = vieBoss;
                         degats = DEGATS_EPEE;
-                        if (vieBoss < 55)
-                        {
-                            labVieBoss.Foreground = Brushes.Orange;
-                        }
-                        if (vieBoss < 30)
-                        {
-                            labVieBoss.Foreground = Brushes.Yellow;
-                        }
-                        if (vieBoss <= VIE_BOSS_MINI)
-                        {
-
-                            if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
-                            {
-                                gauche = false;
-                                droite = false;
-                                niveauBoss++;
-                                ImageBrush ibBoss = new ImageBrush();
-                                BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
-                                ibBoss.ImageSource = bmiBoss;
-                                boss.Fill = ibBoss;
-                                ImageBrush ibFond = new ImageBrush();
-                                BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
-                                ibFond.ImageSource = bmiFond;
-                                zone.Background = ibFond;
-                                for (int i = 0; i < lesProjectiles.Length; i++)
-                                {
-                                    zone.Children.Remove(lesProjectiles[i]);
-                                }
-                                if (niveauBoss < NIVEAU_MAX_BOSS)
-                                {
-                                    nbProjectiles = 3;
-                                    lesProjectiles = new Image[nbProjectiles];
-                                    for (int i = 0; i < lesProjectiles.Length; i++)
-                                    {
-                                        lesProjectiles[i] = new Image();
-                                        lesProjectiles[i].Width = 25;
-                                        lesProjectiles[i].Height = 25;
-                                        lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
-                                        zone.Children.Add(lesProjectiles[i]);
-                                        Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                                        Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
-                                    }
-                                }
-                                else
-                                {
-                                    for (int i = 0; i < lesProjectiles.Length; i++)
-                                    {
-                                        zone.Children.Remove(lesProjectiles[i]);
-                                    }
-                                    nbProjectiles = 5;
-                                    lesProjectiles = new Image[nbProjectiles];
-                                    for (int i = 0; i < lesProjectiles.Length; i++)
-                                    {
-                                        lesProjectiles[i] = new Image();
-                                        lesProjectiles[i].Width = 25;
-                                        lesProjectiles[i].Height = 25;
-                                        lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
-                                        zone.Children.Add(lesProjectiles[i]);
-                                        Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                                        Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
-                                    }
-                                }
-                                
-                                vieBoss = VIE_BOSS_MAX;
-                                this.labVieBoss.Content = vieBoss;
-                                labVieBoss.Foreground = Brushes.Red;
-                                Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
-                                Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
-                                sonGagne.Play();
-                                minuterie.Stop();
-                                MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
-                                minuterie.Start();
-                            }
-                            if (niveauBoss > 5)
-                            {
-                                rectCoeur.Width = 320;
-                                ImageBrush ibVie = new ImageBrush();
-                                BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur6.png"));
-                                ibVie.ImageSource = bmiVie;
-                                rectCoeur.Fill = ibVie;
-                                compteurVie = 6;
-                            }
-                            if (niveauBoss == NIVEAU_MAX_BOSS && vieBoss == VIE_BOSS_MINI)
-                            {
-                                gauche = false;
-                                droite = false;
-                                Canvas.SetTop(boss, DISPARITION_BOSS);
-                                Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
-                                MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
-                            }
-                            
-                            NiveauFLeur++;
-                            ImageBrush ibFleur = new ImageBrush();
-                            BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
-                            ibFleur.ImageSource = bmiFleur;
-                            fleur.Fill = ibFleur;
-
-                        }
+                        ChangementBoss();
                         
                     }
                 }
@@ -882,6 +786,110 @@ namespace JeuFleurSae
             double bossHaut = Canvas.GetTop(boss);
             double bossDroite = bossGauche + boss.Width;
             double bossBas = bossHaut + boss.Height;
+        }
+        private void ChangementBoss()
+        {
+            double bossHaut = Canvas.GetTop(boss);
+            double bossBas = bossHaut + boss.Height;
+
+            if (vieBoss < 55)
+            {
+                labVieBoss.Foreground = Brushes.Orange;
+            }
+            if (vieBoss < 30)
+            {
+                labVieBoss.Foreground = Brushes.Yellow;
+            }
+            if (vieBoss <= VIE_BOSS_MINI)
+            {
+
+                if (niveauBoss <= NIVEAU_MAX_BOSS - 1)
+                {
+                    gauche = false;
+                    droite = false;
+                    niveauBoss++;
+                    ImageBrush ibBoss = new ImageBrush();
+                    BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
+                    ibBoss.ImageSource = bmiBoss;
+                    boss.Fill = ibBoss;
+                    ImageBrush ibFond = new ImageBrush();
+                    BitmapImage bmiFond = new BitmapImage(new Uri("pack://application:,,,/img/Fond_niveaux/fond_niveau_" + (niveauBoss) + ".png"));
+                    ibFond.ImageSource = bmiFond;
+                    zone.Background = ibFond;
+                    for (int i = 0; i < lesProjectiles.Length; i++)
+                    {
+                        zone.Children.Remove(lesProjectiles[i]);
+                    }
+                    if (niveauBoss < NIVEAU_MAX_BOSS)
+                    {
+                        nbProjectiles = 3;
+                        lesProjectiles = new Image[nbProjectiles];
+                        for (int i = 0; i < lesProjectiles.Length; i++)
+                        {
+                            lesProjectiles[i] = new Image();
+                            lesProjectiles[i].Width = 25;
+                            lesProjectiles[i].Height = 25;
+                            lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                            zone.Children.Add(lesProjectiles[i]);
+                            Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < lesProjectiles.Length; i++)
+                        {
+                            zone.Children.Remove(lesProjectiles[i]);
+                        }
+                        nbProjectiles = 5;
+                        lesProjectiles = new Image[nbProjectiles];
+                        for (int i = 0; i < lesProjectiles.Length; i++)
+                        {
+                            lesProjectiles[i] = new Image();
+                            lesProjectiles[i].Width = 25;
+                            lesProjectiles[i].Height = 25;
+                            lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                            zone.Children.Add(lesProjectiles[i]);
+                            Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                        }
+                    }
+
+                    vieBoss = VIE_BOSS_MAX;
+                    this.labVieBoss.Content = vieBoss;
+                    labVieBoss.Foreground = Brushes.Red;
+                    Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+                    Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+                    sonGagne.Play();
+                    minuterie.Stop();
+                    MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                    minuterie.Start();
+                }
+                if (niveauBoss > 5)
+                {
+                    rectCoeur.Width = 320;
+                    ImageBrush ibVie = new ImageBrush();
+                    BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur6.png"));
+                    ibVie.ImageSource = bmiVie;
+                    rectCoeur.Fill = ibVie;
+                    compteurVie = 6;
+                }
+                if (niveauBoss == NIVEAU_MAX_BOSS && vieBoss <= VIE_BOSS_MINI)
+                {
+                    gauche = false;
+                    droite = false;
+                    Canvas.SetTop(boss, DISPARITION_BOSS);
+                    Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
+                    MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                NiveauFLeur++;
+                ImageBrush ibFleur = new ImageBrush();
+                BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
+                ibFleur.ImageSource = bmiFleur;
+                fleur.Fill = ibFleur;
+
+            }
         }
 
     }
