@@ -26,7 +26,7 @@ namespace JeuFleurSae
         public static readonly int PAS_JOUEUR = 5;
         public static readonly int VIE_JOUEUR_MAX = 3;
         public static readonly int VIE_JOUEUR_MINI = 0;
-        public static readonly int VIE_BOSS_MAX = 5;
+        public static readonly int VIE_BOSS_MAX = 100;
         public static readonly int VIE_BOSS_MINI = 0;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
