@@ -109,7 +109,7 @@ namespace JeuFleurSae
             InitMusique();
             InitBouclierTimers();
         }
-        // Logique principale du jeu, appelée chaque frame
+
         public void Jeu(object? sender, EventArgs e)
         {
             double nouveauXJoueur = Canvas.GetLeft(joueur);
@@ -235,6 +235,7 @@ namespace JeuFleurSae
                 DetecterCollisionBouclierProjectiles();
             }
         }
+
         private void InitTimer()
         {
             minuterie = new DispatcherTimer();
@@ -242,12 +243,14 @@ namespace JeuFleurSae
             minuterie.Tick += Jeu;
             minuterie.Start();
         }
+
         private void InitCooldownTimer()
         {
             timerCooldownAttaque = new DispatcherTimer();
             timerCooldownAttaque.Interval = TimeSpan.FromSeconds(5);
             timerCooldownAttaque.Tick += FinCooldownAttaque;
         }
+
         private void FinCooldownAttaque(object sender, EventArgs e)
         {
             enCooldownAttaqueRenforce = false;
@@ -255,6 +258,7 @@ namespace JeuFleurSae
             Console.WriteLine("Attaque renforcée disponible !");
 
         }
+
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.Key);
@@ -367,6 +371,7 @@ namespace JeuFleurSae
             fleur.Fill = ibFleur;
 
         }
+
         public void Pouvoir()
         {
             if (NiveauFLeur < 1)
@@ -385,6 +390,7 @@ namespace JeuFleurSae
             Console.WriteLine("Attaque renforcée activée !");
             timerCooldownAttaque.Start();
         }
+
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Q)
@@ -466,9 +472,13 @@ namespace JeuFleurSae
                     }
                 }
             }
-            if (e.ChangedButton == MouseButton.Right && niveauBoss >= 4 && !projectileEnCours)
+            if (e.ChangedButton == MouseButton.Right && !projectileEnCours)
             {
-
+                if (NiveauFLeur < 3)
+                {
+                    Console.WriteLine("La boule de feu n'est pas encore disponible ! Pouvoir verrouillé");
+                    return;
+                }
                 projectileEnCours = true;
                 double joueurGauche = Canvas.GetLeft(joueur);
                 double joueurDroit = joueurGauche + joueur.Width;

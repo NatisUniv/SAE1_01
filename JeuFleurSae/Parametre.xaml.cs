@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Configuration;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace JeuFleurSae
@@ -8,6 +9,7 @@ namespace JeuFleurSae
         public Parametre()
         {
             InitializeComponent();
+
         }
 
         // Annuler : Fermer la fenêtre sans appliquer les changements
@@ -21,6 +23,7 @@ namespace JeuFleurSae
         {
             // Récupérer la valeur du slider (niveau de son) comme double pour conserver la précision
             double soundLevel = sliderSon.Value; // pas de cast vers int pour conserver la précision
+
 
             // Vérifier que l'élément sélectionné dans la ComboBox est valide
             string difficulty = null;
