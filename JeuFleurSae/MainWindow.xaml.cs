@@ -25,9 +25,12 @@ namespace JeuFleurSae
         private DispatcherTimer timerCooldownAttaque;
         public static readonly int PAS_JOUEUR = 5;
         public static readonly int VIE_JOUEUR_MAX = 3;
+        public static readonly int VIE_JOUEUR_MAX_NIVEAU_SIX = 6;
         public static readonly int VIE_JOUEUR_MINI = 0;
         public static readonly int VIE_BOSS_MAX = 100;
         public static readonly int VIE_BOSS_MINI = 0;
+        public static readonly int VIE_BOSS_MOITIER = 50;
+        public static readonly int VIE_BOSS_TRENTE = 30;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
         public static readonly int DEGATS_BOULE_DE_FEU = -2;
@@ -37,8 +40,37 @@ namespace JeuFleurSae
         private static int nbProjectiles = 3;
         public static readonly int POSITION_JOUEUR_DEBUT_GAUCHE = 22;
         public static readonly int POSITION_JOUEUR_DEBUT_HAUT = 352;
+        public static readonly int POSITION_BOSS_DEBUT_GAUCHE = 641;
+        public static readonly int POSITION_BOSS_DEBUT_HAUT = 292;
+        public static readonly int POSITION_COEUR_DEBUT_GAUCHE = 10;
+        public static readonly int POSITION_COEUR_DEBUT_HAUT = 10;
+        public static readonly int POSITION_FLEUR_DEBUT_GAUCHE = 11;
+        public static readonly int POSITION_FLEUR_DEBUT_HAUT = 67;
+        public static readonly int POSITION_VIE_BOSS_DEBUT_GAUCHE = 659;
+        public static readonly int POSITION_VIE_BOSS_DEBUT_HAUT = 252;
+        public static readonly int POSITION_LORE_DEBUT_HAUT = -454;
+        public static readonly int POSITION_PAUSE_DEBUT_GAUCHE = 800;
+        public static readonly int POSITION_JOUER_DEBUT_HAUT = -127;
+        public static readonly int POSITION_JOUER_HAUT = 342;
         public static readonly int NIVEAU_MAX_BOSS = 6;
         public static readonly int CONSTANTE_POUR_DEBUG = 75;
+        public static readonly int POSITION_ZERO = 0;
+        public static readonly int LARGEUR_PROJECTILE = 25;
+        public static readonly int HAUTEUR_PROJECTILE = 25;
+        public static readonly int LARGEUR_PROJECTILE_JOUEUR = 44;
+        public static readonly int HAUTEUR_PROJECTILE_JOUEUR = 25;
+        public static readonly int LARGEUR_BOUCLIER_JOUEUR = 19;
+        public static readonly int HAUTEUR_BOUCLIER_JOUEUR = 45;
+        public static readonly int LARGEUR_COEUR_SIX = 320;
+        public static readonly int LARGEUR_COEUR_TROIS = 160;
+        public static readonly int COMPTEUR_FRAME = 0;
+        public static readonly int SPRITE_ATTAQUE_MAX = 4;
+        public static readonly int SPRITE_ATTAQUE_MINI = 1;
+        public static readonly double VITESSE_CHANGEMENT_SPRITE = 0.5;
+        public static readonly int SPRITE_INT_MIN = 0;
+        public static readonly int SPRITE_INT_MAX = 7;
+        public static readonly int NB_PROJECTILE_DEBUT = 3;
+        public static readonly int REPOSITIONNEMENT_PROJECTILE_GAUCHE = 30;
         private static bool gauche;
         private static bool droite;
         private static bool lanceProjectile = false;
@@ -71,9 +103,6 @@ namespace JeuFleurSae
         private static SoundPlayer sonGagne;
         private static MediaPlayer musique;
         public static double NiveauSon { get; set; }
-        public static String Difficulte { get; set; }
-        public static double Touche { get; set; }
-        public int nbSaut = 0;
         private bool peutDoubleSauter = false;
         private DispatcherTimer timerBouclier;
         private DispatcherTimer timerCooldownBouclier;
@@ -86,10 +115,10 @@ namespace JeuFleurSae
         }
         public void preLancement()
         {
-            Canvas.SetLeft(lore, 0);
-            Canvas.SetTop(lore, 0);
+            Canvas.SetLeft(lore, POSITION_ZERO);
+            Canvas.SetTop(lore, POSITION_ZERO);
             Canvas.SetLeft(butJouer, zone.ActualWidth/2);
-            Canvas.SetTop(butJouer, 342);
+            Canvas.SetTop(butJouer, POSITION_JOUER_HAUT);
         }
         public void Lancement()
         {
@@ -102,18 +131,18 @@ namespace JeuFleurSae
             zone.Background = ibFond;
             Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
             Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
-            Canvas.SetTop(boss, 292);
-            Canvas.SetLeft(boss, 641);
-            Canvas.SetTop(rectCoeur, 10);
-            Canvas.SetLeft(rectCoeur, 10);
-            Canvas.SetTop(fleur, 67);
-            Canvas.SetLeft(fleur, 11);
-            Canvas.SetTop(labVieBoss, 252);
-            Canvas.SetLeft(labVieBoss, 659);
-            Canvas.SetLeft(lore, 0);
-            Canvas.SetTop(lore, -454);
+            Canvas.SetTop(boss, POSITION_BOSS_DEBUT_HAUT);
+            Canvas.SetLeft(boss, POSITION_BOSS_DEBUT_GAUCHE);
+            Canvas.SetTop(rectCoeur, POSITION_COEUR_DEBUT_HAUT);
+            Canvas.SetLeft(rectCoeur, POSITION_COEUR_DEBUT_GAUCHE);
+            Canvas.SetTop(fleur, POSITION_FLEUR_DEBUT_HAUT);
+            Canvas.SetLeft(fleur, POSITION_FLEUR_DEBUT_GAUCHE);
+            Canvas.SetTop(labVieBoss, POSITION_VIE_BOSS_DEBUT_HAUT);
+            Canvas.SetLeft(labVieBoss, POSITION_VIE_BOSS_DEBUT_GAUCHE);
+            Canvas.SetLeft(lore, POSITION_ZERO);
+            Canvas.SetTop(lore, POSITION_LORE_DEBUT_HAUT);
             Canvas.SetLeft(butJouer, zone.ActualWidth / 2);
-            Canvas.SetTop(butJouer, -137);
+            Canvas.SetTop(butJouer, POSITION_JOUER_DEBUT_HAUT);
             InitProjectiles();
             InitSon();
             InitMusique();
@@ -213,7 +242,7 @@ namespace JeuFleurSae
                 Console.WriteLine($"Collision: {projectileToucheBoss}");
 
                 if (!projectileToucheBoss && !projectileToucheMur)
-                    Canvas.SetLeft(projectileJoueur, projectileJoueurGauche + 10);
+                    Canvas.SetLeft(projectileJoueur, projectileJoueurGauche + MARGE_COLLISION);
                 else
                 {
                     if (projectileToucheBoss)
@@ -306,12 +335,12 @@ namespace JeuFleurSae
                 if (minuterie.IsEnabled)
                 {
                     minuterie.Stop();
-                    Canvas.SetLeft(labPause, 0);
+                    Canvas.SetLeft(labPause, POSITION_ZERO);
                 }
                 else
                 {
                     minuterie.Start();
-                    Canvas.SetLeft(labPause, 800);
+                    Canvas.SetLeft(labPause, POSITION_PAUSE_DEBUT_GAUCHE);
                 }
             }
 
@@ -342,10 +371,10 @@ namespace JeuFleurSae
                 {
                     Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
                     Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
-                    Canvas.SetTop(boss, 292);
-                    Canvas.SetLeft(boss, 641);
-                    Canvas.SetTop(labVieBoss, 252);
-                    Canvas.SetLeft(labVieBoss, 659);
+                    Canvas.SetTop(boss, POSITION_BOSS_DEBUT_HAUT);
+                    Canvas.SetLeft(boss, POSITION_BOSS_DEBUT_GAUCHE);
+                    Canvas.SetTop(labVieBoss, POSITION_VIE_BOSS_DEBUT_HAUT);
+                    Canvas.SetLeft(labVieBoss, POSITION_VIE_BOSS_DEBUT_GAUCHE);
                     niveauBoss++;
                     ImageBrush ibBoss = new ImageBrush();
                     BitmapImage bmiBoss = new BitmapImage(new Uri("pack://application:,,,/img/Boss/boss" + (niveauBoss) + ".png"));
@@ -368,17 +397,17 @@ namespace JeuFleurSae
                 for (int i = 0; i < lesProjectiles.Length; i++)
                 {
                     lesProjectiles[i] = new Image();
-                    lesProjectiles[i].Width = 25;
-                    lesProjectiles[i].Height = 25;
+                    lesProjectiles[i].Width = LARGEUR_PROJECTILE;
+                    lesProjectiles[i].Height = HAUTEUR_PROJECTILE;
                     lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
                     zone.Children.Add(lesProjectiles[i]);
                     Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
                 }
             }
             if (e.Key == Key.C)
             {
-                vieBoss = 5;
+                vieBoss = VIE_BOSS_MINI + 1;
             }
             ImageBrush ibFleur = new ImageBrush();
             BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
@@ -444,7 +473,6 @@ namespace JeuFleurSae
                     changementCoeur();
                 }
             }
-
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -500,8 +528,8 @@ namespace JeuFleurSae
                 double joueurBas = joueurHaut + joueur.Height;
                 BitmapImage imgProjectileJoueur = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_joueur.png"));
                 projectileJoueur = new Image();
-                projectileJoueur.Width = 44;
-                projectileJoueur.Height = 25;
+                projectileJoueur.Width = LARGEUR_PROJECTILE_JOUEUR;
+                projectileJoueur.Height = HAUTEUR_PROJECTILE_JOUEUR;
                 projectileJoueur.Source = imgProjectileJoueur;
                 zone.Children.Add(projectileJoueur);
                 Canvas.SetLeft(projectileJoueur, joueurDroit);
@@ -518,12 +546,12 @@ namespace JeuFleurSae
             compteurFrameAttaque++;
             if (compteurFrameAttaque >= delayFrame)
             {
-                compteurFrameAttaque = 0; // Réinitialiser le compteur
-                SpriteAtkInt += 1;
+                compteurFrameAttaque = COMPTEUR_FRAME; // Réinitialiser le compteur
+                SpriteAtkInt ++;
 
-                if (SpriteAtkInt > 4)
+                if (SpriteAtkInt > SPRITE_ATTAQUE_MAX)
                 {
-                    SpriteAtkInt = 1; // Réinitialiser l'index du sprite
+                    SpriteAtkInt = SPRITE_ATTAQUE_MINI; // Réinitialiser l'index du sprite
                 }
 
                 spriteAttaque(SpriteAtkInt);
@@ -567,8 +595,8 @@ namespace JeuFleurSae
             for (int i = 0; i < lesProjectiles.Length; i++)
             {
                 lesProjectiles[i] = new Image();
-                lesProjectiles[i].Width = 25;
-                lesProjectiles[i].Height = 25;
+                lesProjectiles[i].Width = LARGEUR_PROJECTILE;
+                lesProjectiles[i].Height = HAUTEUR_PROJECTILE;
                 lesProjectiles[i].Source = imgProjectile;
                 zone.Children.Add(lesProjectiles[i]);
                 Canvas.SetLeft(lesProjectiles[i], bossGauche - lesProjectiles[i].Width);
@@ -602,7 +630,7 @@ namespace JeuFleurSae
                 for (int i = 0; i < lesProjectiles.Length; i++)
                 {
                     Canvas.SetTop(imgProjectile, alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                    Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);
+                    Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
                 }
             }
         }
@@ -629,7 +657,7 @@ namespace JeuFleurSae
                 (int)imgProjectile.Width, (int)imgProjectile.Height);
 
             // Vérifier la collision avec le joueur
-            if (joueurDroit > projectileGauche + 10 && joueurGauche < projectileDroit && joueurBas > projectileHaut && joueurHaut < projectileBas)
+            if (joueurDroit > projectileGauche + MARGE_COLLISION && joueurGauche < projectileDroit && joueurBas > projectileHaut && joueurHaut < projectileBas)
             {
                 toucher = true;
             }
@@ -641,7 +669,7 @@ namespace JeuFleurSae
                 for (int i = 0; i < lesProjectiles.Length; i++)
                 {
                     Canvas.SetTop(imgProjectile, alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));  // Repositionner sous le boss
-                    Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - 30);
+                    Canvas.SetLeft(imgProjectile, Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
                 }
             }
         }
@@ -706,12 +734,12 @@ namespace JeuFleurSae
             compteurFrameMouvement++;
             if (compteurFrameMouvement >= delayFrame)
             {
-                compteurFrameMouvement = 0; // Réinitialiser le compteur
-                SpriteInt += 0.5;
+                compteurFrameMouvement = COMPTEUR_FRAME; // Réinitialiser le compteur
+                SpriteInt += VITESSE_CHANGEMENT_SPRITE;
 
-                if (SpriteInt >= 7)
+                if (SpriteInt >= SPRITE_INT_MAX)
                 {
-                    SpriteInt = 0; // Réinitialiser l'index du sprite
+                    SpriteInt = SPRITE_INT_MIN; // Réinitialiser l'index du sprite
                 }
 
                 spriteCourse(SpriteInt);
@@ -723,12 +751,12 @@ namespace JeuFleurSae
             compteurFrameMouvement++;
             if (compteurFrameMouvement >= delayFrame)
             {
-                compteurFrameMouvement = 0; // Réinitialiser le compteur
-                SpriteIntGauche += 0.5;
+                compteurFrameMouvement = COMPTEUR_FRAME; // Réinitialiser le compteur
+                SpriteIntGauche += VITESSE_CHANGEMENT_SPRITE;
 
-                if (SpriteIntGauche > 7)
+                if (SpriteIntGauche > SPRITE_INT_MAX)
                 {
-                    SpriteIntGauche = 0; // Réinitialiser l'index du sprite
+                    SpriteIntGauche = SPRITE_INT_MIN; // Réinitialiser l'index du sprite
                 }
 
                 spriteCourseGauche(SpriteIntGauche);
@@ -754,7 +782,7 @@ namespace JeuFleurSae
                 zone.Children.Remove(lesProjectiles[i]);
             }
             InitProjectiles();
-            nbProjectiles = 3;
+            nbProjectiles = NB_PROJECTILE_DEBUT;
             labVieBoss.Foreground = Brushes.Red;
             vieBoss = VIE_BOSS_MAX;
             this.labVieBoss.Content = vieBoss;
@@ -783,7 +811,7 @@ namespace JeuFleurSae
             rectCoeur.Fill = ibVie;
             if (compteurVie < 4)
             {
-                rectCoeur.Width = 160;
+                rectCoeur.Width = LARGEUR_COEUR_TROIS;
             }
 
         }
@@ -847,8 +875,8 @@ namespace JeuFleurSae
             BitmapImage imgBouclier = new BitmapImage(new Uri("pack://application:,,,/img/Pouvoir/Pouvoir2.png"));
 
             bouclierActif = new Image();
-            bouclierActif.Width = 29;
-            bouclierActif.Height = 75;
+            bouclierActif.Width = LARGEUR_BOUCLIER_JOUEUR;
+            bouclierActif.Height = HAUTEUR_BOUCLIER_JOUEUR;
             bouclierActif.Source = imgBouclier;
 
             zone.Children.Add(bouclierActif);
@@ -923,7 +951,7 @@ namespace JeuFleurSae
                     double bossBas = bossHaut + boss.Height;
 
                     Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                    Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
 
                     Console.WriteLine("Projectile bloqué par le bouclier !");
                 }
@@ -934,11 +962,11 @@ namespace JeuFleurSae
             double bossHaut = Canvas.GetTop(boss);
             double bossBas = bossHaut + boss.Height;
 
-            if (vieBoss < 55)
+            if (vieBoss <= VIE_BOSS_MOITIER)
             {
                 labVieBoss.Foreground = Brushes.Orange;
             }
-            if (vieBoss < 30)
+            if (vieBoss < VIE_BOSS_TRENTE)
             {
                 labVieBoss.Foreground = Brushes.Yellow;
             }
@@ -964,17 +992,17 @@ namespace JeuFleurSae
                     }
                     if (niveauBoss < NIVEAU_MAX_BOSS)
                     {
-                        nbProjectiles = 3;
+                        nbProjectiles = NB_PROJECTILE_DEBUT;
                         lesProjectiles = new Image[nbProjectiles];
                         for (int i = 0; i < lesProjectiles.Length; i++)
                         {
                             lesProjectiles[i] = new Image();
-                            lesProjectiles[i].Width = 25;
-                            lesProjectiles[i].Height = 25;
+                            lesProjectiles[i].Width = LARGEUR_PROJECTILE;
+                            lesProjectiles[i].Height = HAUTEUR_PROJECTILE;
                             lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
                             zone.Children.Add(lesProjectiles[i]);
                             Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
                         }
                     }
                     else
@@ -983,17 +1011,17 @@ namespace JeuFleurSae
                         {
                             zone.Children.Remove(lesProjectiles[i]);
                         }
-                        nbProjectiles = 5;
+                        nbProjectiles = NB_PROJECTILE_DEBUT + 2;
                         lesProjectiles = new Image[nbProjectiles];
                         for (int i = 0; i < lesProjectiles.Length; i++)
                         {
                             lesProjectiles[i] = new Image();
-                            lesProjectiles[i].Width = 25;
-                            lesProjectiles[i].Height = 25;
+                            lesProjectiles[i].Width = LARGEUR_PROJECTILE;
+                            lesProjectiles[i].Height = HAUTEUR_PROJECTILE;
                             lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
                             zone.Children.Add(lesProjectiles[i]);
                             Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
+                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
                         }
                     }
 
@@ -1027,12 +1055,12 @@ namespace JeuFleurSae
                 }
                 if (niveauBoss > 5)
                 {
-                    rectCoeur.Width = 320;
+                    rectCoeur.Width = LARGEUR_COEUR_SIX;
                     ImageBrush ibVie = new ImageBrush();
                     BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur6.png"));
                     ibVie.ImageSource = bmiVie;
                     rectCoeur.Fill = ibVie;
-                    compteurVie = 6;
+                    compteurVie = VIE_JOUEUR_MAX_NIVEAU_SIX;
                 }
                 if (niveauBoss == NIVEAU_MAX_BOSS && vieBoss <= VIE_BOSS_MINI)
                 {
@@ -1048,8 +1076,8 @@ namespace JeuFleurSae
                         zone.Children.Remove(lesProjectiles[i]);
                     }
                     MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
-                    Canvas.SetTop(labFin, 0);
-                    Canvas.SetLeft(labFin, 0);
+                    Canvas.SetTop(labFin, POSITION_ZERO);
+                    Canvas.SetLeft(labFin, POSITION_ZERO);
                 }
 
                 NiveauFLeur++;
