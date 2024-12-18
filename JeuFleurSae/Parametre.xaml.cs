@@ -24,15 +24,6 @@ namespace JeuFleurSae
             MainWindow.NiveauSon = sliderSon.Value;
             DialogResult = true;
 
-            // Vérifier que l'élément sélectionné dans la ComboBox est valide
-            string difficulty = null;
-            if (ComboBoxDifficulte.SelectedItem is ComboBoxItem selectedItem)
-            {
-                difficulty = selectedItem.Content.ToString();
-            }
-
-            // Récupérer la configuration des touches
-            string configuredKeys = KeyDisplay.Text;
         }
     }
 }

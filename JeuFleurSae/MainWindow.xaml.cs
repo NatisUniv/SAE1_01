@@ -84,7 +84,13 @@ namespace JeuFleurSae
         {
             InitializeComponent();
         }
-
+        public void preLancement()
+        {
+            Canvas.SetLeft(lore, 0);
+            Canvas.SetTop(lore, 0);
+            Canvas.SetLeft(butJouer, zone.ActualWidth/2);
+            Canvas.SetTop(butJouer, 342);
+        }
         public void Lancement()
         {
             InitTimer();
@@ -104,6 +110,10 @@ namespace JeuFleurSae
             Canvas.SetLeft(fleur, 11);
             Canvas.SetTop(labVieBoss, 252);
             Canvas.SetLeft(labVieBoss, 659);
+            Canvas.SetLeft(lore, 0);
+            Canvas.SetTop(lore, -454);
+            Canvas.SetLeft(butJouer, zone.ActualWidth / 2);
+            Canvas.SetTop(butJouer, -137);
             InitProjectiles();
             InitSon();
             InitMusique();
@@ -749,6 +759,7 @@ namespace JeuFleurSae
             niveauBoss = 1;
             Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
             Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
+            saut = false;
             ImageBrush ibVie = new ImageBrush();
             BitmapImage bmiVie = new BitmapImage(new Uri("pack://application:,,,/img/Coeur/coeur3.png"));
             ibVie.ImageSource = bmiVie;
@@ -989,6 +1000,7 @@ namespace JeuFleurSae
                     labVieBoss.Foreground = Brushes.Red;
                     Canvas.SetLeft(joueur, POSITION_JOUEUR_DEBUT_GAUCHE);
                     Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
+                    saut = false;
                     sonGagne.Play();
                     minuterie.Stop();
                     switch (niveauBoss)
@@ -1034,6 +1046,8 @@ namespace JeuFleurSae
                         zone.Children.Remove(lesProjectiles[i]);
                     }
                     MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
+                    Canvas.SetTop(labFin, 0);
+                    Canvas.SetLeft(labFin, 0);
                 }
 
                 NiveauFLeur++;
@@ -1045,5 +1059,11 @@ namespace JeuFleurSae
             }
         }
 
+        private void butJouer_Click(object sender, RoutedEventArgs e)
+        {
+            butJouer.IsEnabled = false;
+            Console.WriteLine("jouer");
+            Lancement();
+        }
     }
 }

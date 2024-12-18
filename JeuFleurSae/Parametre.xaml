@@ -6,26 +6,13 @@
         <StackPanel Margin="10">
             <!-- Slider pour le niveau de son -->
             <TextBlock Text="Niveau de son" Margin="0,0,0,5"/>
-            <Label Content="{Binding ElementName=sliderSon, Path=Value, StringFormat={}{0:#.00}}"/>
+            <Label Content="{Binding ElementName=sliderSon, Path=Value, StringFormat={}{0:#.00}}" HorizontalContentAlignment="Center"/>
             <Slider x:Name="sliderSon" Minimum="0" Maximum="1" Value="0.5" TickFrequency="0.01" IsSnapToTickEnabled="True" Width="320" HorizontalAlignment="Left" />
 
             <!-- Sélection de la difficulté -->
-            <TextBlock Text="Difficulté" Margin="20,10,0,5"/>
-            <ComboBox x:Name="ComboBoxDifficulte" Margin="0,0,0,10">
-                <ComboBoxItem Content="Facile" />
-                <ComboBoxItem Content="Moyenne" />
-                <ComboBoxItem Content="Difficile" />
-            </ComboBox>
-
-            <!-- Configuration des touches -->
-            <TextBlock Text="Touches" Margin="20,10,0,5"/>
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="boutConfig" Content="Configurer" Width="100"/>
-                <TextBlock x:Name="KeyDisplay" Text="Touches par défaut" VerticalAlignment="Center" Margin="10,0"/>
-            </StackPanel>
 
             <!-- Boutons de validation -->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="20,10,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
                 <Button Content="Annuler" Width="100" Click="CancelButton_Click" Margin="10,0"/>
                 <Button Content="Appliquer" Width="100" Click="Appliquer_Click" Margin="10,0"/>
             </StackPanel>

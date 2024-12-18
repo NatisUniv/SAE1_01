@@ -105,5 +105,21 @@
             FontSize="48"
             Foreground="White"
             OpacityMask="#7F000000" />
+        <Label
+    x:Name="labFin"
+    Canvas.Left="0"
+    Canvas.Top="450"
+    Width="800"
+    Height="434"
+    HorizontalContentAlignment="Center"
+    VerticalContentAlignment="Center"
+    Background="Black"
+    Content="Fin"
+    FontSize="48"
+    Foreground="White"/>
+        <Label x:Name="lore" Content="Bonjour, aventurier. Vous êtes Midas, un jeune combattant originaire du comté de Salty Spring.&#10;Le royaume a été attaqué par des forces maléfiques, et le roi compte sur vous pour éliminer cette menace.&#10;Le savant du village vous a désigné une quête cruciale :&#10;retrouver la fleur magique, une légendaire plante dont les cinq pétales, une fois réunis, permettent de maîtriser les éléments.&#10;Cependant, ces pétales sont protégés par de redoutables gardiens. Pour obtenir ce pouvoir, vous devrez affronter et vaincre ces gardiens.&#10;Vous sentez-vous assez vaillant pour affronter les forces maléfiques et sauver le royaume ? "
+               Canvas.Top="-454" Width="800" Height="434" Background="Black" Foreground="White" HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center" FontFamily="Ink Free" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button x:Name="butJouer" Content="Jouer" Canvas.Left="367" Canvas.Top="-117" Foreground="White" BorderBrush="{x:Null}" Background="Black" Click="butJouer_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Canvas>
 </Window>
