@@ -21,9 +21,8 @@ namespace JeuFleurSae
         // Appliquer les paramètres
         private void Appliquer_Click(object sender, RoutedEventArgs e)
         {
-            // Récupérer la valeur du slider (niveau de son) comme double pour conserver la précision
-            double soundLevel = sliderSon.Value; // pas de cast vers int pour conserver la précision
-
+            MainWindow.NiveauSon = sliderSon.Value;
+            DialogResult = true;
 
             // Vérifier que l'élément sélectionné dans la ComboBox est valide
             string difficulty = null;
@@ -34,9 +33,6 @@ namespace JeuFleurSae
 
             // Récupérer la configuration des touches
             string configuredKeys = KeyDisplay.Text;
-
-            // Appliquer les paramètres (affichage ici, mais tu peux enregistrer ou utiliser ces valeurs)
-            MessageBox.Show($"Paramètres appliqués:\nSon: {soundLevel}\nDifficulté: {difficulty}\nTouches: {configuredKeys}");
         }
     }
 }

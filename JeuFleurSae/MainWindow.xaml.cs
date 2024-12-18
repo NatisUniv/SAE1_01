@@ -26,12 +26,12 @@ namespace JeuFleurSae
         public static readonly int PAS_JOUEUR = 5;
         public static readonly int VIE_JOUEUR_MAX = 3;
         public static readonly int VIE_JOUEUR_MINI = 0;
-        public static readonly int VIE_BOSS_MAX = 5;
+        public static readonly int VIE_BOSS_MAX = 100;
         public static readonly int VIE_BOSS_MINI = 0;
         public static readonly int DEGATS_EPEE = -5;
         public static readonly int DEGATS_PROJECTILE = -1;
         public static readonly int DEGATS_BOULE_DE_FEU = -2;
-        public static readonly int DISPARITION_BOSS = -100;
+        public static readonly int DISPARITION = -100;
         public static readonly int VITESSE_PROJECTILE_BASE = 3;
         public static readonly int MARGE_COLLISION = 10;
         private static int nbProjectiles = 3;
@@ -364,12 +364,14 @@ namespace JeuFleurSae
                     Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - 30);
                 }
             }
-
+            if (e.Key == Key.C)
+            {
+                vieBoss = 5;
+            }
             ImageBrush ibFleur = new ImageBrush();
             BitmapImage bmiFleur = new BitmapImage(new Uri("pack://application:,,,/img/Fleur/fleur" + (NiveauFLeur) + ".png"));
             ibFleur.ImageSource = bmiFleur;
             fleur.Fill = ibFleur;
-
         }
 
         public void Pouvoir()
@@ -777,12 +779,19 @@ namespace JeuFleurSae
             sonGagne = new SoundPlayer(Application.GetResourceStream(
                 new Uri("pack://application:,,,/sons/victoire.wav")).Stream);
         }
+        private void MenuAudio_Click(object sender, RoutedEventArgs e)
+        {
+            Parametre dialog = new Parametre();
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+                MainWindow.NiveauSon = dialog.sliderSon.Value;
+        }
         private void InitMusique()
         {
             musique = new MediaPlayer();
-            musique.Open(new Uri("pack://application:,,,/sons/musiqueFond.mp3"));
+            musique.Open(new Uri(AppDomain.CurrentDomain.BaseDirectory + "sons/Musique.mp3"));
             musique.MediaEnded += RelanceMusique;
-            musique.Volume = 1;
+            musique.Volume = NiveauSon;
             musique.Play();
         }
         private void RelanceMusique(object? sender, EventArgs e)
@@ -998,8 +1007,15 @@ namespace JeuFleurSae
                 {
                     gauche = false;
                     droite = false;
-                    Canvas.SetTop(boss, DISPARITION_BOSS);
-                    Canvas.SetTop(labVieBoss, DISPARITION_BOSS);
+                    Canvas.SetTop(boss, DISPARITION);
+                    Canvas.SetTop(labVieBoss, DISPARITION);
+                    Canvas.SetTop(joueur, DISPARITION * 2);
+                    Canvas.SetTop(rectCoeur, DISPARITION);
+                    Canvas.SetTop(fleur, DISPARITION);
+                    for (int i = 0; i < lesProjectiles.Length; i++)
+                    {
+                        zone.Children.Remove(lesProjectiles[i]);
+                    }
                     MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
 
