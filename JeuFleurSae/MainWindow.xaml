@@ -15,6 +15,63 @@
     MouseDown="Window_MouseDown"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#000000"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#000000"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#000000"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#000000"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="boutonTRANSPARENT" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Canvas x:Name="zone">
         <Canvas.Background>
             <ImageBrush x:Name="fondNiveau" ImageSource="img/Menu/MenuDebut.jpg" />
@@ -120,6 +177,6 @@
         <Label x:Name="lore" Content="Bonjour, aventurier. Vous êtes Midas, un jeune combattant originaire du comté de Salty Spring.&#10;Le royaume a été attaqué par des forces maléfiques, et le roi compte sur vous pour éliminer cette menace.&#10;Le savant du village vous a désigné une quête cruciale :&#10;retrouver la fleur magique, une légendaire plante dont les cinq pétales, une fois réunis, permettent de maîtriser les éléments.&#10;Cependant, ces pétales sont protégés par de redoutables gardiens. Pour obtenir ce pouvoir, vous devrez affronter et vaincre ces gardiens.&#10;Vous sentez-vous assez vaillant pour affronter les forces maléfiques et sauver le royaume ? "
                Canvas.Top="-454" Width="800" Height="434" Background="Black" Foreground="White" HorizontalContentAlignment="Center"
                VerticalContentAlignment="Center" FontFamily="Ink Free" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Button x:Name="butJouer" Content="Jouer" Canvas.Left="367" Canvas.Top="-117" Foreground="White" BorderBrush="{x:Null}" Background="Black" Click="butJouer_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Style="{DynamicResource boutonTRANSPARENT}" x:Name="butJouer" Content="Jouer" Canvas.Left="367" Canvas.Top="-117" Foreground="White" BorderBrush="{x:Null}" Background="Black" Click="butJouer_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Canvas>
 </Window>
