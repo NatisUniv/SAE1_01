@@ -991,7 +991,24 @@ namespace JeuFleurSae
                     Canvas.SetTop(joueur, POSITION_JOUEUR_DEBUT_HAUT);
                     sonGagne.Play();
                     minuterie.Stop();
-                    MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                    switch (niveauBoss)
+                    {
+                        case 2:
+                            MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6, vous pouvez maintenant renforcer votre prochaine attaque toutes les 5 secondes en appuyant sur A", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                            break;
+                        case 3:
+                            MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6, vous pouvez maintenant faire apparaitre un bouclier toutes les 5 secondes en appuyant sur E", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                            break;
+                        case 4:
+                            MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6, vous pouvez maintenant lancer une boule de feu en appuyant sur clic droit", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                            break;
+                        case 5:
+                            MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6, vous pouvez maintenant faire des doubles sauts", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                            break;
+                        case 6:
+                            MessageBox.Show("Bien Joué,  vous avez vaincu le boss " + (niveauBoss - 1) + "/6, votre vie a été restauré et doublé pour affronter le Boss final", "Félicitation", MessageBoxButton.OK, MessageBoxImage.Information);
+                            break;
+                    }
                     minuterie.Start();
                 }
                 if (niveauBoss > 5)
