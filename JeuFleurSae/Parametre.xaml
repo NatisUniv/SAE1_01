@@ -1,7 +1,7 @@
 ﻿<Window x:Class="JeuFleurSae.Parametre"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Paramètres" Height="271" Width="400" WindowStartupLocation="CenterScreen">
+        Title="Paramètres" Height="156" Width="400" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Margin="10">
             <!-- Slider pour le niveau de son -->
