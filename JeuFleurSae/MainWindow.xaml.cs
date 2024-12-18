@@ -59,8 +59,8 @@ namespace JeuFleurSae
         public static readonly int HAUTEUR_PROJECTILE = 25;
         public static readonly int LARGEUR_PROJECTILE_JOUEUR = 44;
         public static readonly int HAUTEUR_PROJECTILE_JOUEUR = 25;
-        public static readonly int LARGEUR_BOUCLIER_JOUEUR = 19;
-        public static readonly int HAUTEUR_BOUCLIER_JOUEUR = 45;
+        public static readonly int LARGEUR_BOUCLIER_JOUEUR = 29;
+        public static readonly int HAUTEUR_BOUCLIER_JOUEUR = 75;
         public static readonly int LARGEUR_COEUR_SIX = 320;
         public static readonly int LARGEUR_COEUR_TROIS = 160;
         public static readonly int COMPTEUR_FRAME = 0;
@@ -991,17 +991,7 @@ namespace JeuFleurSae
                     if (niveauBoss < NIVEAU_MAX_BOSS)
                     {
                         nbProjectiles = NB_PROJECTILE_DEBUT;
-                        lesProjectiles = new Image[nbProjectiles];
-                        for (int i = 0; i < lesProjectiles.Length; i++)
-                        {
-                            lesProjectiles[i] = new Image();
-                            lesProjectiles[i].Width = LARGEUR_PROJECTILE;
-                            lesProjectiles[i].Height = HAUTEUR_PROJECTILE;
-                            lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
-                            zone.Children.Add(lesProjectiles[i]);
-                            Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
-                        }
+                        
                     }
                     else
                     {
@@ -1010,19 +1000,18 @@ namespace JeuFleurSae
                             zone.Children.Remove(lesProjectiles[i]);
                         }
                         nbProjectiles = NB_PROJECTILE_DEBUT + 2;
-                        lesProjectiles = new Image[nbProjectiles];
-                        for (int i = 0; i < lesProjectiles.Length; i++)
-                        {
-                            lesProjectiles[i] = new Image();
-                            lesProjectiles[i].Width = LARGEUR_PROJECTILE;
-                            lesProjectiles[i].Height = HAUTEUR_PROJECTILE;
-                            lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
-                            zone.Children.Add(lesProjectiles[i]);
-                            Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
-                            Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
-                        }
                     }
-
+                    lesProjectiles = new Image[nbProjectiles];
+                    for (int i = 0; i < lesProjectiles.Length; i++)
+                    {
+                        lesProjectiles[i] = new Image();
+                        lesProjectiles[i].Width = LARGEUR_PROJECTILE;
+                        lesProjectiles[i].Height = HAUTEUR_PROJECTILE;
+                        lesProjectiles[i].Source = new BitmapImage(new Uri("pack://application:,,,/img/Sprite_Projectile/Projectile_" + (niveauBoss) + ".png"));
+                        zone.Children.Add(lesProjectiles[i]);
+                        Canvas.SetTop(lesProjectiles[i], alea.Next((int)bossHaut, (int)(bossBas - lesProjectiles[i].Height)));
+                        Canvas.SetLeft(lesProjectiles[i], Canvas.GetLeft(boss) - REPOSITIONNEMENT_PROJECTILE_GAUCHE);
+                    }
                     vieBoss = VIE_BOSS_MAX;
                     this.labVieBoss.Content = vieBoss;
                     labVieBoss.Foreground = Brushes.Red;
@@ -1076,6 +1065,7 @@ namespace JeuFleurSae
                     MessageBox.Show("Bien Joué, vous avez tuer le boss final", "Victoire", MessageBoxButton.OK, MessageBoxImage.Information);
                     Canvas.SetTop(labFin, POSITION_ZERO);
                     Canvas.SetLeft(labFin, POSITION_ZERO);
+                    minuterie.Stop();
                 }
 
                 NiveauFLeur++;
