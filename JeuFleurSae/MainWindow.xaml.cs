@@ -362,6 +362,8 @@ namespace JeuFleurSae
                 double bossHaut = Canvas.GetTop(boss);
                 double bossDroite = bossGauche + boss.Width;
                 double bossBas = bossHaut + boss.Height;
+                vieBoss = VIE_BOSS_MAX;
+                labVieBoss.Content = vieBoss;
 
                 niveauBoss = (int)e.Key - CONSTANTE_POUR_DEBUG;
                 NiveauFLeur = niveauBoss;
